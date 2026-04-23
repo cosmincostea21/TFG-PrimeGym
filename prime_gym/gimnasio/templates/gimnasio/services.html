@@ -26,7 +26,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <!-- Estilos para el botón de "Volver Arriba" -->
+       <!-- Estilos para el botón de "Volver Arriba" -->
     <style>
         .scroll-top-btn {
             position: fixed;
@@ -34,13 +34,17 @@
             right: 30px;
             width: 45px;
             height: 45px;
-            background-color: #f36100;
+            background-color: #f30000;
+            /* Color primario de tu tema */
             color: #ffffff;
             border-radius: 50%;
             text-align: center;
             line-height: 45px;
+            /* Coincide con la altura */
             font-size: 20px;
+            /* Tamaño del icono */
             z-index: 9999;
+            /* Asegura que esté por encima de todo */
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
@@ -48,12 +52,34 @@
         }
 
         .scroll-top-btn:hover {
-            background-color: #d15300;
+            background-color: #f30000;
+            /* Un poco más oscuro al pasar el ratón */
         }
 
         .scroll-top-btn.show {
             opacity: 1;
             visibility: visible;
+        }
+    </style>
+
+    <style>
+        .class-item {
+            transform: scale(1);
+            box-shadow: none;
+            transition: all 0.3s ease-out;
+            position: relative;
+            z-index: 1;
+            /* Mantenemos el fondo blanco que tiene este componente */
+            background: #ffffff;
+        }
+
+        .class-item:hover {
+            transform: scale(1.05);
+            /* Mini zoom */
+            box-shadow: 0 0 15px 5px #f30000;
+            /* Sombra roja */
+            z-index: 10;
+            /* Se pone por encima */
         }
     </style>
 </head>

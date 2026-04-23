@@ -57,29 +57,60 @@
         }
     </style>
 
-    <!-- Estilos para el efecto hover en las fotos laterales del equipo -->
+       <!-- Estilos para el botón de "Volver Arriba" -->
     <style>
-        .ts-item {
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background-color: #f30000;
+            /* Color primario de tu tema */
+            color: #ffffff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            /* Coincide con la altura */
+            font-size: 20px;
+            /* Tamaño del icono */
+            z-index: 9999;
+            /* Asegura que esté por encima de todo */
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: #f30000;
+            /* Un poco más oscuro al pasar el ratón */
+        }
+
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+
+    <style>
+        .class-item {
             transform: scale(1);
             box-shadow: none;
             transition: all 0.3s ease-out;
             position: relative;
             z-index: 1;
-            filter: blur(0);
-            opacity: 1;
+            /* Mantenemos el fondo blanco que tiene este componente */
+            background: #ffffff;
         }
 
-        .ts-item:hover {
+        .class-item:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px 5px rgba(243, 97, 0, 0.7);
+            /* Mini zoom */
+            box-shadow: 0 0 15px 5px #f30000;
+            /* Sombra roja */
             z-index: 10;
-            filter: blur(0);
-            opacity: 1;
-        }
-
-        .ts-item-side {
-            filter: blur(3px);
-            opacity: 0.7;
+            /* Se pone por encima */
         }
     </style>
 </head>
