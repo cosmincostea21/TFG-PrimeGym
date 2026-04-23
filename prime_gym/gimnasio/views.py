@@ -8,6 +8,7 @@ def index(request):
 def clases(request):
     return render(request,"gimnasio/class-details.html")
 
+
 def tarifas(request):
     return render(request,"gimnasio/services.html")
 
