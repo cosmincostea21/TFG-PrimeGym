@@ -190,7 +190,7 @@
                     <div class="breadcrumb-text">
                         <h2 data-aos="fade-right" data-aos-delay="300">Conócenos</h2>
                         <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
-                            <a href="./index.html">Inicio</a>
+                            <a href="{% url 'main' %}">Inicio</a>
                             <span>Sobre nosotros</span>
                         </div>
                     </div>
@@ -218,13 +218,13 @@
             <div class="row justify-content-center align-items-center">
 
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="ts-item set-bg ts-item-side" data-setbg="img/team/team-1.jpg">
+                    <div class="ts-item set-bg ts-item-side" data-setbg="{% static 'img/team/team-1.jpg'%}">
                     </div>
                 </div>
 
                 <!-- Bloque central principal -->
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="ts-item set-bg" data-setbg="img/team/team-3.jpg">
+                    <div class="ts-item set-bg" data-setbg="{% static 'img/team/team-3.jpg'%}">
                         <div class="ts_text text-center">
                             <h4>Juvenal Camuñas Ropero</h4>
                             <span>Entrenador Personal y Fundador</span>
@@ -241,7 +241,7 @@
 
                 <!-- Imagen decorativa derecha -->
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="ts-item set-bg ts-item-side" data-setbg="img/team/team-2.jpg">
+                    <div class="ts-item set-bg ts-item-side" data-setbg="{% static 'img/team/team-2.jpg'%}">
                     </div>
                 </div>
 
@@ -288,7 +288,6 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="copyright-text">
-                        <h2>Copyright</h2>
                         Copyright &copy;
                         <script>document.write(new Date().getFullYear());</script>
                         All rights reserved
