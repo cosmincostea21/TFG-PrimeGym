@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def main(request):
+def index(request):
     return render(request,"gimnasio/index.html")
 
 def clases(request):
