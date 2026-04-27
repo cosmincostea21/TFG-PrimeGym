@@ -1,0 +1,31 @@
+{% extends 'perfil/base_perfil.html' %}
+
+{% block contenido %}
+
+
+<!-- Primera fila: resumen + actividad -->
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        {% include 'perfil/components/resumen_cliente.html' %}
+    </div>
+
+    <div class="col-lg-6 mb-4">
+        {% include 'perfil/components/resumen_reservas.html' %}
+    </div>
+</div>
+
+<!-- Segunda fila: clases -->
+<div class="row">
+    <div class="col-lg-12 mb-4">
+        {% include 'perfil/components/clases_disponibles.html' %}
+    </div>
+</div>
+
+<!-- Tercera fila: acciones -->
+<div class="row">
+    <div class="col-lg-12">
+        {% include 'perfil/components/acciones_rapidas.html' %}
+    </div>
+</div>
+
+{% endblock %}
