@@ -1,0 +1,33 @@
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <div class="class-item p-4">
+
+            <h4 class="mb-3">
+                <i class="fa fa-calendar"></i> Actividad y reservas
+            </h4>
+
+            <p>
+                <strong>Total de reservas:</strong> {{ num_reservas }}
+            </p>
+
+            {% if proxima_reserva %}
+                <p>
+                    <strong>Próxima clase:</strong>
+                    {{ proxima_reserva.clase.nombre }}
+                    ({{ proxima_reserva.fecha_reserva|date:"d/m/Y" }})
+                </p>
+            {% else %}
+                <p>No tienes clases reservadas próximamente.</p>
+            {% endif %}
+
+            {% if ultima_asistencia %}
+                <p>
+                    <strong>Última clase asistida:</strong>
+                    {{ ultima_asistencia.clase.nombre }}
+                    ({{ ultima_asistencia.fecha_reserva|date:"d/m/Y" }})
+                </p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

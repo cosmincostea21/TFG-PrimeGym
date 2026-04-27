@@ -1,0 +1,25 @@
+<div class="row mb-4">
+    <div class="col-lg-12">
+        <div class="class-item p-4">
+
+            <h4 class="mb-3">
+                <i class="fa fa-dumbbell"></i> Clases disponibles
+            </h4>
+
+            {% if clases %}
+                <ul class="list-unstyled">
+                    {% for clase in clases %}
+                        <li class="mb-2">
+                            <strong>{{ clase.nombre }}</strong><br>
+                            Entrenador: {{ clase.entrenador.nombre }}<br>
+                            Horario: {{ clase.horario }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay clases disponibles para tu tarifa.</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>

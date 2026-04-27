@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from datetime import date
 from gimnasio.models import Cliente, Reserva, Clase, Tarifa
 
 
@@ -26,13 +27,24 @@ def get_cliente_actual():
 def dashboard(request):
     cliente = get_cliente_actual()
 
-    reservas = cliente.reservas.all()
-    num_reservas = reservas.count()
+    reservas = cliente.reservas.all().order_by('fecha_reserva')
+
+    proxima_reserva = reservas.filter(
+        fecha_reserva__gte=date.today(),
+        estado='reservada'
+    ).first()
+
+    ultima_asistencia = reservas.filter(
+        estado='asistio'
+    ).order_by('-fecha_reserva').first()
+
 
     context = {
         'cliente': cliente,
         'tarifa': cliente.tarifa,
-        'num_reservas': num_reservas,
+        'num_reservas': reservas.count(),
+        'proxima_reserva': proxima_reserva,
+        'ultima_asistencia': ultima_asistencia,
     }
 
     return render(request, 'perfil/dashboard.html', context)
