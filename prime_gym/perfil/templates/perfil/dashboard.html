@@ -1,0 +1,12 @@
+{% extends 'perfil/base_perfil.html' %}
+
+{% block contenido %}
+
+<h2>Panel del cliente</h2>
+
+{% include 'perfil/components/resumen_cliente.html' %}
+{% include 'perfil/components/resumen_reservas.html' %}
+{% include 'perfil/components/clases_disponibles.html' %}
+{% include 'perfil/components/acciones_rapidas.html' %}
+
+{% endblock %}
