@@ -1,23 +1,49 @@
 <div class="row mb-4">
     <div class="col-lg-12">
-        <div class="class-item p-4">
+        <div class="clases-disponibles-section">
 
-            <h4 class="mb-3">
-                <i class="fa fa-dumbbell"></i> Clases disponibles
-            </h4>
+            <div class="clases-header">
+                <span class="clases-subtitle">GACIAS POR ELEGIRNOS</span>
+                <h4 class="clases-title">
+                    <i class="fa fa-dumbbell"></i> CLASES DISPONIBLES
+                </h4>
+                <div class="clases-divider"></div>
+            </div>
 
             {% if clases %}
-                <ul class="list-unstyled">
+                <div class="clases-grid">
                     {% for clase in clases %}
-                        <li class="mb-2">
-                            <strong>{{ clase.nombre }}</strong><br>
-                            Entrenador: {{ clase.entrenador.nombre }}<br>
-                            Horario: {{ clase.horario }}
-                        </li>
+                        <div class="clase-card">
+                            <div class="clase-card-corner"></div>
+                            <div class="clase-card-body">
+                                <span class="clase-tag">CLASE</span>
+                                <h5 class="clase-nombre">{{ clase.nombre }}</h5>
+
+                                <div class="clase-info">
+                                    <div class="clase-info-item">
+                                        <i class="fa fa-user-tie"></i>
+                                        <div>
+                                            <span class="clase-info-label">Entrenador</span>
+                                            <span class="clase-info-value">{{ clase.entrenador.nombre }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="clase-info-item">
+                                        <i class="fa fa-clock"></i>
+                                        <div>
+                                            <span class="clase-info-label">Horario</span>
+                                            <span class="clase-info-value">{{ clase.horario }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
             {% else %}
-                <p>No hay clases disponibles para tu tarifa.</p>
+                <div class="clases-empty">
+                    <i class="fa fa-circle-exclamation"></i>
+                    <p>No hay clases disponibles para tu tarifa.</p>
+                </div>
             {% endif %}
 
         </div>

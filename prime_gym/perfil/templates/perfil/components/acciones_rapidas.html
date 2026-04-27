@@ -1,32 +1,27 @@
 <div class="row mb-4">
     <div class="col-lg-12">
-        <div class="class-item p-4 text-center">
-
-            <h4 class="mb-4">
-                <i class="fa fa-bolt"></i> Acciones rápidas
-            </h4>
-
+        <div class="class-item text-center acciones">
             <div class="row justify-content-center">
 
-                <div class="col-md-4 mb-3">
-                    <a href="{% url 'perfil:mis_reservas' %}" class="primary-btn w-100">
-                        <i class="fa fa-calendar"></i><br>
-                        Mis reservas
-                    </a>
+                <div class="col-md-4 mb-3 d-flex justify-content-center">
+                    <button class="button-acciones" data-text="Awesome">
+                        <span class="actual-text">&nbsp;MisReservas&nbsp;</span>
+                        <span aria-hidden="true" class="hover-text">&nbsp;MisReservas&nbsp;</span>
+                    </button>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <a href="{% url 'perfil:clases_disponibles' %}" class="primary-btn w-100">
-                        <i class="fa fa-dumbbell"></i><br>
-                        Clases disponibles
-                    </a>
+                <div class="col-md-4 mb-3 d-flex justify-content-center">
+                    <button class="button-acciones" data-text="Awesome">
+                        <span class="actual-text">&nbsp;ClasesDisponibles&nbsp;</span>
+                        <span aria-hidden="true" class="hover-text">&nbsp;ClasesDisponibles&nbsp;</span>
+                    </button>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <a href="{% url 'perfil:cambiar_tarifa' %}" class="primary-btn w-100">
-                        <i class="fa fa-exchange"></i><br>
-                        Cambiar tarifa
-                    </a>
+                <div class="col-md-4 mb-3 d-flex justify-content-center">
+                    <button class="button-acciones" data-text="Awesome">
+                        <span class="actual-text">&nbsp;EditarPerfil&nbsp;</span>
+                        <span aria-hidden="true" class="hover-text">&nbsp;EditarPerfil&nbsp;</span>
+                    </button>
                 </div>
 
             </div>

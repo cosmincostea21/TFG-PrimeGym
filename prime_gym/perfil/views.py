@@ -27,6 +27,8 @@ def get_cliente_actual():
 def dashboard(request):
     cliente = get_cliente_actual()
 
+    clases = Clase.objects.filter(tarifas=cliente.tarifa)
+
     reservas = cliente.reservas.all().order_by('fecha_reserva')
 
     proxima_reserva = reservas.filter(
@@ -45,6 +47,7 @@ def dashboard(request):
         'num_reservas': reservas.count(),
         'proxima_reserva': proxima_reserva,
         'ultima_asistencia': ultima_asistencia,
+        'clases': clases,
     }
 
     return render(request, 'perfil/dashboard.html', context)
