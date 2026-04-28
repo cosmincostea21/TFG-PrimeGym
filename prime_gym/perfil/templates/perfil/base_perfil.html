@@ -97,7 +97,7 @@
                         <h2 data-aos="fade-right" data-aos-delay="300"> {{cliente.nombre}}</h2>
                         <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
                             <a href="{% url 'main' %}">Inicio</a>
-                            <span>Perfil</span>
+                            <a href="{% url 'perfil:dashboard'%}">Perfil</a>
                             <span>{% block pagina %}{% endblock %}</span>
                         </div>
                     </div>
