@@ -1,0 +1,423 @@
+:root {
+    --rb:        #0a0a0a;
+    --rs:        #111111;
+    --rs2:       #161616;
+    --rl:        rgba(255,255,255,0.06);
+    --rr:        #ff0a1f;
+    --rr-soft:   rgba(255,10,31,0.12);
+    --rt:        #ffffff;
+    --rt2:       #d8d8d8;
+    --rm:        #888;
+}
+
+/* ====== ALERT ====== */
+.rsv-alert {
+    position: relative;
+    display: flex; align-items: center; gap: 0.85rem;
+    background: var(--rs);
+    color: var(--rt2);
+    padding: 1rem 1.25rem 1rem 1.6rem;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+}
+.rsv-alert-bar {
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 4px; background: var(--rr);
+}
+.rsv-alert i { color: var(--rr); }
+
+/* ====== STATS ====== */
+.rsv-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 3.5rem;
+}
+.rsv-stat {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    padding: 1.6rem 1.4rem;
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+.rsv-stat::after {
+    content: "";
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 30px; height: 30px;
+    background: linear-gradient(-45deg, var(--rl) 50%, transparent 50%);
+}
+.rsv-stat--accent { background: var(--rr); }
+.rsv-stat--accent::after { background: linear-gradient(-45deg, #fff 50%, transparent 50%); }
+.rsv-stat--accent .rsv-stat-num,
+.rsv-stat--accent .rsv-stat-label { color: #fff; }
+
+.rsv-stat-num {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--rt);
+    line-height: 1;
+    letter-spacing: -1px;
+}
+.rsv-stat-label {
+    margin-top: 0.4rem;
+    color: var(--rm);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ====== SECTION ====== */
+.rsv-section {
+    position: relative;
+    background: var(--rb);
+    padding: 3rem 2rem;
+    margin-bottom: 3rem;
+    border: 1px solid var(--rl);
+}
+.rsv-section--left  { border-left: 4px solid var(--rr); }
+.rsv-section--right { border-right: 4px solid var(--rr); }
+
+/* ====== HEADERS asimétricos ====== */
+.rsv-head {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rl);
+}
+.rsv-head--left  { justify-content: flex-start; }
+.rsv-head--right { justify-content: flex-end; text-align: right; }
+
+.rsv-num {
+    font-size: 4rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--rr);
+    line-height: 0.85;
+    letter-spacing: -2px;
+}
+.rsv-kicker {
+    display: block;
+    color: var(--rr);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.rsv-title {
+    color: var(--rt);
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+.rsv-title strong { color: var(--rr); font-weight: 900; }
+
+/* ====== TIMELINE (Mis Reservas) ====== */
+.rsv-timeline {
+    list-style: none;
+    padding: 0; margin: 0;
+    position: relative;
+}
+.rsv-timeline::before {
+    content: "";
+    position: absolute;
+    left: 19px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--rr), transparent);
+}
+.rsv-timeline-item {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding-left: 0;
+    margin-bottom: 1rem;
+}
+.rsv-timeline-dot {
+    position: relative;
+    z-index: 2;
+    width: 40px; height: 40px;
+    flex-shrink: 0;
+    background: var(--rs);
+    border: 2px solid var(--rr);
+    color: var(--rr);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    transition: transform 0.25s ease;
+}
+.rsv-timeline-item:hover .rsv-timeline-dot {
+    transform: rotate(45deg) scale(1.05);
+    background: var(--rr); color: #fff;
+}
+.rsv-state--asistio   .rsv-timeline-dot { border-color: #2ee07a; color: #2ee07a; }
+.rsv-state--cancelada .rsv-timeline-dot { border-color: var(--rr); color: var(--rr); opacity: 0.6; }
+
+.rsv-timeline-card {
+    flex: 1;
+    background: var(--rs);
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 1.4rem;
+    border-left: 3px solid transparent;
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.rsv-timeline-item:hover .rsv-timeline-card {
+    background: var(--rs2);
+    border-left-color: var(--rr);
+    transform: translateX(4px);
+}
+
+.rsv-timeline-date {
+    color: var(--rt);
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1;
+    border-right: 1px solid var(--rl);
+    padding-right: 1.25rem;
+}
+.rsv-timeline-date small {
+    display: block;
+    color: var(--rr);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+}
+.rsv-timeline-body .rsv-tag {
+    color: var(--rr);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+.rsv-timeline-body h5 {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0.25rem 0 0;
+}
+
+.rsv-status {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid;
+}
+.rsv-state--reservada .rsv-status { color: #ffb648; border-color: rgba(255,182,72,0.4); background: rgba(255,182,72,0.08); }
+.rsv-state--asistio   .rsv-status { color: #2ee07a; border-color: rgba(46,224,122,0.4); background: rgba(46,224,122,0.08); }
+.rsv-state--cancelada .rsv-status { color: var(--rr); border-color: rgba(255,10,31,0.4); background: var(--rr-soft); }
+
+/* ====== CARDS (Reservar Clases) — masonry asimétrico ====== */
+.rsv-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+.rsv-card {
+    position: relative;
+    background: var(--rs);
+    padding: 1.75rem 1.5rem;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, background 0.3s ease;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+}
+.rsv-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--rr);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s ease;
+}
+.rsv-card:hover {
+    transform: translateY(-6px);
+    background: var(--rs2);
+}
+.rsv-card:hover::before { transform: scaleY(1); }
+
+/* tarjetas variantes para romper repetición */
+.rsv-card:nth-child(3n+2) {
+    clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px);
+}
+.rsv-card:nth-child(3n+2)::before {
+    left: auto; right: 0;
+    transform-origin: bottom;
+}
+.rsv-card:nth-child(4n+3) { background: var(--rs2); }
+
+/* head */
+.rsv-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+.rsv-card-index {
+    color: var(--rr);
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+.rsv-card-pulse {
+    width: 10px; height: 10px;
+    background: var(--rr);
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 var(--rr);
+    animation: rsvPulse 2s infinite;
+}
+@keyframes rsvPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,10,31,0.6); }
+    70%  { box-shadow: 0 0 0 12px rgba(255,10,31,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,10,31,0); }
+}
+
+.rsv-card-title {
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 1.1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rl);
+}
+
+.rsv-card-meta {
+    list-style: none;
+    padding: 0; margin: 0 0 1.25rem;
+    display: flex; flex-direction: column;
+    gap: 0.7rem;
+}
+.rsv-card-meta li {
+    display: flex; align-items: center; gap: 0.7rem;
+    color: var(--rt2);
+    font-size: 0.9rem;
+}
+.rsv-card-meta i {
+    width: 28px; height: 28px;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--rr-soft);
+    color: var(--rr);
+    font-size: 0.78rem;
+    flex-shrink: 0;
+}
+
+/* aforo */
+.rsv-card-aforo { margin-bottom: 1.25rem; }
+.rsv-card-aforo-top {
+    display: flex; justify-content: space-between;
+    color: var(--rm);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.rsv-card-aforo-top strong { color: var(--rr); }
+.rsv-card-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+    position: relative;
+}
+.rsv-card-bar span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--rr), #ff5b6c);
+    transition: width 0.5s ease;
+}
+
+/* botón */
+.rsv-card-form { margin-top: auto; }
+.rsv-card-btn {
+    width: 100%;
+    background: transparent;
+    color: #fff;
+    border: 1px solid var(--rr);
+    padding: 0.85rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s ease, color 0.3s ease, padding 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.rsv-card-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--rr);
+    transform: translateX(-101%);
+    transition: transform 0.35s ease;
+    z-index: 0;
+}
+.rsv-card-btn span,
+.rsv-card-btn i { position: relative; z-index: 1; transition: transform 0.3s ease; }
+.rsv-card-btn:hover::before { transform: translateX(0); }
+.rsv-card-btn:hover i { transform: translateX(4px); }
+
+.rsv-card--full { opacity: 0.55; }
+.rsv-card--full .rsv-card-pulse { animation: none; background: var(--rm); box-shadow: none; }
+.rsv-card-full {
+    margin-top: auto;
+    text-align: center;
+    background: var(--rr-soft);
+    color: var(--rr);
+    border: 1px dashed rgba(255,10,31,0.5);
+    padding: 0.85rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ====== EMPTY ====== */
+.rsv-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+.rsv-empty i { display: block; font-size: 2rem; color: var(--rr); margin-bottom: 0.85rem; }
+.rsv-empty p { color: #aaa; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; font-size: 0.85rem; }
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+    .rsv-stats { grid-template-columns: 1fr; }
+    .rsv-section { padding: 2rem 1.25rem; }
+    .rsv-head, .rsv-head--right { flex-direction: column; align-items: flex-start; text-align: left; gap: 0.8rem; }
+    .rsv-num { font-size: 3rem; }
+    .rsv-title { font-size: 1.4rem; }
+
+    .rsv-timeline-card {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        clip-path: none;
+    }
+    .rsv-timeline-date {
+        border-right: none;
+        border-bottom: 1px solid var(--rl);
+        padding: 0 0 0.6rem;
+        font-size: 1.2rem;
+    }
+}

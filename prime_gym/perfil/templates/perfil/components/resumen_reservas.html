@@ -26,8 +26,11 @@
                     {{ ultima_asistencia.clase.nombre }}
                     ({{ ultima_asistencia.fecha_reserva|date:"d/m/Y" }})
                 </p>
+            {% else %}
+                <p>
+                    <strong>Última clase asistida:</strong> No dudes en reservar tu primera clase.
+                </p>
             {% endif %}
-
         </div>
     </div>
 </div>

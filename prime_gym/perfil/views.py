@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from datetime import date
+from django.contrib import messages
+from django.db.models import Count, Q
 from gimnasio.models import Cliente, Reserva, Clase, Tarifa
 
 
@@ -70,7 +72,49 @@ def datos_personales(request):
 # MIS RESERVAS
 # =====================================================
 def mis_reservas(request):
+
     cliente = get_cliente_actual()
+    hoy = date.today()
+
+    if request.method == 'POST':
+        clase_id = request.POST.get('clase_id')
+        clase = Clase.objects.get(id=clase_id)
+
+        # Comprobar que la clase pertenece a la tarifa
+        if cliente.tarifa not in clase.tarifas.all():
+            messages.error(request, "No tienes acceso a esta clase.")
+            return redirect('perfil:mis_reservas')
+
+        # Comprobar aforo
+        reservas_activas = Reserva.objects.filter(
+            clase=clase,
+            fecha_reserva=hoy,
+            estado='reservada'
+        ).count()
+
+        if reservas_activas >= clase.capacidad:
+            messages.error(request, "La clase ha alcanzado su aforo máximo.")
+            return redirect('perfil:mis_reservas')
+
+        # Evitar duplicados
+        if Reserva.objects.filter(
+            cliente=cliente,
+            clase=clase,
+            fecha_reserva=hoy
+        ).exists():
+            messages.warning(request, "Ya tienes esta clase reservada.")
+            return redirect('perfil:mis_reservas')
+
+        # Crear reserva
+        Reserva.objects.create(
+            cliente=cliente,
+            clase=clase,
+            fecha_reserva=hoy,
+            estado='reservada'
+        )
+
+        messages.success(request, "Clase reservada correctamente.")
+        return redirect('perfil:mis_reservas')
 
     reservas = (
         Reserva.objects
@@ -79,12 +123,27 @@ def mis_reservas(request):
         .order_by('-fecha_reserva')
     )
 
+    clases = (
+        Clase.objects
+        .filter(tarifas=cliente.tarifa)
+        .annotate(
+            ocupadas=Count(
+                'reservas',
+                filter=Q(reservas__estado='reservada', reservas__fecha_reserva=hoy)
+            )
+        )
+    )
+
     context = {
         'cliente': cliente,
         'reservas': reservas,
+        'clases': clases,
+        'hoy': hoy,
     }
 
     return render(request, 'perfil/reservas.html', context)
+
+
 
 
 # =====================================================

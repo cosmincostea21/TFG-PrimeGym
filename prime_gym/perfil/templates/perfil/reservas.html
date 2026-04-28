@@ -1,0 +1,165 @@
+{% extends 'perfil/base_perfil.html' %}
+
+{% load static %}
+
+{% block estilos %}
+    <link rel="stylesheet" href="{% static 'css/perfil/style_reservas.css' %}" type="text/css">
+{% endblock %}
+
+
+
+
+{% block contenido %}
+
+<!-- MENSAJES -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="rsv-alert">
+            <span class="rsv-alert-bar"></span>
+            <i class="fa fa-circle-info"></i>
+            <span>{{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- ===========================
+     STATS / RESUMEN
+=========================== -->
+<div class="rsv-stats">
+    <div class="rsv-stat">
+        <span class="rsv-stat-num">{{ reservas|length|default:0 }}</span>
+        <span class="rsv-stat-label">Reservas totales</span>
+    </div>
+    <div class="rsv-stat rsv-stat--accent">
+        <span class="rsv-stat-num">{{ clases|length|default:0 }}</span>
+        <span class="rsv-stat-label">Clases disponibles</span>
+    </div>
+    <div class="rsv-stat">
+        <span class="rsv-stat-num">∞</span>
+        <span class="rsv-stat-label">Tu progreso</span>
+    </div>
+</div>
+
+<!-- ===========================
+     1 · MIS RESERVAS · TIMELINE
+=========================== -->
+<section class="rsv-section rsv-section--left">
+    <header class="rsv-head rsv-head--left">
+        <span class="rsv-num">01</span>
+        <div>
+            <span class="rsv-kicker">Tu historial</span>
+            <h2 class="rsv-title">MIS <strong>RESERVAS</strong></h2>
+        </div>
+    </header>
+
+    {% if reservas %}
+        <ol class="rsv-timeline">
+            {% for reserva in reservas %}
+                <li class="rsv-timeline-item rsv-state--{{ reserva.estado }}">
+                    <div class="rsv-timeline-dot">
+                        {% if reserva.estado == 'asistio' %}<i class="fa fa-check"></i>
+                        {% elif reserva.estado == 'reservada' %}<i class="fa fa-clock"></i>
+                        {% else %}<i class="fa fa-xmark"></i>{% endif %}
+                    </div>
+
+                    <div class="rsv-timeline-card">
+                        <div class="rsv-timeline-date">
+                            {{ reserva.fecha_reserva|date:"d" }}
+                            <small>{{ reserva.fecha_reserva|date:"M Y" }}</small>
+                        </div>
+                        <div class="rsv-timeline-body">
+                            <span class="rsv-tag">CLASE</span>
+                            <h5>{{ reserva.clase.nombre }}</h5>
+                        </div>
+                        <span class="rsv-status">
+                            {% if reserva.estado == 'reservada' %}Reservada
+                            {% elif reserva.estado == 'asistio' %}Asistió
+                            {% else %}Cancelada{% endif %}
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <div class="rsv-empty">
+            <i class="fa fa-calendar-xmark"></i>
+            <p>Aún no tienes reservas registradas</p>
+        </div>
+    {% endif %}
+</section>
+
+<!-- ===========================
+     2 · RESERVAR CLASES · GRID EDITORIAL
+=========================== -->
+<section class="rsv-section rsv-section--right">
+    <header class="rsv-head rsv-head--right">
+        <div>
+            <span class="rsv-kicker">Entrena con nosotros</span>
+            <h2 class="rsv-title">RESERVAR <strong>CLASES</strong></h2>
+        </div>
+        <span class="rsv-num">02</span>
+    </header>
+
+    {% if clases %}
+        <div class="rsv-cards">
+            {% for clase in clases %}
+                {% with completa=False %}
+                {% if clase.ocupadas >= clase.capacidad %}{% with completa=True %}{% endwith %}{% endif %}
+                <article class="rsv-card {% if clase.ocupadas >= clase.capacidad %}rsv-card--full{% endif %}">
+
+                    <div class="rsv-card-head">
+                        <span class="rsv-card-index">{{ forloop.counter|stringformat:"02d" }}</span>
+                        <span class="rsv-card-pulse"></span>
+                    </div>
+
+                    <h3 class="rsv-card-title">{{ clase.nombre }}</h3>
+
+                    <ul class="rsv-card-meta">
+                        <li>
+                            <i class="fa fa-user"></i>
+                            <span>{{ clase.entrenador.nombre }}</span>
+                        </li>
+                        <li>
+                            <i class="fa fa-clock"></i>
+                            <span>{{ clase.horario }}</span>
+                        </li>
+                    </ul>
+
+                    <div class="rsv-card-aforo">
+                        <div class="rsv-card-aforo-top">
+                            <span>Aforo</span>
+                            <span><strong>{{ clase.ocupadas }}</strong>/{{ clase.capacidad }}</span>
+                        </div>
+                        <div class="rsv-card-bar">
+                            <span style="width: {% widthratio clase.ocupadas clase.capacidad 100 %}%;"></span>
+                        </div>
+                    </div>
+
+                    {% if clase.ocupadas < clase.capacidad %}
+                        <form method="post" class="rsv-card-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="clase_id" value="{{ clase.id }}">
+                            <button type="submit" class="rsv-card-btn">
+                                <span>RESERVAR</span>
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="rsv-card-full">
+                            <i class="fa fa-ban"></i> Aforo completo
+                        </div>
+                    {% endif %}
+
+                </article>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="rsv-empty">
+            <i class="fa fa-circle-exclamation"></i>
+            <p>No hay clases disponibles para tu tarifa</p>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}

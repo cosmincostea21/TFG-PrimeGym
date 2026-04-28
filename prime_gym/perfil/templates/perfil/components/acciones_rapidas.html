@@ -1,26 +1,29 @@
+{% load static %}
+
 <div class="row mb-4">
     <div class="col-lg-12">
         <div class="class-item text-center acciones">
             <div class="row justify-content-center">
 
                 <div class="col-md-4 mb-3 d-flex justify-content-center">
-                    <button class="button-acciones" data-text="Awesome">
-                        <span class="actual-text">&nbsp;MisReservas&nbsp;</span>
-                        <span aria-hidden="true" class="hover-text">&nbsp;MisReservas&nbsp;</span>
-                    </button>
-                </div>
-
-                <div class="col-md-4 mb-3 d-flex justify-content-center">
-                    <button class="button-acciones" data-text="Awesome">
-                        <span class="actual-text">&nbsp;ClasesDisponibles&nbsp;</span>
-                        <span aria-hidden="true" class="hover-text">&nbsp;ClasesDisponibles&nbsp;</span>
-                    </button>
+                    <a href="{% url 'perfil:mis_reservas' %}" class="text-decoration-none">
+                        <button class="button-acciones" data-text="Awesome" type="button">
+                            <span class="actual-text">&nbsp;MisReservas&nbsp;</span>
+                            <span aria-hidden="true" class="hover-text">&nbsp;MisReservas&nbsp;</span>
+                        </button>
+                    </a>
                 </div>
 
                 <div class="col-md-4 mb-3 d-flex justify-content-center">
                     <button class="button-acciones" data-text="Awesome">
                         <span class="actual-text">&nbsp;EditarPerfil&nbsp;</span>
                         <span aria-hidden="true" class="hover-text">&nbsp;EditarPerfil&nbsp;</span>
+                    </button>
+                </div>
+                <div class="col-md-4 mb-3 d-flex justify-content-center">
+                    <button class="button-acciones" data-text="Awesome">
+                        <span class="actual-text">&nbsp;Contacto&nbsp;</span>
+                        <span aria-hidden="true" class="hover-text">&nbsp;Contacto&nbsp;</span>
                     </button>
                 </div>
 
