@@ -300,41 +300,11 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 
+    <script src="{% static 'js/boton-volver.js' %}"></script>
+
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-    <script>
-        AOS.init();
-    </script>
-
-    <!-- Lógica del botón "Volver Arriba" -->
-    <script>
-        // Obtener el botón
-        const scrollTopBtn = document.getElementById('scrollTopButton');
-
-        // Mostrar/ocultar el botón al hacer scroll
-        window.onscroll = function () {
-            scrollFunction();
-        };
-
-        function scrollFunction() {
-            // Muestra el botón después de 300px de scroll
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
-        }
-
-        // Acción al hacer clic: volver arriba suavemente
-        scrollTopBtn.onclick = function (e) {
-            e.preventDefault(); // Prevenir comportamiento por defecto
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Desplazamiento suave
-            });
-        }
-    </script>
 
 </body>
 
