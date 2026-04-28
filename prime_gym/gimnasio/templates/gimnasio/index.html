@@ -212,19 +212,68 @@
     <!-- Get In Touch Section End -->
 
     <!-- Footer Section Begin -->
-    <section class="footer-section">
+    <footer class="footer-section">
         <div class="container">
+
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="copyright-text">
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script>
-                        All rights reserved
+
+                <!-- Marca -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <h3>PRYME</h3>
+                        <p>
+                            Centro de entrenamiento orientado al rendimiento,
+                            la salud y la superación personal.
+                        </p>
                     </div>
                 </div>
+
+                <!-- Navegación -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Navegación</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'main' %}">Inicio</a></li>
+                        <li><a href="{% url 'clases' %}">Clases</a></li>
+                        <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
+                        <li><a href="{% url 'equipo' %}">Equipo</a></li>
+                        <li><a href="{% url 'contacto' %}">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-title">Contacto</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fa fa-map-marker"></i> Villafranca de los Caballeros</li>
+                        <li><i class="fa fa-phone"></i> 626 524 767</li>
+                        <li><i class="fa fa-envelope"></i> soporte.primegym@gmail.com</li>
+                    </ul>
+                </div>
+
+                <!-- Redes -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-title">Síguenos</h5>
+                    <div class="footer-social">
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Línea inferior -->
+            <div class="footer-bottom text-center">
+                <p>
+                    ©
+                    <script>document.write(new Date().getFullYear());</script>
+                    PRYME Training Center · Todos los derechos reservados
+                </p>
+            </div>
+
         </div>
-    </section>
+    </footer>
+<!-- Footer Section End -->
+
     <!-- Footer Section End -->
 
     <!-- Botón de Volver Arriba -->
