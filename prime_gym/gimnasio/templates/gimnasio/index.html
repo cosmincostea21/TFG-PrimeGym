@@ -28,64 +28,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
 
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
-
-
-       <!-- Estilos para el botón de "Volver Arriba" -->
-    <style>
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background-color: #f30000;
-            /* Color primario de tu tema */
-            color: #ffffff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 45px;
-            /* Coincide con la altura */
-            font-size: 20px;
-            /* Tamaño del icono */
-            z-index: 9999;
-            /* Asegura que esté por encima de todo */
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
-        }
-
-        .scroll-top-btn:hover {
-            background-color: #f30000;
-            /* Un poco más oscuro al pasar el ratón */
-        }
-
-        .scroll-top-btn.show {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
-
-    <style>
-        .class-item {
-            transform: scale(1);
-            box-shadow: none;
-            transition: all 0.3s ease-out;
-            position: relative;
-            z-index: 1;
-            /* Mantenemos el fondo blanco que tiene este componente */
-            background: #ffffff;
-        }
-
-        .class-item:hover {
-            transform: scale(1.05);
-            /* Mini zoom */
-            box-shadow: 0 0 15px 5px #f30000;
-            /* Sombra roja */
-            z-index: 10;
-            /* Se pone por encima */
-        }
-    </style>
 </head>
 
 <body>
@@ -300,41 +242,11 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
 
+    <script src="{% static 'js/boton-volver.js' %}"></script>
+
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-    <script>
-        AOS.init();
-    </script>
-
-    <!-- Lógica del botón "Volver Arriba" -->
-    <script>
-        // Obtener el botón
-        const scrollTopBtn = document.getElementById('scrollTopButton');
-
-        // Mostrar/ocultar el botón al hacer scroll
-        window.onscroll = function () {
-            scrollFunction();
-        };
-
-        function scrollFunction() {
-            // Muestra el botón después de 300px de scroll
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
-        }
-
-        // Acción al hacer clic: volver arriba suavemente
-        scrollTopBtn.onclick = function (e) {
-            e.preventDefault(); // Prevenir comportamiento por defecto
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Desplazamiento suave
-            });
-        }
-    </script>
 
 </body>
 

@@ -23,13 +23,11 @@
 
 /* Template default CSS
 /*----------------------------------------*/
-
 html,
 body {
 	height: 100%;
 	font-family: "Muli", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
 }
 
 h1,
@@ -1073,7 +1071,6 @@ ol {
 	border-radius: 50%;
 	line-height: 65px;
 	text-align: center;
-	float: left;
 	margin-right: 20px;
 }
 
@@ -2582,7 +2579,6 @@ ol {
 	border-radius: 50%;
 	line-height: 65px;
 	text-align: center;
-	float: left;
 	margin-right: 20px;
 }
 
@@ -2981,8 +2977,62 @@ ol {
 	}
 }
 
-/* Wide Mobile = 480px */
+/*Style añadido para boton superior*/
+.scroll-top-btn {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	width: 45px;
+	height: 45px;
+	background-color: #f30000;
+	/* Color primario de tu tema */
+	color: #ffffff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 45px;
+	/* Coincide con la altura */
+	font-size: 20px;
+	/* Tamaño del icono */
+	z-index: 9999;
+	/* Asegura que esté por encima de todo */
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+}
 
+.scroll-top-btn:hover {
+	background-color: #f30000;
+	/* Un poco más oscuro al pasar el ratón */
+}
+
+.scroll-top-btn.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+.class-item {
+	transform: scale(1);
+	box-shadow: none;
+	transition: all 0.3s ease-out;
+	position: relative;
+	z-index: 1;
+	/* Mantenemos el fondo blanco que tiene este componente */
+	background: #ffffff;
+}
+
+.class-item:hover {
+	transform: scale(1.05);
+	/* Mini zoom */
+	box-shadow: 0 0 15px 5px #f30000;
+	/* Sombra roja */
+	z-index: 10;
+	/* Se pone por encima */
+}
+
+
+
+/* Wide Mobile = 480px */
 @media only screen and (max-width: 767px) {
 	.offcanvas-menu-overlay {
 		position: fixed;
