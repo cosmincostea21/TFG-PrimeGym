@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clases Hoy</title>
+</head>
+<body>
+
+<h1>CLASES DE HOY</h1>
+
+<ul>
+
+{% for reserva in reservas %}
+
+    <li>
+
+        Clase: {{ reserva.clase.nombre }}
+        | Cliente: {{ reserva.cliente.nombre }}
+        | Estado: {{ reserva.estado }}
+
+    </li>
+
+{% empty %}
+
+    <li>No hay clases hoy</li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{% url 'entrenador:panel' %}">
+    Volver al panel
+</a>
+
+</body>
+</html>

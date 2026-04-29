@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reservas de Clase</title>
+</head>
+<body>
+
+<h1>Reservas - {{ clase.nombre }}</h1>
+
+<ul>
+
+{% for reserva in reservas %}
+
+    <li>
+
+        Cliente: {{ reserva.cliente.nombre }}
+        | Fecha: {{ reserva.fecha_reserva }}
+        | Estado: {{ reserva.estado }}
+
+        <a href="{% url 'entrenador:marcar_asistencia' reserva.id %}">
+            Marcar asistencia
+        </a>
+
+    </li>
+
+{% empty %}
+
+    <li>No hay reservas</li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{% url 'entrenador:mis_clases' %}">
+    Volver a mis clases
+</a>
+
+</body>
+</html>

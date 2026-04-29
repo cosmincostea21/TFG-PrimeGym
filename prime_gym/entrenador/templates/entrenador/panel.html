@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel Entrenador</title>
+</head>
+<body>
+
+<h1>PANEL DEL ENTRENADOR</h1>
+
+<p>Total clases: {{ total_clases }}</p>
+
+<p>Total reservas: {{ total_reservas }}</p>
+
+<h2>Clases de hoy</h2>
+
+<ul>
+
+{% for reserva in clases_hoy %}
+
+    <li>
+        Clase: {{ reserva.clase.nombre }}
+        | Cliente: {{ reserva.cliente.nombre }}
+        | Fecha: {{ reserva.fecha_reserva }}
+    </li>
+
+{% empty %}
+
+    <li>No hay clases hoy</li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{% url 'entrenador:mis_clases' %}">
+    Ver mis clases
+</a>
+
+<br><br>
+
+<a href="{% url 'entrenador:clases_hoy' %}">
+    Ver clases de hoy
+</a>
+
+</body>
+</html>

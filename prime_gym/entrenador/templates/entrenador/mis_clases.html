@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mis Clases</title>
+</head>
+<body>
+
+<h1>MIS CLASES</h1>
+
+<ul>
+
+{% for clase in clases %}
+
+    <li>
+
+        {{ clase.nombre }}
+        | Horario: {{ clase.horario }}
+
+        <a href="{% url 'entrenador:reservas_clase' clase.id %}">
+            Ver reservas
+        </a>
+
+    </li>
+
+{% empty %}
+
+    <li>No tienes clases asignadas</li>
+
+{% endfor %}
+
+</ul>
+
+<a href="{% url 'entrenador:panel' %}">
+    Volver al panel
+</a>
+
+</body>
+</html>
