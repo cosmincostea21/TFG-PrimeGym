@@ -43,55 +43,7 @@
 </div>
 
 <!-- ===========================
-     1 · MIS RESERVAS · TIMELINE
-=========================== -->
-<section class="rsv-section rsv-section--left">
-    <header class="rsv-head rsv-head--left">
-        <span class="rsv-num">01</span>
-        <div>
-            <span class="rsv-kicker">Tu historial</span>
-            <h2 class="rsv-title">MIS <strong>RESERVAS</strong></h2>
-        </div>
-    </header>
-
-    {% if reservas %}
-        <ol class="rsv-timeline">
-            {% for reserva in reservas %}
-                <li class="rsv-timeline-item rsv-state--{{ reserva.estado }}">
-                    <div class="rsv-timeline-dot">
-                        {% if reserva.estado == 'asistio' %}<i class="fa fa-check"></i>
-                        {% elif reserva.estado == 'reservada' %}<i class="fa fa-clock"></i>
-                        {% else %}<i class="fa fa-xmark"></i>{% endif %}
-                    </div>
-
-                    <div class="rsv-timeline-card">
-                        <div class="rsv-timeline-date">
-                            {{ reserva.fecha_reserva|date:"d" }}
-                            <small>{{ reserva.fecha_reserva|date:"M Y" }}</small>
-                        </div>
-                        <div class="rsv-timeline-body">
-                            <span class="rsv-tag">CLASE</span>
-                            <h5>{{ reserva.clase.nombre }}</h5>
-                        </div>
-                        <span class="rsv-status">
-                            {% if reserva.estado == 'reservada' %}Reservada
-                            {% elif reserva.estado == 'asistio' %}Asistió
-                            {% else %}Cancelada{% endif %}
-                        </span>
-                    </div>
-                </li>
-            {% endfor %}
-        </ol>
-    {% else %}
-        <div class="rsv-empty">
-            <i class="fa fa-calendar-xmark"></i>
-            <p>Aún no tienes reservas registradas</p>
-        </div>
-    {% endif %}
-</section>
-
-<!-- ===========================
-     2 · RESERVAR CLASES · GRID EDITORIAL
+     1 · RESERVAR CLASES · GRID EDITORIAL
 =========================== -->
 <section class="rsv-section rsv-section--right">
     <header class="rsv-head rsv-head--right">
@@ -99,7 +51,7 @@
             <span class="rsv-kicker">Entrena con nosotros</span>
             <h2 class="rsv-title">RESERVAR <strong>CLASES</strong></h2>
         </div>
-        <span class="rsv-num">02</span>
+        <span class="rsv-num">01</span>
     </header>
 
     {% if clases %}
@@ -125,7 +77,7 @@
                             <i class="fa fa-clock"></i>
                             <span>{{ clase.horario }}</span>
                         </li>
-                    </ul>
+                    </ul>                    
 
                     <div class="rsv-card-aforo">
                         <div class="rsv-card-aforo-top">
@@ -164,4 +116,115 @@
     {% endif %}
 </section>
 
+<!-- ===========================
+     2 · MIS RESERVAS · TIMELINE
+=========================== -->
+<section class="rsv-section rsv-section--left">
+    <header class="rsv-head rsv-head--left">
+        <span class="rsv-num">02</span>
+        <div>
+            <span class="rsv-kicker">Tu historial</span>
+            <h2 class="rsv-title">MIS <strong>RESERVAS</strong></h2>
+        </div>
+    </header>
+
+    {% if reservas %}
+
+        <!-- FILTROS -->
+        <div class="rsv-filters" role="tablist">
+            <button type="button" class="rsv-filter is-active" data-filter="all">
+                <span>Todas</span>
+                <em>{{ reservas|length }}</em>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="reservada">
+                <span>Reservadas</span>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="asistio">
+                <span>Asistidas</span>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="cancelada">
+                <span>Canceladas</span>
+            </button>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="rsv-timeline-wrapper p-3">
+            <ol class="rsv-timeline">
+                {% for reserva in reservas %}
+                    <li class="rsv-timeline-item rsv-state--{{ reserva.estado }}"
+                        data-estado="{{ reserva.estado }}">
+                        <div class="rsv-timeline-dot">
+                            {% if reserva.estado == 'asistio' %}<i class="fa fa-check"></i>
+                            {% elif reserva.estado == 'reservada' %}<i class="fa fa-clock"></i>
+                            {% else %}<i class="fa fa-xmark"></i>{% endif %}
+                        </div>
+
+                        <div class="rsv-timeline-card rsv-card--{{ reserva.estado }}">
+                            <div class="rsv-timeline-date">
+                                {{ reserva.fecha_reserva|date:"d" }}
+                                <small>{{ reserva.fecha_reserva|date:"M Y" }}</small>
+                            </div>
+                            <div class="rsv-timeline-body">
+                                <span class="rsv-tag">CLASE</span>
+                                <h5>{{ reserva.clase.nombre }}</h5>
+                            </div>
+
+                            <div class="rsv-timeline-right">
+                                <span class="rsv-status">
+                                    {% if reserva.estado == 'reservada' %}Reservada
+                                    {% elif reserva.estado == 'asistio' %}Asistió
+                                    {% else %}Cancelada{% endif %}
+                                </span>
+
+                                {% if reserva.estado == 'reservada' %}
+                                    <div class="rsv-timeline-actions">
+                                        <form method="post" class="rsv-inline-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="accion" value="asistir">
+                                            <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
+                                            <button type="submit" class="rsv-act rsv-act--asistir" title="Marcar como asistida">
+                                                <i class="fa fa-check"></i>
+                                                <span>Asistida</span>
+                                            </button>
+                                        </form>
+
+                                        <form method="post" class="rsv-inline-form"
+                                              onsubmit="return confirm('¿Seguro que quieres anular esta reserva?');">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="accion" value="cancelar">
+                                            <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
+                                            <button type="submit" class="rsv-act rsv-act--cancelar" title="Anular reserva">
+                                                <i class="fa fa-xmark"></i>
+                                                <span>Anular</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+
+            <!-- Mensaje cuando un filtro deja la lista vacía -->
+            <div class="rsv-filter-empty" hidden>
+                <i class="fa fa-filter-circle-xmark"></i>
+                <p>No hay reservas en esta categoría</p>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="rsv-empty">
+            <i class="fa fa-calendar-xmark"></i>
+            <p>Aún no tienes reservas registradas</p>
+        </div>
+    {% endif %}
+</section>
+
+{% block scripts  %}
+    <script src="{% static 'js/filtros_reservas.js' %}"></script>
+{% endblock  %}
+
+
 {% endblock %}
+

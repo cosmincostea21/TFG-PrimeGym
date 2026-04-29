@@ -1,19 +1,54 @@
+/* =========================================================
+   RESERVAS · estilo dark + rojo
+   ---------------------------------------------------------
+   1.  Variables
+   2.  Alert
+   3.  Stats
+   4.  Section
+   5.  Headers
+   6.  Filtros
+   7.  Timeline
+       7.1  Wrapper + scroll
+       7.2  Item + dot
+       7.3  Card
+       7.4  Fecha / Body
+       7.5  Status (+ estado "reservada" protagonista)
+       7.6  Acciones (on hover)
+   8.  Cards (reservar clases)
+   9.  Empty states
+   10. Responsive
+========================================================= */
+
+
+/* =========================================================
+   1 · VARIABLES
+========================================================= */
 :root {
-    --rb:        #0a0a0a;
-    --rs:        #111111;
-    --rs2:       #161616;
-    --rl:        rgba(255,255,255,0.06);
-    --rr:        #ff0a1f;
-    --rr-soft:   rgba(255,10,31,0.12);
-    --rt:        #ffffff;
-    --rt2:       #d8d8d8;
-    --rm:        #888;
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+
+    --green:      #2ee07a;
+    --green-soft: rgba(46,224,122,0.1);
+    --amber:      #ffb648;
+    --amber-soft: rgba(255,182,72,0.08);
 }
 
-/* ====== ALERT ====== */
+
+/* =========================================================
+   2 · ALERT
+========================================================= */
 .rsv-alert {
     position: relative;
-    display: flex; align-items: center; gap: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
     background: var(--rs);
     color: var(--rt2);
     padding: 1rem 1.25rem 1rem 1.6rem;
@@ -21,12 +56,17 @@
     overflow: hidden;
 }
 .rsv-alert-bar {
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 4px; background: var(--rr);
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rr);
 }
 .rsv-alert i { color: var(--rr); }
 
-/* ====== STATS ====== */
+
+/* =========================================================
+   3 · STATS
+========================================================= */
 .rsv-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -34,11 +74,12 @@
     margin-bottom: 3.5rem;
 }
 .rsv-stat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     background: var(--rs);
     border: 1px solid var(--rl);
     padding: 1.6rem 1.4rem;
-    display: flex; flex-direction: column;
-    position: relative;
     overflow: hidden;
 }
 .rsv-stat::after {
@@ -68,7 +109,10 @@
     text-transform: uppercase;
 }
 
-/* ====== SECTION ====== */
+
+/* =========================================================
+   4 · SECTION
+========================================================= */
 .rsv-section {
     position: relative;
     background: var(--rb);
@@ -76,10 +120,13 @@
     margin-bottom: 3rem;
     border: 1px solid var(--rl);
 }
-.rsv-section--left  { border-left: 4px solid var(--rr); }
+.rsv-section--left  { border-left:  4px solid var(--rr); }
 .rsv-section--right { border-right: 4px solid var(--rr); }
 
-/* ====== HEADERS asimétricos ====== */
+
+/* =========================================================
+   5 · HEADERS asimétricos
+========================================================= */
 .rsv-head {
     display: flex;
     align-items: center;
@@ -118,10 +165,81 @@
 }
 .rsv-title strong { color: var(--rr); font-weight: 900; }
 
-/* ====== TIMELINE (Mis Reservas) ====== */
+
+/* =========================================================
+   6 · FILTROS
+========================================================= */
+.rsv-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px dashed rgba(255,255,255,0.08);
+}
+.rsv-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid var(--rl);
+    color: var(--rt2);
+    padding: 0.5rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.rsv-filter em {
+    font-style: normal;
+    background: var(--rr-soft);
+    color: var(--rr);
+    padding: 0.1rem 0.45rem;
+    font-size: 0.65rem;
+    letter-spacing: 1px;
+}
+.rsv-filter:hover {
+    color: #fff;
+    border-color: rgba(255,10,31,0.4);
+}
+.rsv-filter.is-active {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+}
+.rsv-filter.is-active em {
+    background: rgba(255,255,255,0.18);
+    color: #fff;
+}
+
+
+/* =========================================================
+   7 · TIMELINE
+========================================================= */
+
+/* 7.1 · Wrapper con scroll (~5 items) */
+.rsv-timeline-wrapper {
+    position: relative;
+    max-height: 540px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.75rem;
+    mask-image: linear-gradient(to bottom, transparent 0, #000 20px, #000 calc(100% - 24px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 20px, #000 calc(100% - 24px), transparent 100%);
+    scrollbar-color: var(--rr) rgba(255,255,255,0.04);
+    scrollbar-width: thin;
+}
+.rsv-timeline-wrapper::-webkit-scrollbar        { width: 6px; }
+.rsv-timeline-wrapper::-webkit-scrollbar-track  { background: rgba(255,255,255,0.04); }
+.rsv-timeline-wrapper::-webkit-scrollbar-thumb  { background: var(--rr); border-radius: 3px; }
+
+/* 7.2 · Item + dot */
 .rsv-timeline {
     list-style: none;
-    padding: 0; margin: 0;
+    padding: 0;
+    margin: 0;
     position: relative;
 }
 .rsv-timeline::before {
@@ -136,7 +254,6 @@
     display: flex;
     align-items: stretch;
     gap: 1.25rem;
-    padding-left: 0;
     margin-bottom: 1rem;
 }
 .rsv-timeline-dot {
@@ -147,28 +264,47 @@
     background: var(--rs);
     border: 2px solid var(--rr);
     color: var(--rr);
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 0.85rem;
-    transition: transform 0.25s ease;
+    transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 .rsv-timeline-item:hover .rsv-timeline-dot {
     transform: rotate(45deg) scale(1.05);
-    background: var(--rr); color: #fff;
+    background: var(--rr);
+    color: #fff;
 }
-.rsv-state--asistio   .rsv-timeline-dot { border-color: #2ee07a; color: #2ee07a; }
-.rsv-state--cancelada .rsv-timeline-dot { border-color: var(--rr); color: var(--rr); opacity: 0.6; }
 
+/* Dot por estado */
+.rsv-state--asistio .rsv-timeline-dot {
+    background: rgba(46,224,122,0.15);
+    border-color: var(--green);
+    color: var(--green);
+}
+.rsv-state--asistio:hover .rsv-timeline-dot {
+    background: rgba(46,224,122,0.28);
+    box-shadow: 0 0 12px rgba(46,224,122,0.6);
+}
+.rsv-state--cancelada .rsv-timeline-dot {
+    border-color: var(--rr);
+    color: var(--rr);
+    opacity: 0.6;
+}
+
+/* 7.3 · Card */
 .rsv-timeline-card {
     flex: 1;
-    background: var(--rs);
+    position: relative;
     display: grid;
     grid-template-columns: 90px 1fr auto;
     align-items: center;
     gap: 1.25rem;
     padding: 1rem 1.4rem;
+    background: var(--rs);
     border-left: 3px solid transparent;
-    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
 }
 .rsv-timeline-item:hover .rsv-timeline-card {
     background: var(--rs2);
@@ -176,6 +312,7 @@
     transform: translateX(4px);
 }
 
+/* 7.4 · Fecha + Body */
 .rsv-timeline-date {
     color: var(--rt);
     font-size: 1.6rem;
@@ -209,19 +346,133 @@
     margin: 0.25rem 0 0;
 }
 
+/* 7.5 · Columna derecha: status + acciones (status siempre, acciones on hover) */
+.rsv-timeline-right {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+/* Status por defecto (Asistió / Cancelada) */
 .rsv-status {
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     padding: 0.45rem 0.9rem;
     border: 1px solid;
+    white-space: nowrap;
 }
-.rsv-state--reservada .rsv-status { color: #ffb648; border-color: rgba(255,182,72,0.4); background: rgba(255,182,72,0.08); }
-.rsv-state--asistio   .rsv-status { color: #2ee07a; border-color: rgba(46,224,122,0.4); background: rgba(46,224,122,0.08); }
-.rsv-state--cancelada .rsv-status { color: var(--rr); border-color: rgba(255,10,31,0.4); background: var(--rr-soft); }
+.rsv-state--asistio   .rsv-status { color: var(--green); border-color: rgba(46,224,122,0.4); background: var(--green-soft); }
+.rsv-state--cancelada .rsv-status { color: var(--rr);    border-color: rgba(255,10,31,0.4);   background: var(--rr-soft); }
 
-/* ====== CARDS (Reservar Clases) — masonry asimétrico ====== */
+/* Status "Reservada" protagonista */
+.rsv-state--reservada .rsv-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    padding: 0.7rem 1.2rem;
+    color: var(--amber);
+    background: linear-gradient(135deg, rgba(255,182,72,0.18), rgba(255,182,72,0.05));
+    border: 1px solid rgba(255,182,72,0.5);
+    box-shadow: 0 0 0 1px rgba(255,182,72,0.08);
+}
+.rsv-state--reservada .rsv-status::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 0 0 rgba(255,182,72,0.6);
+    animation: rsvStatusPulse 1.8s infinite;
+    flex-shrink: 0;
+}
+@keyframes rsvStatusPulse {
+    0%   { box-shadow: 0 0 0 0   rgba(255,182,72,0.6); }
+    70%  { box-shadow: 0 0 0 10px rgba(255,182,72,0); }
+    100% { box-shadow: 0 0 0 0   rgba(255,182,72,0); }
+}
+
+/* 7.6 · Acciones — ocultas por defecto, aparecen on hover */
+/* Contenedor de acciones: SIEMPRE horizontal */
+.rsv-timeline-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: max-height 0.35s ease,
+                opacity 0.25s ease,
+                transform 0.3s ease;
+}
+.rsv-timeline-item:hover        .rsv-timeline-actions,
+.rsv-timeline-item:focus-within .rsv-timeline-actions {
+    max-height: 60px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Cada form ocupa su espacio sin romperse */
+.rsv-inline-form {
+    margin: 0;
+    flex: 0 0 auto;
+    display: inline-flex;
+}
+
+.rsv-act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 110px;              /* mismo tamaño exacto para ambos */
+    background: transparent;
+    border: 1px solid var(--rl);
+    color: var(--rt2);
+    padding: 0.45rem 0.6rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease,
+                border-color 0.25s ease, transform 0.2s ease;
+}
+.rsv-act:hover  { transform: translateY(-1px); }
+.rsv-act:active { transform: translateY(0); }
+
+.rsv-act--asistir {
+    border-color: rgba(46,224,122,0.4);
+    color: var(--green);
+}
+.rsv-act--asistir:hover {
+    background: var(--green);
+    color: #0a0a0a;
+    border-color: var(--green);
+}
+.rsv-act--cancelar {
+    border-color: rgba(255,10,31,0.4);
+    color: var(--rr);
+}
+.rsv-act--cancelar:hover {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+}
+
+
+/* =========================================================
+   8 · CARDS (Reservar Clases)
+========================================================= */
 .rsv-cards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -229,12 +480,13 @@
 }
 .rsv-card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     background: var(--rs);
     padding: 1.75rem 1.5rem;
-    display: flex; flex-direction: column;
     overflow: hidden;
-    transition: transform 0.3s ease, background 0.3s ease;
     clip-path: polygon(0 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%);
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 .rsv-card::before {
     content: "";
@@ -252,7 +504,7 @@
 }
 .rsv-card:hover::before { transform: scaleY(1); }
 
-/* tarjetas variantes para romper repetición */
+/* Variantes para romper repetición */
 .rsv-card:nth-child(3n+2) {
     clip-path: polygon(18px 0, 100% 0, 100% 100%, 0 100%, 0 18px);
 }
@@ -262,7 +514,7 @@
 }
 .rsv-card:nth-child(4n+3) { background: var(--rs2); }
 
-/* head */
+/* Card · head */
 .rsv-card-head {
     display: flex;
     justify-content: space-between;
@@ -284,11 +536,12 @@
     animation: rsvPulse 2s infinite;
 }
 @keyframes rsvPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(255,10,31,0.6); }
+    0%   { box-shadow: 0 0 0 0   rgba(255,10,31,0.6); }
     70%  { box-shadow: 0 0 0 12px rgba(255,10,31,0); }
-    100% { box-shadow: 0 0 0 0 rgba(255,10,31,0); }
+    100% { box-shadow: 0 0 0 0   rgba(255,10,31,0); }
 }
 
+/* Card · título */
 .rsv-card-title {
     color: #fff;
     font-size: 1.35rem;
@@ -300,30 +553,38 @@
     border-bottom: 1px solid var(--rl);
 }
 
+/* Card · meta */
 .rsv-card-meta {
     list-style: none;
-    padding: 0; margin: 0 0 1.25rem;
-    display: flex; flex-direction: column;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
     gap: 0.7rem;
 }
 .rsv-card-meta li {
-    display: flex; align-items: center; gap: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
     color: var(--rt2);
     font-size: 0.9rem;
 }
 .rsv-card-meta i {
     width: 28px; height: 28px;
-    display: inline-flex; align-items: center; justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: var(--rr-soft);
     color: var(--rr);
     font-size: 0.78rem;
     flex-shrink: 0;
 }
 
-/* aforo */
+/* Card · aforo */
 .rsv-card-aforo { margin-bottom: 1.25rem; }
 .rsv-card-aforo-top {
-    display: flex; justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
     color: var(--rm);
     font-size: 0.7rem;
     letter-spacing: 2px;
@@ -332,10 +593,10 @@
 }
 .rsv-card-aforo-top strong { color: var(--rr); }
 .rsv-card-bar {
+    position: relative;
     height: 4px;
     background: rgba(255,255,255,0.06);
     overflow: hidden;
-    position: relative;
 }
 .rsv-card-bar span {
     display: block;
@@ -344,9 +605,10 @@
     transition: width 0.5s ease;
 }
 
-/* botón */
+/* Card · botón */
 .rsv-card-form { margin-top: auto; }
 .rsv-card-btn {
+    position: relative;
     width: 100%;
     background: transparent;
     color: #fff;
@@ -356,12 +618,11 @@
     font-weight: 800;
     letter-spacing: 2.5px;
     cursor: pointer;
+    overflow: hidden;
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     transition: background 0.3s ease, color 0.3s ease, padding 0.3s ease;
-    position: relative;
-    overflow: hidden;
 }
 .rsv-card-btn::before {
     content: "";
@@ -373,12 +634,21 @@
     z-index: 0;
 }
 .rsv-card-btn span,
-.rsv-card-btn i { position: relative; z-index: 1; transition: transform 0.3s ease; }
+.rsv-card-btn i {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
 .rsv-card-btn:hover::before { transform: translateX(0); }
-.rsv-card-btn:hover i { transform: translateX(4px); }
+.rsv-card-btn:hover i       { transform: translateX(4px); }
 
+/* Card · llena */
 .rsv-card--full { opacity: 0.55; }
-.rsv-card--full .rsv-card-pulse { animation: none; background: var(--rm); box-shadow: none; }
+.rsv-card--full .rsv-card-pulse {
+    animation: none;
+    background: var(--rm);
+    box-shadow: none;
+}
 .rsv-card-full {
     margin-top: auto;
     text-align: center;
@@ -392,23 +662,45 @@
     text-transform: uppercase;
 }
 
-/* ====== EMPTY ====== */
-.rsv-empty {
+
+/* =========================================================
+   9 · EMPTY STATES
+========================================================= */
+.rsv-empty,
+.rsv-filter-empty {
     text-align: center;
     padding: 3rem 1rem;
     border: 1px dashed rgba(255,255,255,0.1);
 }
-.rsv-empty i { display: block; font-size: 2rem; color: var(--rr); margin-bottom: 0.85rem; }
-.rsv-empty p { color: #aaa; letter-spacing: 1.5px; text-transform: uppercase; margin: 0; font-size: 0.85rem; }
+.rsv-filter-empty {
+    padding: 2rem 1rem;
+    border-style: dashed;
+    border-color: rgba(255,255,255,0.08);
+    margin-top: 1rem;
+}
+.rsv-empty i,
+.rsv-filter-empty i {
+    display: block;
+    font-size: 2rem;
+    color: var(--rr);
+    margin-bottom: 0.85rem;
+}
+.rsv-filter-empty i { font-size: 1.6rem; margin-bottom: 0.6rem; }
+.rsv-empty p,
+.rsv-filter-empty p {
+    margin: 0;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+.rsv-filter-empty p { font-size: 0.78rem; letter-spacing: 2px; }
 
-/* ====== RESPONSIVE ====== */
-@media (max-width: 768px) {
-    .rsv-stats { grid-template-columns: 1fr; }
-    .rsv-section { padding: 2rem 1.25rem; }
-    .rsv-head, .rsv-head--right { flex-direction: column; align-items: flex-start; text-align: left; gap: 0.8rem; }
-    .rsv-num { font-size: 3rem; }
-    .rsv-title { font-size: 1.4rem; }
 
+/* =========================================================
+   10 · RESPONSIVE
+========================================================= */
+@media (max-width: 900px) {
     .rsv-timeline-card {
         grid-template-columns: 1fr;
         gap: 0.75rem;
@@ -419,5 +711,55 @@
         border-bottom: 1px solid var(--rl);
         padding: 0 0 0.6rem;
         font-size: 1.2rem;
+    }
+    .rsv-timeline-right {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    /* Acciones siempre visibles, siempre horizontales */
+    .rsv-timeline-actions {
+        max-height: 60px;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        width: 100%;
+        margin-top: 0.35rem;
+        flex-wrap: nowrap;
+    }
+    .rsv-inline-form { flex: 1; }
+    .rsv-act         { width: 100%; }   /* en móvil se expanden al 50/50 */
+
+    .rsv-state--reservada .rsv-status {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .rsv-stats   { grid-template-columns: 1fr; }
+    .rsv-section { padding: 2rem 1.25rem; }
+
+    .rsv-head,
+    .rsv-head--right {
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 0.8rem;
+    }
+    .rsv-num   { font-size: 3rem; }
+    .rsv-title { font-size: 1.4rem; }
+
+    .rsv-timeline-wrapper { max-height: 600px; }
+    .rsv-filter           { flex: 1 1 calc(50% - 0.25rem); justify-content: center; }
+}
+
+/* Dispositivos táctiles sin hover: acciones siempre visibles */
+@media (hover: none) {
+    .rsv-timeline-actions {
+        max-height: 60px;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
     }
 }
