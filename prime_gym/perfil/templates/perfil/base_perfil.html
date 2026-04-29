@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>PRYME | GYM</title>
 
-    <!--Favicon-->
+    <!-- Favicon -->
     <link rel="shortcut icon" href="{% static 'img/logo-favicon.png' %}" type="image/x-icon">
 
     <!-- Google Font -->
@@ -26,18 +26,20 @@
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_perfil.css' %}" type="text/css">
+
 
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
 </head>
 
 <body>
-    <!-- Page Preloder -->
+
+    <!-- Preloader -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <!-- Offcanvas Menu Section Begin -->
+    <!-- Offcanvas Menu -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
@@ -53,28 +55,23 @@
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
-        <div class="canvas-social">
-            <a href="#"><i class="fa fa-youtube-play"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-        </div>
     </div>
-    <!-- Offcanvas Menu Section End -->
 
-    <!-- Header Section Begin -->
+    <!-- Header -->
     <header class="header-section">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3" data-aos="fade-down">
+                <div class="col-lg-3">
                     <div class="logo">
                         <a href="{% url 'main' %}">
                             <img src="{% static 'img/logo.webp' %}" alt="Prime Gym Logo">
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-6" data-aos="fade-down" data-aos-delay="100">
+                <div class="col-lg-6">
                     <nav class="nav-menu">
                         <ul>
-                            <li class="active"><a href="{% url 'main' %}">Inicio</a></li>
+                            <li><a href="{% url 'main' %}">Inicio</a></li>
                             <li><a href="{% url 'clases' %}">Clases</a></li>
                             <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                             <li><a href="{% url 'equipo' %}">Equipo</a></li>
@@ -82,93 +79,41 @@
                         </ul>
                     </nav>
                 </div>
-                <div class="col-lg-3" data-aos="fade-down" data-aos-delay="200">
-                    <div class="top-option">
-                        <div class="to-social">
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="canvas-open">
                 <i class="fa fa-bars"></i>
             </div>
         </div>
     </header>
-    <!-- Header End -->
 
-    <!-- Sección de encabezado -->
+    <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb-text">
-                        <h2 data-aos="fade-right" data-aos-delay="300">Contáctanos</h2>
+                        <h2 data-aos="fade-right" data-aos-delay="300"> {{cliente.nombre}}</h2>
                         <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
                             <a href="{% url 'main' %}">Inicio</a>
-                            <span>Contacto</span>
+                            <span>Perfil</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Fin encabezado -->
+    <!-- Breadcrumb Section End -->
 
-    <!-- Sección de contacto -->
-    <section class="contact-section spad">
+    <!-- =========================
+     CONTENIDO DEL PERFIL
+     ========================= -->
+    <section class="spad">
         <div class="container">
-            <div class="row">
-                <!-- Información de contacto -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="section-title contact-title">
-                        <span>Contacto</span>
-                        <h2>PONTE EN CONTACTO CON NOSOTROS</h2>
-                    </div>
-                    <div class="contact-widget">
-                        <div class="cw-text">
-                            <i class="fa fa-map-marker"></i>
-                            <p>Villafranca de los Caballeros<br />45730 (Toledo)</p>
-                        </div>
-                        <div class="cw-text">
-                            <i class="fa fa-mobile"></i>
-                            <ul>
-                                <li>626 524 767</li>
-                            </ul>
-                        </div>
-                        <div class="cw-text email">
-                            <i class="fa fa-envelope"></i>
-                            <p>soporte.primegym@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Formulario de contacto -->
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="leave-comment">
-                        <form action="#">
-                            <input type="text" placeholder="Nombre">
-                            <input type="email" placeholder="Correo electrónico">
-                            <input type="text" placeholder="Asunto">
-                            <textarea placeholder="Escribe tu mensaje aquí"></textarea>
-                            <button type="submit">Enviar mensaje</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mapa -->
-            <div class="map" data-aos="fade-up" data-aos-delay="300">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d1129.5210719922638!2d-3.353006110865647!3d39.426179046680794!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sus!4v1762182513570!5m2!1ses!2sus"
-                    width="800" height="600" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
+            {% block contenido %}
+            {% endblock %}
         </div>
     </section>
-    <!-- Fin sección de contacto -->
+
 
     <!-- Footer Section Begin -->
     <footer class="footer-section">
@@ -233,8 +178,9 @@
     </footer>
     <!-- Footer Section End -->
 
-    <!-- Botón de Volver Arriba -->
-    <a id="scrollTopButton" class="scroll-top-btn" title="Volver Arriba">
+
+    <!-- Scroll Top -->
+    <a id="scrollTopButton" class="scroll-top-btn">
         <i class="fa fa-angle-up"></i>
     </a>
 
@@ -247,10 +193,9 @@
     <script src="{% static 'js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-
-
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="{% static 'js/boton-volver.js' %}"></script>
+
 
 
 </body>
