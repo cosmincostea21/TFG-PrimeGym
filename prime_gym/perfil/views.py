@@ -68,10 +68,15 @@ def get_cliente_actual():
 # =====================================================
 # DASHBOARD DEL CLIENTE
 # =====================================================
+
 def dashboard(request):
     cliente = get_cliente_actual()
 
-    clases = Clase.objects.filter(tarifas=cliente.tarifa)
+    clases = Clase.objects.all().prefetch_related('tarifas')
+
+    # marcar disponibilidad por tarifa
+    for clase in clases:
+        clase.disponible = cliente.tarifa in clase.tarifas.all()
 
     reservas = cliente.reservas.all().order_by('fecha_reserva')
 
@@ -84,17 +89,17 @@ def dashboard(request):
         estado='asistio'
     ).order_by('-fecha_reserva').first()
 
-
     context = {
         'cliente': cliente,
         'tarifa': cliente.tarifa,
         'num_reservas': reservas.count(),
         'proxima_reserva': proxima_reserva,
         'ultima_asistencia': ultima_asistencia,
-        'clases': clases,
+        'clases': clases,  
     }
 
     return render(request, 'perfil/dashboard.html', context)
+
 
 
 # =====================================================

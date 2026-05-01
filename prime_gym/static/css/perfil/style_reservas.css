@@ -278,12 +278,12 @@
 
 /* Dot por estado */
 .rsv-state--asistio .rsv-timeline-dot {
-    background: rgba(46,224,122,0.15);
+    background: rgb(0, 0, 0);
     border-color: var(--green);
     color: var(--green);
 }
 .rsv-state--asistio:hover .rsv-timeline-dot {
-    background: rgba(46,224,122,0.28);
+    background: rgb(46, 224, 123);
     box-shadow: 0 0 12px rgba(46,224,122,0.6);
 }
 .rsv-state--cancelada .rsv-timeline-dot {

@@ -353,6 +353,18 @@
   filter: drop-shadow(0 0 23px var(--animation-color))
 }
 
+
+.clase-card--disabled {
+  opacity: 0.4;
+  filter: grayscale(100%);
+  pointer-events: none;
+}
+
+.clase-card--disabled .clase-tag {
+  background-color: #999;
+}
+
+
 /* ===========================
    AJUSTES RESPONSIVE
    =========================== */
