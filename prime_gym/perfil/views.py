@@ -3,6 +3,8 @@ from datetime import date, datetime, timedelta, time
 from django.contrib import messages
 from django.db.models import Count, Q
 from gimnasio.models import Cliente, Reserva, Clase, Tarifa
+from django.contrib.auth.hashers import check_password, make_password
+from .forms import EditarPerfilForm, CambiarPasswordForm
 
 # =====================================================
 # NOTA IMPORTANTE (TFG)
@@ -298,38 +300,72 @@ def mis_reservas(request):
 
 
 
-# =====================================================
-# CLASES DISPONIBLES SEGÚN TARIFA
-# =====================================================
-def clases_disponibles(request):
+
+
+def editar_perfil(request):
     cliente = get_cliente_actual()
 
-    clases = Clase.objects.filter(tarifas=cliente.tarifa).select_related('entrenador')
+    if request.method == "POST":
+        accion = request.POST.get("accion")
 
-    context = {
-        'cliente': cliente,
-        'clases': clases,
-    }
+        form = EditarPerfilForm(request.POST, instance=cliente)
+        pass_form = CambiarPasswordForm(request.POST)
 
-    return render(request, 'perfil/clases.html', context)
+        # ✅ GUARDAR DATOS PERSONALES
+        if accion == "perfil":
+            if form.is_valid():
+                form.save()
+                messages.success(
+                    request, "Datos personales actualizados correctamente."
+                )
+            else:
+                messages.error(request, "Revisa los datos del formulario.")
+
+        # ✅ CAMBIAR CONTRASEÑA
+        elif accion == "password":
+            if not pass_form.is_valid():
+                messages.error(
+                    request, "Error en el formulario de contraseña."
+                )
+            else:
+                pwd_actual = pass_form.cleaned_data.get("password_actual")
+                pwd_nueva  = pass_form.cleaned_data.get("password_nueva")
+                pwd_conf   = pass_form.cleaned_data.get("password_nueva_confirmacion")
+
+                # ⛔ Aquí SÍ exigimos contraseña
+                if not pwd_actual or not pwd_nueva or not pwd_conf:
+                    messages.error(
+                        request,
+                        "Debes completar todos los campos para cambiar la contraseña."
+                    )
+                elif not check_password(pwd_actual, cliente.password):
+                    messages.error(
+                        request, "La contraseña actual no es correcta."
+                    )
+                elif pwd_nueva != pwd_conf:
+                    messages.error(
+                        request, "Las contraseñas nuevas no coinciden."
+                    )
+                else:
+                    cliente.password = make_password(pwd_nueva)
+                    cliente.save()
+                    messages.success(
+                        request, "Contraseña actualizada correctamente."
+                    )
+
+        return redirect("perfil:editar_perfil")
+
+    # GET
+    form = EditarPerfilForm(instance=cliente)
+    pass_form = CambiarPasswordForm()
+
+    return render(request, "perfil/editar_perfil.html", {
+        "cliente": cliente,
+        "form": form,
+        "pass_form": pass_form,
+    })
 
 
-# =====================================================
-# CAMBIAR TARIFA (VERSIÓN SIMPLE)
-# =====================================================
-def cambiar_tarifa(request):
-    cliente = get_cliente_actual()
-    tarifas = Tarifa.objects.all()
 
-    if request.method == 'POST':
-        tarifa_id = request.POST.get('tarifa_id')
-        tarifa = get_object_or_404(Tarifa, id=tarifa_id)
-        cliente.tarifa = tarifa
-        cliente.save()
 
-    context = {
-        'cliente': cliente,
-        'tarifas': tarifas,
-    }
 
-    return render(request, 'perfil/cambiar_tarifa.html', context)

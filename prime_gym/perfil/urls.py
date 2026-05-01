@@ -6,7 +6,7 @@ app_name = 'perfil'
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
-    path('datos/', views.datos_personales, name='datos_personales'),
+    path('editar_perfil/', views.editar_perfil, name='editar_perfil'),
     path('reservas/', views.mis_reservas, name='mis_reservas'),
 ]
 
