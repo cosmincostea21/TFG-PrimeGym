@@ -182,7 +182,7 @@ def mis_reservas(request):
                 messages.error(request, "No tienes acceso a esta clase.")
                 return redirect('perfil:mis_reservas')
 
-            # 🔥 1. Calcular la fecha REAL de la próxima sesión
+            # 1. Calcular la fecha REAL de la próxima sesión
             proxima = proxima_sesion_clase(clase.nombre)
             if not proxima:
                 messages.error(request, "No hay horario configurado para esta clase.")
@@ -190,7 +190,7 @@ def mis_reservas(request):
             fecha_clase = proxima.date()
             hora_clase  = proxima.time()
 
-            # 🔥 2. Aforo en la fecha real
+            # 2. Aforo en la fecha real
             reservas_activas = Reserva.objects.filter(
                 clase=clase, fecha_reserva=fecha_clase, estado='reservada'
             ).count()
@@ -198,7 +198,7 @@ def mis_reservas(request):
                 messages.error(request, "La clase ha alcanzado su aforo máximo.")
                 return redirect('perfil:mis_reservas')
 
-            # 🔥 3. Reserva existente para esa fecha
+            # 3. Reserva existente para esa fecha
             existente = Reserva.objects.filter(
                 cliente=cliente, clase=clase, fecha_reserva=fecha_clase
             ).first()
@@ -211,7 +211,7 @@ def mis_reservas(request):
                     messages.warning(request, "Ya has asistido a esta clase.")
                 return redirect('perfil:mis_reservas')
 
-            # 🔥 4. Crear con la fecha REAL (no con hoy)
+            # 4. Crear con la fecha REAL (no con hoy)
             Reserva.objects.create(
                 cliente=cliente,
                 clase=clase,
@@ -249,7 +249,7 @@ def mis_reservas(request):
         )
     )
 
-    # 🔥 Adjuntar la próxima sesión a cada clase para que el template la lea
+    # Adjuntar la próxima sesión a cada clase para que el template la lea
     clases = []
     for clase in clases_qs:
         prox_dt = proxima_sesion_clase(clase.nombre)
@@ -262,14 +262,6 @@ def mis_reservas(request):
                 fecha_reserva=fecha,
                 estado='reservada'
             ).count()
-
-            
-            clase.asistidas = Reserva.objects.filter(
-                clase=clase,
-                cliente=cliente,
-                estado='asistio'
-            ).count()
-
 
             clase.proxima = {
                 'fecha':  prox_dt.date(),
@@ -285,11 +277,19 @@ def mis_reservas(request):
             clase.proxima = None
         clases.append(clase)
 
+    
+
+    total_asistidas = Reserva.objects.filter(
+        cliente=cliente,
+        estado='asistio'
+    ).count()
+
     context = {
         'cliente': cliente,
         'reservas': reservas,
         'clases': clases,
         'hoy': hoy,
+        'total_asistidas': total_asistidas,
     }
 
     return render(request, 'perfil/reservas.html', context)
