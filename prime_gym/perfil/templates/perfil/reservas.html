@@ -37,8 +37,12 @@
         <span class="rsv-stat-label">Clases disponibles</span>
     </div>
     <div class="rsv-stat">
-        <span class="rsv-stat-num">∞</span>
-        <span class="rsv-stat-label">Tu progreso</span>
+        {% if clase.asistidas %}
+            <span class="rsv-stat-num">{{ clase.asistidas }}</span>
+        {% else %}
+            <span class="rsv-stat-num">0</span>
+        {% endif %}
+        <span class="rsv-stat-label">Clases Asistidas</span>
     </div>
 </div>
 
@@ -57,8 +61,6 @@
     {% if clases %}
         <div class="rsv-cards">
             {% for clase in clases %}
-                {% with completa=False %}
-                {% if clase.ocupadas >= clase.capacidad %}{% with completa=True %}{% endwith %}{% endif %}
                 <article class="rsv-card {% if clase.ocupadas >= clase.capacidad %}rsv-card--full{% endif %}">
 
                     <div class="rsv-card-head">
@@ -73,11 +75,24 @@
                             <i class="fa fa-user"></i>
                             <span>{{ clase.entrenador.nombre }}</span>
                         </li>
-                        <li>
-                            <i class="fa fa-clock"></i>
-                            <span>{{ clase.horario }}</span>
-                        </li>
-                    </ul>                    
+
+                        {% if clase.proxima %}
+                            <li class="rsv-card-meta-next">
+                                <i class="fa fa-calendar-day"></i>
+                                <span>
+                                    <small>Próxima sesión</small>
+                                    <strong>
+                                        {{ clase.proxima.dia }}
+                                        {{ clase.proxima.fecha|date:"d/m" }}
+                                        · {{ clase.proxima.hora }}
+                                        {% if clase.proxima.es_hoy %}
+                                            <em class="rsv-card-meta-today">HOY</em>
+                                        {% endif %}
+                                    </strong>
+                                </span>
+                            </li>
+                        {% endif %}
+                    </ul>
 
                     <div class="rsv-card-aforo">
                         <div class="rsv-card-aforo-top">
@@ -92,9 +107,16 @@
                     {% if clase.ocupadas < clase.capacidad %}
                         <form method="post" class="rsv-card-form">
                             {% csrf_token %}
+                            <input type="hidden" name="accion" value="reservar">
                             <input type="hidden" name="clase_id" value="{{ clase.id }}">
                             <button type="submit" class="rsv-card-btn">
-                                <span>RESERVAR</span>
+                                <span>
+                                    {% if clase.proxima %}
+                                        RESERVAR · {{ clase.proxima.dia|slice:":3"|upper }} {{ clase.proxima.fecha|date:"d/m" }}
+                                    {% else %}
+                                        RESERVAR
+                                    {% endif %}
+                                </span>
                                 <i class="fa fa-arrow-right"></i>
                             </button>
                         </form>
@@ -105,7 +127,6 @@
                     {% endif %}
 
                 </article>
-                {% endwith %}
             {% endfor %}
         </div>
     {% else %}
@@ -115,7 +136,6 @@
         </div>
     {% endif %}
 </section>
-
 <!-- ===========================
      2 · MIS RESERVAS · TIMELINE
 =========================== -->
@@ -161,6 +181,7 @@
 
                         <div class="rsv-timeline-card rsv-card--{{ reserva.estado }}">
                             <div class="rsv-timeline-date">
+                                <span class="rsv-timeline-day">{{ reserva.fecha_reserva|date:"l" }}</span>
                                 {{ reserva.fecha_reserva|date:"d" }}
                                 <small>{{ reserva.fecha_reserva|date:"M Y" }}</small>
                             </div>
@@ -178,22 +199,28 @@
 
                                 {% if reserva.estado == 'reservada' %}
                                     <div class="rsv-timeline-actions">
-                                        <form method="post" class="rsv-inline-form">
+                                        <form method="post" class="rsv-inline-form js-confirm-asistir">
                                             {% csrf_token %}
                                             <input type="hidden" name="accion" value="asistir">
                                             <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
-                                            <button type="submit" class="rsv-act rsv-act--asistir" title="Marcar como asistida">
+                                            <input type="hidden" name="fecha" value="{{ reserva.fecha_reserva|date:'Y-m-d' }}">
+
+                                            <button type="submit"
+                                                    class="rsv-act rsv-act--asistir"
+                                                    title="Marcar como asistida">
                                                 <i class="fa fa-check"></i>
                                                 <span>Asistida</span>
                                             </button>
                                         </form>
-
-                                        <form method="post" class="rsv-inline-form"
-                                              onsubmit="return confirm('¿Seguro que quieres anular esta reserva?');">
+                                        <form method="post"
+                                            class="rsv-inline-form js-confirm-cancel">
                                             {% csrf_token %}
                                             <input type="hidden" name="accion" value="cancelar">
                                             <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
-                                            <button type="submit" class="rsv-act rsv-act--cancelar" title="Anular reserva">
+
+                                            <button type="submit"
+                                                    class="rsv-act rsv-act--cancelar"
+                                                    title="Anular reserva">
                                                 <i class="fa fa-xmark"></i>
                                                 <span>Anular</span>
                                             </button>
@@ -223,6 +250,7 @@
 
 {% block scripts  %}
     <script src="{% static 'js/filtros_reservas.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% endblock  %}
 
 

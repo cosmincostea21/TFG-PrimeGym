@@ -696,6 +696,65 @@
 }
 .rsv-filter-empty p { font-size: 0.78rem; letter-spacing: 2px; }
 
+/* =========================================================
+   PRÓXIMA SESIÓN dentro del meta de la card
+========================================================= */
+.rsv-card-meta-next {
+    align-items: flex-start !important;
+    padding-top: 0.6rem;
+    margin-top: 0.2rem;
+    border-top: 1px dashed rgba(255,255,255,0.08);
+}
+.rsv-card-meta-next i {
+    background: var(--rr) !important;
+    color: #fff !important;
+}
+.rsv-card-meta-next > span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    line-height: 1.3;
+}
+.rsv-card-meta-next small {
+    color: var(--rm);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.rsv-card-meta-next strong {
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.rsv-card-meta-today {
+    display: inline-block;
+    margin-top: 0.25rem;
+    background: var(--rr);
+    color: #fff;
+    font-style: normal;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 0.15rem 0.5rem;
+    width: max-content;
+}
+
+/* =========================================================
+   Día de la semana en el timeline
+========================================================= */
+.rsv-timeline-day {
+    display: block;
+    color: var(--rr);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    line-height: 1;
+}
 
 /* =========================================================
    10 · RESPONSIVE

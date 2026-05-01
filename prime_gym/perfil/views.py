@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, time
 from django.contrib import messages
 from django.db.models import Count, Q
 from gimnasio.models import Cliente, Reserva, Clase, Tarifa
@@ -12,6 +12,49 @@ from gimnasio.models import Cliente, Reserva, Clase, Tarifa
 # Cuando exista login, este método se sustituirá
 # por el cliente asociado a la sesión.
 # =====================================================
+
+DIAS_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+
+
+def proxima_sesion_clase(nombre_clase):
+    """Devuelve un datetime con la próxima sesión de la clase (o None)."""
+    ahora = datetime.now()
+    hoy = ahora.date()
+    hora_actual = ahora.time()
+
+    HORARIOS = {
+        "Movilidad":  {"dias": [0, 2], "hora": time(9, 0)},
+        "Crossfit":   {"dias": [1, 3], "hora": time(19, 0)},
+        "Sala Libre": {
+            "dias": [0, 1, 2, 3, 4, 5],
+            "hora_inicio": time(8, 0),
+            "hora_fin":    time(22, 0),
+        },
+    }
+
+    datos = HORARIOS.get(nombre_clase)
+    if not datos:
+        return None
+
+    if nombre_clase == "Sala Libre":
+        fecha = hoy + timedelta(days=1) if ahora.weekday() == 6 else hoy
+        if hora_actual < datos["hora_inicio"]:
+            return datetime.combine(fecha, datos["hora_inicio"])
+        if hora_actual > datos["hora_fin"]:
+            fecha += timedelta(days=1)
+            if fecha.weekday() == 6:
+                fecha += timedelta(days=1)
+            return datetime.combine(fecha, datos["hora_inicio"])
+        return ahora
+
+    posibles = []
+    for dia in datos["dias"]:
+        offset = (dia - ahora.weekday()) % 7
+        fecha_hora = datetime.combine(hoy + timedelta(days=offset), datos["hora"])
+        if offset == 0 and fecha_hora <= ahora:
+            fecha_hora += timedelta(days=7)
+        posibles.append(fecha_hora)
+    return min(posibles)
 
 def get_cliente_actual():
     """
@@ -105,6 +148,17 @@ def mis_reservas(request):
                 id=request.POST.get('reserva_id'),
                 cliente=cliente
             )
+            
+            hoy = date.today()
+
+            # ❌ No se puede asistir antes de la fecha
+            if reserva.fecha_reserva > hoy:
+                messages.error(
+                    request,
+                    "No puedes marcar la asistencia antes de la fecha de la clase."
+                )
+                return redirect('perfil:mis_reservas')
+
 
             if reserva.estado == 'reservada':
                 reserva.estado = 'asistio'
@@ -117,52 +171,54 @@ def mis_reservas(request):
         # RESERVAR CLASE
         # ---------------------------
         if accion == 'reservar':
-            clase = get_object_or_404(
-                Clase,
-                id=request.POST.get('clase_id')
-            )
+            clase = get_object_or_404(Clase, id=request.POST.get('clase_id'))
 
-            # 1️⃣ Comprobar tarifa
             if cliente.tarifa not in clase.tarifas.all():
                 messages.error(request, "No tienes acceso a esta clase.")
                 return redirect('perfil:mis_reservas')
 
-            # 2️⃣ Comprobar aforo
-            reservas_activas = Reserva.objects.filter(
-                clase=clase,
-                fecha_reserva=hoy,
-                estado='reservada'
-            ).count()
+            # 🔥 1. Calcular la fecha REAL de la próxima sesión
+            proxima = proxima_sesion_clase(clase.nombre)
+            if not proxima:
+                messages.error(request, "No hay horario configurado para esta clase.")
+                return redirect('perfil:mis_reservas')
+            fecha_clase = proxima.date()
+            hora_clase  = proxima.time()
 
+            # 🔥 2. Aforo en la fecha real
+            reservas_activas = Reserva.objects.filter(
+                clase=clase, fecha_reserva=fecha_clase, estado='reservada'
+            ).count()
             if reservas_activas >= clase.capacidad:
                 messages.error(request, "La clase ha alcanzado su aforo máximo.")
                 return redirect('perfil:mis_reservas')
 
-            # 3️⃣ Comprobar reserva existente
-            reserva_existente = Reserva.objects.filter(
-                cliente=cliente,
-                clase=clase,
-                fecha_reserva=hoy
+            # 🔥 3. Reserva existente para esa fecha
+            existente = Reserva.objects.filter(
+                cliente=cliente, clase=clase, fecha_reserva=fecha_clase
             ).first()
-
-            if reserva_existente:
-                if reserva_existente.estado == 'reservada':
-                    messages.warning(request, "Ya tienes esta clase reservada.")
-                elif reserva_existente.estado == 'cancelada':
+            if existente:
+                if existente.estado == 'reservada':
+                    messages.warning(request, f"Ya tienes esta clase reservada para el {fecha_clase:%d/%m/%Y}.")
+                elif existente.estado == 'cancelada':
                     messages.error(request, "Esta clase fue cancelada y no se puede volver a reservar.")
-                elif reserva_existente.estado == 'asistio':
+                elif existente.estado == 'asistio':
                     messages.warning(request, "Ya has asistido a esta clase.")
                 return redirect('perfil:mis_reservas')
 
-            # 4️⃣ Crear reserva
+            # 🔥 4. Crear con la fecha REAL (no con hoy)
             Reserva.objects.create(
                 cliente=cliente,
                 clase=clase,
-                fecha_reserva=hoy,
+                fecha_reserva=fecha_clase,
                 estado='reservada'
             )
 
-            messages.success(request, "Clase reservada correctamente.")
+            dia_es = DIAS_ES[fecha_clase.weekday()]
+            messages.success(
+                request,
+                f"Reserva confirmada para el {dia_es} {fecha_clase:%d/%m/%Y} a las {hora_clase:%H:%M}."
+            )
             return redirect('perfil:mis_reservas')
     # ===========================
     # GET → MOSTRAR DATOS
@@ -174,7 +230,7 @@ def mis_reservas(request):
         .order_by('-fecha_reserva')
     )
 
-    clases = (
+    clases_qs = (
         Clase.objects
         .filter(tarifas=cliente.tarifa)
         .annotate(
@@ -187,6 +243,42 @@ def mis_reservas(request):
             )
         )
     )
+
+    # 🔥 Adjuntar la próxima sesión a cada clase para que el template la lea
+    clases = []
+    for clase in clases_qs:
+        prox_dt = proxima_sesion_clase(clase.nombre)
+        if prox_dt:
+            fecha = prox_dt.date()
+
+
+            clase.ocupadas = Reserva.objects.filter(
+                clase=clase,
+                fecha_reserva=fecha,
+                estado='reservada'
+            ).count()
+
+            
+            clase.asistidas = Reserva.objects.filter(
+                clase=clase,
+                cliente=cliente,
+                estado='asistio'
+            ).count()
+
+
+            clase.proxima = {
+                'fecha':  prox_dt.date(),
+                'hora':   prox_dt.strftime("%H:%M"),
+                'dia':    DIAS_ES[prox_dt.weekday()],
+                'es_hoy': prox_dt.date() == hoy,
+            }
+
+            
+
+        else:
+            clase.ocupadas=0
+            clase.proxima = None
+        clases.append(clase)
 
     context = {
         'cliente': cliente,
