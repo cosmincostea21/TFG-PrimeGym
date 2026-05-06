@@ -1,0 +1,258 @@
+{% extends 'perfil/base_perfil.html' %}
+
+{% load static %}
+
+{% block estilos %}
+    <link rel="stylesheet" href="{% static 'css/perfil/style_reservas.css' %}" type="text/css">
+{% endblock %}
+
+{% block pagina %}
+    Reservas
+{% endblock %}
+
+
+{% block contenido %}
+
+<!-- MENSAJES -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="rsv-alert">
+            <span class="rsv-alert-bar"></span>
+            <i class="fa fa-circle-info"></i>
+            <span>{{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- ===========================
+     STATS / RESUMEN
+=========================== -->
+<div class="rsv-stats">
+    <div class="rsv-stat">
+        <span class="rsv-stat-num">{{ reservas|length|default:0 }}</span>
+        <span class="rsv-stat-label">Reservas totales</span>
+    </div>
+    <div class="rsv-stat rsv-stat--accent">
+        <span class="rsv-stat-num">{{ clases|length|default:0 }}</span>
+        <span class="rsv-stat-label">Clases disponibles</span>
+    </div>
+    <div class="rsv-stat">
+        {% if total_asistidas %}
+            <span class="rsv-stat-num">{{ total_asistidas }}</span>
+        {% else %}
+            <span class="rsv-stat-num">0</span>
+        {% endif %}
+        <span class="rsv-stat-label">Clases Asistidas</span>
+    </div>
+</div>
+
+<!-- ===========================
+     1 · RESERVAR CLASES · GRID EDITORIAL
+=========================== -->
+<section class="rsv-section rsv-section--right">
+    <header class="rsv-head rsv-head--right">
+        <div>
+            <span class="rsv-kicker">Entrena con nosotros</span>
+            <h2 class="rsv-title">RESERVAR <strong>CLASES</strong></h2>
+        </div>
+        <span class="rsv-num">01</span>
+    </header>
+
+    {% if clases %}
+        <div class="rsv-cards">
+            {% for clase in clases %}
+                <article class="rsv-card {% if clase.ocupadas >= clase.capacidad %}rsv-card--full{% endif %}">
+
+                    <div class="rsv-card-head">
+                        <span class="rsv-card-index">{{ forloop.counter|stringformat:"02d" }}</span>
+                        <span class="rsv-card-pulse"></span>
+                    </div>
+
+                    <h3 class="rsv-card-title">{{ clase.nombre }}</h3>
+
+                    <ul class="rsv-card-meta">
+                        <li>
+                            <i class="fa fa-user"></i>
+                            <span>{{ clase.entrenador.nombre }}</span>
+                        </li>
+
+                        {% if clase.proxima %}
+                            <li class="rsv-card-meta-next">
+                                <i class="fa fa-calendar-day"></i>
+                                <span>
+                                    <small>Próxima sesión</small>
+                                    <strong>
+                                        {{ clase.proxima.dia }}
+                                        {{ clase.proxima.fecha|date:"d/m" }}
+                                        · {{ clase.proxima.hora }}
+                                        {% if clase.proxima.es_hoy %}
+                                            <em class="rsv-card-meta-today">HOY</em>
+                                        {% endif %}
+                                    </strong>
+                                </span>
+                            </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="rsv-card-aforo">
+                        <div class="rsv-card-aforo-top">
+                            <span>Aforo</span>
+                            <span><strong>{{ clase.ocupadas }}</strong>/{{ clase.capacidad }}</span>
+                        </div>
+                        <div class="rsv-card-bar">
+                            <span style="width: {% widthratio clase.ocupadas clase.capacidad 100 %}%;"></span>
+                        </div>
+                    </div>
+
+                    {% if clase.ocupadas < clase.capacidad %}
+                        <form method="post" class="rsv-card-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="accion" value="reservar">
+                            <input type="hidden" name="clase_id" value="{{ clase.id }}">
+                            <button type="submit" class="rsv-card-btn">
+                                <span>
+                                    {% if clase.proxima %}
+                                        RESERVAR · {{ clase.proxima.dia|slice:":3"|upper }} {{ clase.proxima.fecha|date:"d/m" }}
+                                    {% else %}
+                                        RESERVAR
+                                    {% endif %}
+                                </span>
+                                <i class="fa fa-arrow-right"></i>
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="rsv-card-full">
+                            <i class="fa fa-ban"></i> Aforo completo
+                        </div>
+                    {% endif %}
+
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="rsv-empty">
+            <i class="fa fa-circle-exclamation"></i>
+            <p>No hay clases disponibles para tu tarifa</p>
+        </div>
+    {% endif %}
+</section>
+<!-- ===========================
+     2 · MIS RESERVAS · TIMELINE
+=========================== -->
+<section class="rsv-section rsv-section--left">
+    <header class="rsv-head rsv-head--left">
+        <span class="rsv-num">02</span>
+        <div>
+            <span class="rsv-kicker">Tu historial</span>
+            <h2 class="rsv-title">MIS <strong>RESERVAS</strong></h2>
+        </div>
+    </header>
+
+    {% if reservas %}
+
+        <!-- FILTROS -->
+        <div class="rsv-filters" role="tablist">
+            <button type="button" class="rsv-filter is-active" data-filter="all">
+                <span>Todas</span>
+                <em>{{ reservas|length }}</em>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="reservada">
+                <span>Reservadas</span>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="asistio">
+                <span>Asistidas</span>
+            </button>
+            <button type="button" class="rsv-filter" data-filter="cancelada">
+                <span>Canceladas</span>
+            </button>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="rsv-timeline-wrapper p-3">
+            <ol class="rsv-timeline">
+                {% for reserva in reservas %}
+                    <li class="rsv-timeline-item rsv-state--{{ reserva.estado }}"
+                        data-estado="{{ reserva.estado }}">
+                        <div class="rsv-timeline-dot">
+                            {% if reserva.estado == 'asistio' %}<i class="fa fa-check"></i>
+                            {% elif reserva.estado == 'reservada' %}<i class="fa fa-clock"></i>
+                            {% else %}<i class="fa fa-xmark"></i>{% endif %}
+                        </div>
+
+                        <div class="rsv-timeline-card rsv-card--{{ reserva.estado }}">
+                            <div class="rsv-timeline-date">
+                                <span class="rsv-timeline-day">{{ reserva.fecha_reserva|date:"l" }}</span>
+                                {{ reserva.fecha_reserva|date:"d" }}
+                                <small>{{ reserva.fecha_reserva|date:"M Y" }}</small>
+                            </div>
+                            <div class="rsv-timeline-body">
+                                <span class="rsv-tag">CLASE</span>
+                                <h5>{{ reserva.clase.nombre }}</h5>
+                            </div>
+
+                            <div class="rsv-timeline-right">
+                                <span class="rsv-status">
+                                    {% if reserva.estado == 'reservada' %}Reservada
+                                    {% elif reserva.estado == 'asistio' %}Asistió
+                                    {% else %}Cancelada{% endif %}
+                                </span>
+
+                                {% if reserva.estado == 'reservada' %}
+                                    <div class="rsv-timeline-actions">
+                                        <form method="post" class="rsv-inline-form js-confirm-asistir">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="accion" value="asistir">
+                                            <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
+                                            <input type="hidden" name="fecha" value="{{ reserva.fecha_reserva|date:'Y-m-d' }}">
+
+                                            <button type="submit"
+                                                    class="rsv-act rsv-act--asistir"
+                                                    title="Marcar como asistida">
+                                                <i class="fa fa-check"></i>
+                                                <span>Asistida</span>
+                                            </button>
+                                        </form>
+                                        <form method="post"
+                                            class="rsv-inline-form js-confirm-cancel">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="accion" value="cancelar">
+                                            <input type="hidden" name="reserva_id" value="{{ reserva.id }}">
+
+                                            <button type="submit"
+                                                    class="rsv-act rsv-act--cancelar"
+                                                    title="Anular reserva">
+                                                <i class="fa fa-xmark"></i>
+                                                <span>Anular</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+
+            <!-- Mensaje cuando un filtro deja la lista vacía -->
+            <div class="rsv-filter-empty" hidden>
+                <i class="fa fa-filter-circle-xmark"></i>
+                <p>No hay reservas en esta categoría</p>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="rsv-empty">
+            <i class="fa fa-calendar-xmark"></i>
+            <p>Aún no tienes reservas registradas</p>
+        </div>
+    {% endif %}
+</section>
+
+{% block scripts  %}
+    <script src="{% static 'js/filtros_reservas.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% endblock  %}
+
+
+{% endblock %}
+

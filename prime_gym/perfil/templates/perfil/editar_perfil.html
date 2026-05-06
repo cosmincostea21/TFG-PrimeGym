@@ -1,0 +1,129 @@
+{% extends 'perfil/base_perfil.html' %}
+{% load static %}
+
+{% block estilos %}
+  <link rel="stylesheet" href="{% static 'css/perfil/style_editar_perfil.css' %}">
+{% endblock %}
+
+{% block pagina %}
+  Editar perfil
+{% endblock %}
+
+{% block contenido %}
+
+<!-- MENSAJES -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="rsv-alert">
+      <span class="rsv-alert-bar"></span>
+      <i class="fa fa-circle-info"></i>
+      <span>{{ message }}</span>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- HERO -->
+<header class="profile-hero">
+  <span class="profile-eyebrow">Cuenta personal</span>
+  <h1 class="profile-title">Editar perfil</h1>
+  <p class="profile-subtitle">
+    Actualiza tu información personal y protege el acceso a tu cuenta
+  </p>
+</header>
+
+<form method="post">
+  {% csrf_token %}
+
+  <!-- GRID DE FORMULARIOS -->
+  <div class="profile-grid">
+
+    <!-- DATOS PERSONALES -->
+    <section class="profile-section">
+      <header class="section-head">
+        <div class="section-icon">
+          <i class="fa fa-user"></i>
+        </div>
+        <div>
+          <h2>Datos personales</h2>
+          <p>Información asociada a tu cuenta</p>
+        </div>
+      </header>
+
+      <div class="section-card">
+        <div class="form-group">
+          <label>Nombre</label>
+          {{ form.nombre }}
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          {{ form.email }}
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono</label>
+          {{ form.telefono }}
+        </div>
+
+        <div class="form-group form-group--readonly">
+          <label>Tarifa actual</label>
+          <input type="text" value="{{ cliente.tarifa.nombre }}" readonly>
+          <small>Para cambiarla, contacta con recepción</small>
+        </div>
+
+        <!-- BOTÓN PERFIL -->
+        <button
+          type="submit"
+          name="accion"
+          value="perfil"
+          class="profile-save-btn">
+          Guardar datos
+          <i class="fa fa-check"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- SEGURIDAD -->
+    <section class="profile-section">
+      <header class="section-head section-head--danger">
+        <div class="section-icon">
+          <i class="fa fa-lock"></i>
+        </div>
+        <div>
+          <h2>Seguridad</h2>
+          <p>Cambia tu contraseña de acceso</p>
+        </div>
+      </header>
+
+      <div class="section-card">
+        <div class="form-group">
+          <label>Contraseña actual</label>
+          {{ pass_form.password_actual }}
+        </div>
+
+        <div class="form-group">
+          <label>Nueva contraseña</label>
+          {{ pass_form.password_nueva }}
+        </div>
+
+        <div class="form-group">
+          <label>Repetir nueva contraseña</label>
+          {{ pass_form.password_nueva_confirmacion }}
+        </div>
+
+        <!-- BOTÓN PASSWORD -->
+        <button
+          type="submit"
+          name="accion"
+          value="password"
+          class="profile-save-btn">
+          Cambiar contraseña
+          <i class="fa fa-lock"></i>
+        </button>
+      </div>
+    </section>
+
+  </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,240 @@
+/* ==================================================
+   PERFIL · EDITAR PERFIL — CSS LIMPIO
+================================================== */
+
+/* ==================================================
+   HERO
+================================================== */
+.profile-hero {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 48px;
+}
+
+.profile-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 12px;
+  color: #777;
+}
+
+.profile-title {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 6px 0;
+  color: #ffffff;
+  opacity: 1;
+  text-shadow: 0 12px 40px rgba(0,0,0,.85);
+}
+
+.profile-subtitle {
+  max-width: 520px;
+  color: #a0a0a0;
+}
+
+/* ==================================================
+   GRID DE FORMULARIOS
+================================================== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 460px) minmax(320px, 460px);
+  gap: 56px;
+  align-items: start;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================================================
+   SECTIONS
+================================================== */
+.profile-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-bottom: 56px;
+}
+
+/* Separación visual de Seguridad (desktop) */
+.profile-section:last-child {
+  margin-top: 72px;
+}
+
+@media (max-width: 900px) {
+  .profile-section:last-child {
+    margin-top: 0;
+  }
+}
+
+/* ==================================================
+   SECTION HEADERS
+================================================== */
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  opacity: 1;
+}
+
+.section-head *,
+.section-head h2,
+.section-head p {
+  opacity: 1 !important;
+}
+
+.section-head h2 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.section-head h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 10px;
+  background: linear-gradient(90deg, #e10600, #ff5858);
+  border-radius: 4px;
+}
+
+.section-head p {
+  margin: 0;
+  font-size: 14px;
+  color: #b0b0b0;
+}
+
+/* ICONO */
+.section-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #e10600, #ff5858);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+/* Variante seguridad */
+.section-head--danger .section-icon {
+  background: linear-gradient(135deg, #ff9800, #ff5722);
+}
+
+/* ==================================================
+   CARDS
+================================================== */
+.section-card {
+  max-width: 460px;
+  background: linear-gradient(180deg, #111, #0b0b0b);
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    0 24px 50px rgba(0,0,0,0.6);
+}
+
+@media (max-width: 900px) {
+  .section-card {
+    max-width: 100%;
+  }
+}
+
+/* ==================================================
+   FORM
+================================================== */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: #9a9a9a;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ff5151;
+}
+
+/* READONLY */
+.form-group--readonly input {
+  background: #151515;
+  color: #aaaaaa;
+}
+
+.form-group--readonly small {
+  display: block;
+  margin-top: 6px;
+  color: #777777;
+  font-size: 12px;
+}
+
+/* ==================================================
+   ACTIONS
+================================================== */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.profile-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 26px;
+  background: linear-gradient(135deg, #e10600, #ff5151);
+  color: #ffffff;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.profile-save-btn i {
+  font-size: 14px;
+}
+
+.profile-save-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(255,80,80,.35);
+}
+
+
+/* ===============================
+   ALERTAS PERFIL
+================================ */
+.rsv-alert {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(135deg, #1e1e1e, #111);
+  color: #ffffff;
+  border-left: 4px solid #ff5151;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+}
