@@ -1,0 +1,40 @@
+{% extends "entrenador/components/base.html" %}
+
+{% block title %}Reservas{% endblock %}
+{% block titulo %}Reservas{% endblock %}
+
+{% block contenido %}
+
+<div class="row">
+
+{% for reserva in reservas %}
+    <div class="col-lg-6 mb-4">
+
+        <div class="class-item p-4">
+
+            <h5>{{ reserva.cliente.nombre }}</h5>
+
+            <p>
+                {{ reserva.fecha_reserva }} <br>
+                Estado: {{ reserva.estado }}
+            </p>
+
+            <a href="{% url 'entrenador:marcar_asistencia' reserva.id %}"
+               class="primary-btn">
+                Marcar asistencia
+            </a>
+
+        </div>
+
+    </div>
+{% empty %}
+    <p>No hay reservas</p>
+{% endfor %}
+
+</div>
+
+<a href="{% url 'entrenador:mis_clases' %}" class="primary-btn mt-3">
+    Volver
+</a>
+
+{% endblock %}
