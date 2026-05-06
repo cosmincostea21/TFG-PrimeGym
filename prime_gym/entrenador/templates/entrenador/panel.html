@@ -1,0 +1,71 @@
+{% extends "entrenador/components/base.html" %}
+
+{% block title %}Panel Entrenador{% endblock %}
+{% block titulo %}Panel Entrenador{% endblock %}
+{% block subtitulo %}Resumen{% endblock %}
+
+{% block contenido %}
+
+<div class="row mb-4">
+
+    <!-- TOTAL CLASES -->
+    <div class="col-md-6">
+        <div class="class-item p-4 text-center">
+            <h4><i class="fa fa-dumbbell"></i> Clases</h4>
+            <h2>{{ total_clases }}</h2>
+        </div>
+    </div>
+
+    <!-- TOTAL RESERVAS -->
+    <div class="col-md-6">
+        <div class="class-item p-4 text-center">
+            <h4><i class="fa fa-calendar"></i> Reservas</h4>
+            <h2>{{ total_reservas }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<!-- CLASES DE HOY -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="class-item p-4">
+
+            <h4 class="mb-3">
+                <i class="fa fa-clock"></i> Clases de hoy
+            </h4>
+
+            {% if clases_hoy %}
+                <ul class="list-unstyled">
+                    {% for reserva in clases_hoy %}
+                        <li class="mb-2">
+                            <strong>{{ reserva.clase.nombre }}</strong> |
+                            {{ reserva.cliente.nombre }} |
+                            {{ reserva.fecha_reserva }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No hay clases hoy</p>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<!-- ACCIONES -->
+<div class="row mt-4">
+    <div class="col-md-6 text-center">
+        <a href="{% url 'entrenador:mis_clases' %}" class="primary-btn">
+            Mis clases
+        </a>
+    </div>
+
+    <div class="col-md-6 text-center">
+        <a href="{% url 'entrenador:clases_hoy' %}" class="primary-btn">
+            Clases de hoy
+        </a>
+    </div>
+</div>
+
+{% endblock %}
