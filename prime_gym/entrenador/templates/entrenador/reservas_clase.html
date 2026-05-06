@@ -1,39 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reservas de Clase</title>
-</head>
-<body>
+{% extends "entrenador/components/base.html" %}
 
-<h1>Reservas - {{ clase.nombre }}</h1>
+{% block title %}Reservas{% endblock %}
+{% block titulo %}Reservas{% endblock %}
 
-<ul>
+{% block contenido %}
+
+<div class="row">
 
 {% for reserva in reservas %}
+    <div class="col-lg-6 mb-4">
 
-    <li>
+        <div class="class-item p-4">
 
-        Cliente: {{ reserva.cliente.nombre }}
-        | Fecha: {{ reserva.fecha_reserva }}
-        | Estado: {{ reserva.estado }}
+            <h5>{{ reserva.cliente.nombre }}</h5>
 
-        <a href="{% url 'entrenador:marcar_asistencia' reserva.id %}">
-            Marcar asistencia
-        </a>
+            <p>
+                {{ reserva.fecha_reserva }} <br>
+                Estado: {{ reserva.estado }}
+            </p>
 
-    </li>
+            <a href="{% url 'entrenador:marcar_asistencia' reserva.id %}"
+               class="primary-btn">
+                Marcar asistencia
+            </a>
 
+        </div>
+
+    </div>
 {% empty %}
-
-    <li>No hay reservas</li>
-
+    <p>No hay reservas</p>
 {% endfor %}
 
-</ul>
+</div>
 
-<a href="{% url 'entrenador:mis_clases' %}">
-    Volver a mis clases
+<a href="{% url 'entrenador:mis_clases' %}" class="primary-btn mt-3">
+    Volver
 </a>
 
-</body>
-</html>
+{% endblock %}

@@ -22,5 +22,5 @@ urlpatterns = [
     path('',include('gimnasio.urls')),
     #path('primegym/', include('core.urls')),
     path('entrenador/', include('entrenador.urls')),
-    #path('perfil/', include('perfil.urls')),
+    path('perfil/', include('perfil.urls')),
 ]

@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Clases Hoy</title>
-</head>
-<body>
+{% extends "entrenador/components/base.html" %}
 
-<h1>CLASES DE HOY</h1>
+{% block title %}Clases de Hoy{% endblock %}
+{% block titulo %}Clases de Hoy{% endblock %}
 
-<ul>
+{% block contenido %}
+
+<div class="row">
 
 {% for reserva in reservas %}
+    <div class="col-lg-6 mb-3">
 
-    <li>
+        <div class="class-item p-3">
 
-        Clase: {{ reserva.clase.nombre }}
-        | Cliente: {{ reserva.cliente.nombre }}
-        | Estado: {{ reserva.estado }}
+            <strong>{{ reserva.clase.nombre }}</strong><br>
+            {{ reserva.cliente.nombre }}<br>
+            Estado: {{ reserva.estado }}
 
-    </li>
+        </div>
 
+    </div>
 {% empty %}
-
-    <li>No hay clases hoy</li>
-
+    <p>No hay clases hoy</p>
 {% endfor %}
 
-</ul>
+</div>
 
-<a href="{% url 'entrenador:panel' %}">
-    Volver al panel
+<a href="{% url 'entrenador:panel' %}" class="primary-btn mt-3">
+    Volver
 </a>
 
-</body>
-</html>
+{% endblock %}

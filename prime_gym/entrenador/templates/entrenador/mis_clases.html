@@ -1,38 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Mis Clases</title>
-</head>
-<body>
+{% extends "entrenador/components/base.html" %}
 
-<h1>MIS CLASES</h1>
+{% block title %}Mis Clases{% endblock %}
+{% block titulo %}Mis Clases{% endblock %}
 
-<ul>
+{% block contenido %}
+
+<div class="row">
 
 {% for clase in clases %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="clase-card">
 
-    <li>
+            <div class="clase-card-body">
+                <span class="clase-tag">CLASE</span>
 
-        {{ clase.nombre }}
-        | Horario: {{ clase.horario }}
+                <h5 class="clase-nombre">{{ clase.nombre }}</h5>
 
-        <a href="{% url 'entrenador:reservas_clase' clase.id %}">
-            Ver reservas
-        </a>
+                <div class="clase-info">
+                    <div class="clase-info-item">
+                        <i class="fa fa-clock"></i>
+                        <span>{{ clase.horario }}</span>
+                    </div>
+                </div>
 
-    </li>
+                <a href="{% url 'entrenador:reservas_clase' clase.id %}"
+                   class="primary-btn mt-3">
+                    Ver reservas
+                </a>
 
+            </div>
+        </div>
+    </div>
 {% empty %}
-
-    <li>No tienes clases asignadas</li>
-
+    <p>No tienes clases asignadas</p>
 {% endfor %}
 
-</ul>
+</div>
 
-<a href="{% url 'entrenador:panel' %}">
-    Volver al panel
-</a>
-
-</body>
-</html>
+{% endblock %}
