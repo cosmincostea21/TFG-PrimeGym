@@ -5,7 +5,12 @@
             <div class="clases-header">
                 <span class="clases-subtitle">GACIAS POR ELEGIRNOS</span>
                 <h4 class="clases-title">
-                    <i class="fa fa-dumbbell"></i> {{ cliente.tarifa }}
+                    <i class="fa fa-dumbbell"></i> 
+                    {% if clinte.tarifa == None %}
+                        No tienes tarifa
+                    {% else %}
+                        {{ cliente.tarifa }}
+                    {% endif %}
                 </h4>
                 <div class="clases-divider"></div>
             </div>
