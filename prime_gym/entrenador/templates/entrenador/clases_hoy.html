@@ -1,4 +1,7 @@
 {% extends "entrenador/components/base.html" %}
+{% load static %}
+
+
 
 {% block title %}Clases de Hoy{% endblock %}
 {% block titulo %}Clases de Hoy{% endblock %}
@@ -6,7 +9,6 @@
 {% block contenido %}
 
 <div class="row">
-
 {% for reserva in reservas %}
     <div class="col-lg-6 mb-3">
 

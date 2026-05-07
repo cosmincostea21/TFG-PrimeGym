@@ -1,0 +1,122 @@
+:root {
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+}
+.spad {
+  background-color: #151515;
+}
+
+/* ===== LAYOUT ===== */
+.row {
+    margin-top: 24px;
+}
+
+/* ===== TARJETA ===== */
+.clase-card {
+    background: var(--rb);
+    border-radius: 14px;
+    height: 100%;
+    box-shadow: 0 8px 22px rgba(48, 48, 48, 0.6);
+    transition: transform .25s ease, box-shadow .25s ease;
+    overflow: hidden;
+}
+
+.clase-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 32px var(--rr);
+}
+
+/* ===== CUERPO ===== */
+.clase-card-body {
+    padding: 22px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* ===== TAG ===== */
+.clase-tag {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--rr-soft);
+    color: var(--rr);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.6px;
+}
+
+/* ===== NOMBRE ===== */
+.clase-nombre {
+    color: var(--rt);
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 18px;
+}
+
+/* ===== INFO ===== */
+.clase-info {
+    margin-bottom: 24px;
+}
+
+.clase-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--rt2);
+    font-size: 14px;
+}
+
+.clase-info-item i {
+    color: var(--rr);
+    font-size: 15px;
+}
+
+/* ===== BOTÓN ===== */
+.primary-btn {
+    margin-top: auto;
+    display: block;
+    text-align: center;
+    background: var(--rr);
+    color: var(--rt);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background .25s ease, box-shadow .25s ease, transform .2s ease;
+}
+
+.primary-btn:hover {
+    background: #e0081b; /* leve variación del rojo base */
+    box-shadow: 0 6px 18px var(--rr-soft);
+    transform: translateY(-2px);
+}
+
+/* ===== ESTADO VACÍO ===== */
+p {
+    color: var(--rm);
+    font-size: 15px;
+    padding: 20px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .clase-card-body {
+        padding: 18px;
+    }
+
+    .clase-nombre {
+        font-size: 17px;
+    }
+}

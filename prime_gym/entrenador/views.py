@@ -15,17 +15,20 @@ def mis_clases(request):
 # VER RESERVAS EN CLASES ENTRENADOR
 def reservas_clase(request, clase_id):
     clase = Clase.objects.get(id=clase_id)
-    reservas = Reserva.objects.filter(clase=clase)
+    reservas = Reserva.objects.filter(clase=clase, estado='reservada')
 
     return render(request, 'entrenador/reservas_clase.html', {'clase': clase, 'reservas': reservas})
 
 # EDITAR ASISTENCIA
-def marcar_asistencia(request, reserva_id):
+def marcar_asistencia(request, reserva_id, clase_id):
     reserva = Reserva.objects.get(id=reserva_id)
     reserva.estado = 'asistio'
     reserva.save()
 
-    return redirect('entrenador:mis_clases')
+    clase = Clase.objects.get(id=clase_id)
+    reservas = Reserva.objects.filter(clase=clase, estado='reservada')
+
+    return render(request,'entrenador/reservas_clase.html', {'clase': clase, 'reservas': reservas})
 
 # PANEL DEL ENTRENADOR
 def panel_entrenador(request):
