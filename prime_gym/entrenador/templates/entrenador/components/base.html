@@ -97,7 +97,9 @@
 
                     <div class="bt-option">
                         <a href="{% url 'main' %}">Inicio</a>
-                        <span>{% block subtitulo %}Panel{% endblock %}</span>
+                        <a href="{% url 'entrenador:panel'%}">Panel</a>
+                        {% block enlace_nav %}{% endblock %}
+                        <span>{% block subtitulo %}{% endblock %}</span>
                     </div>
                 </div>
 

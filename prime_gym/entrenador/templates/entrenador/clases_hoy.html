@@ -6,8 +6,19 @@
 {% block title %}Clases de Hoy{% endblock %}
 {% block titulo %}Clases de Hoy{% endblock %}
 
-{% block contenido %}
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_clases_hoy.css' %}">
+{% endblock %}
 
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:clases_hoy'%}">Clases hoy</a>
+{% endblock%}
+
+{% block subtitulo %}Info{% endblock %}
+
+
+
+{% block contenido %}
 <div class="row">
 {% for reserva in reservas %}
     <div class="col-lg-6 mb-3">

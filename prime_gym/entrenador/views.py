@@ -36,7 +36,6 @@ def panel_entrenador(request):
     entrenador = Entrenador.objects.first()
     clases = Clase.objects.filter(entrenador=entrenador)
     total_clases = clases.count()
-
     total_reservas = Reserva.objects.filter(clase__entrenador=entrenador).count()
 
     hoy = date.today()
@@ -55,6 +54,6 @@ def clases_hoy(request):
     #entrenador = Entrenador.objects.get(email=request.user.email)
     entrenador = Entrenador.objects.first()
     hoy = date.today()
-    reservas_hoy = Reserva.objects.filter(clase__entrenador=entrenador, fecha_reserva=hoy)
+    reservas_hoy = Reserva.objects.filter(clase__entrenador=entrenador, fecha_reserva=hoy, estado="reservada")
 
     return render(request, 'entrenador/clases_hoy.html', {'reservas': reservas_hoy})

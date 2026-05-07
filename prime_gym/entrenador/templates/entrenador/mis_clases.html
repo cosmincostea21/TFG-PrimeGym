@@ -4,6 +4,12 @@
 {% block title %}Mis Clases{% endblock %}
 {% block titulo %}Mis Clases{% endblock %}
 
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:mis_clases'%}">Mis clases</a>
+{% endblock%}
+
+{% block subtitulo %}Info{% endblock %}
+
 {% block css_entrenador %}
     <link rel="stylesheet" href="{% static 'css/entrenador/style_mis_clases.css' %}">
 {% endblock  %}
