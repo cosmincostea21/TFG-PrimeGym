@@ -1,0 +1,139 @@
+:root {
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+}
+
+h4{
+    color: white;
+}
+.spad {
+  background-color: #151515;
+}
+
+/* ===== CONTENEDOR ===== */
+.class-item {
+    background: linear-gradient(180deg, var(--rb), var(--rs));
+    border-radius: 16px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.75);
+}
+
+/* ===== TÍTULO ===== */
+.class-item h4 {
+    color: var(--rt);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+}
+
+.class-item h4 i {
+    color: var(--rr);
+    margin-right: 8px;
+}
+
+/* ===== TABLA ===== */
+.table {
+    margin-bottom: 0;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+/* ===== CABECERA ===== */
+.table thead th {
+    color: white;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 600;
+    border: none;
+    padding-bottom: 4px;
+}
+
+/* ===== FILAS ===== */
+.table tbody tr {
+    background: var(--rs2);
+    border-radius: 12px;
+    transition: transform .15s ease, box-shadow .2s ease;
+}
+
+.table tbody tr:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== CELDAS ===== */
+.table tbody td {
+    color: var(--rt2);
+    font-size: 14px;
+    border: none;
+    padding: 14px 16px;
+    vertical-align: middle;
+}
+
+.table tbody td:first-child {
+    border-radius: 12px 0 0 12px;
+}
+
+.table tbody td:last-child {
+    border-radius: 0 12px 12px 0;
+}
+
+/* ===== CLIENTE ===== */
+.table tbody td strong {
+    color: var(--rt);
+    font-weight: 600;
+}
+
+/* ===== ESTADO ===== */
+.table tbody td:nth-child(3) {
+    font-weight: 600;
+}
+
+/* Ejemplo visual de estado (si luego lo conviertes en badge) */
+.table tbody tr td:nth-child(3)::before {
+    content: "●";
+    color: var(--rr);
+    margin-right: 6px;
+    font-size: 10px;
+}
+
+/* ===== BOTÓN ACCIÓN ===== */
+.primary-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--rr), #d8081a);
+    color: var(--rt);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform .2s ease, box-shadow .25s ease;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--rr-soft);
+}
+
+/* ===== VOLVER ===== */
+a.primary-btn.mt-3 {
+    margin-top: 24px;
+}
+
+/* ===== TABLE RESPONSIVE ===== */
+.table-responsive {
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+/* ===== ESTADO VACÍO ===== */
+.class-item p {
+    color: var(--rm);
+    font-size: 14px;
+}
