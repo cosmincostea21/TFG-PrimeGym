@@ -1,0 +1,336 @@
+/* =========================================================
+   RESERVAS DE CLASE · entrenador
+========================================================= */
+:root {
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+    --green:      #2ee07a;
+    --green-soft: rgba(46,224,122,0.12);
+    --amber:      #ffb648;
+    --amber-soft: rgba(255,182,72,0.12);
+}
+
+.spad { background-color: #151515; }
+
+/* ===== HEADER ===== */
+.rc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--rl);
+}
+.rc-kicker {
+    display: block;
+    color: var(--rr);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.rc-title {
+    color: var(--rt);
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+.rc-title i { color: var(--rr); margin-right: 0.5rem; }
+
+.rc-stat {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-left: 3px solid var(--rr);
+    padding: 0.85rem 1.25rem;
+    min-width: 110px;
+    text-align: right;
+}
+.rc-stat-num {
+    display: block;
+    color: var(--rt);
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
+}
+.rc-stat-label {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--rm);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ===== FILTROS ===== */
+.rc-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 1rem;
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    padding: 1.25rem;
+    border-radius: 12px;
+    margin-bottom: 1.75rem;
+}
+.rc-filter-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.rc-filter-group--btn { justify-content: flex-end; }
+.rc-label {
+    color: var(--rm);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+.rc-label i { color: var(--rr); margin-right: 0.4rem; }
+
+.rc-select-wrap { position: relative; }
+.rc-select-wrap i {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rr);
+    font-size: 0.75rem;
+    pointer-events: none;
+}
+.rc-select {
+    width: 100%;
+    background: var(--rs2);
+    color: var(--rt);
+    border: 1px solid var(--rl);
+    padding: 0.75rem 2.4rem 0.75rem 1rem;
+    font-size: 0.85rem;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background 0.25s ease;
+}
+.rc-select:focus {
+    outline: none;
+    border-color: var(--rr);
+    background: #1c1c1c;
+}
+
+/* ===== BOTONES BASE ===== */
+.rc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease,
+                background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.rc-btn--primary {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+}
+.rc-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px var(--rr-soft);
+    color: #fff;
+}
+.rc-btn--ghost {
+    background: transparent;
+    color: var(--rt2);
+    border-color: var(--rl);
+}
+.rc-btn--ghost:hover {
+    color: #fff;
+    border-color: var(--rr);
+    background: var(--rr-soft);
+}
+
+/* ===== TABLA ===== */
+.rc-table-wrap {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.rc-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--rt2);
+}
+.rc-table thead th {
+    background: #0e0e0e;
+    color: var(--rm);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+}
+.rc-table tbody td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+.rc-table tbody tr:last-child td { border-bottom: none; }
+.rc-row { transition: background 0.2s ease; }
+.rc-row:hover { background: var(--rs2); }
+
+/* ===== CELDAS ===== */
+.rc-cell-cliente {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+.rc-cell-cliente strong { color: var(--rt); font-weight: 700; }
+
+.rc-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--rr-soft);
+    color: var(--rr);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,10,31,0.3);
+    flex-shrink: 0;
+}
+
+.rc-cell-fecha i {
+    color: var(--rr);
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.rc-th-actions { text-align: right; }
+.rc-cell-actions {
+    text-align: right;
+    white-space: nowrap;
+}
+.rc-cell-actions .rc-act + .rc-act { margin-left: 0.4rem; }
+
+/* ===== BADGES ESTADO ===== */
+.rc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid;
+    white-space: nowrap;
+}
+.rc-badge--reservada {
+    color: var(--amber);
+    background: var(--amber-soft);
+    border-color: rgba(255,182,72,0.4);
+}
+.rc-badge--asistio {
+    color: var(--green);
+    background: var(--green-soft);
+    border-color: rgba(46,224,122,0.4);
+}
+.rc-badge--cancelada {
+    color: var(--rr);
+    background: var(--rr-soft);
+    border-color: rgba(255,10,31,0.4);
+}
+
+/* ===== ACCIONES ===== */
+.rc-act {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--rl);
+    color: var(--rt2);
+    background: transparent;
+    transition: all 0.25s ease;
+}
+.rc-act:hover { transform: translateY(-1px); }
+.rc-act--asistio   { border-color: rgba(46,224,122,0.4); color: var(--green); }
+.rc-act--asistio:hover { background: var(--green); color: #0a0a0a; border-color: var(--green); }
+
+.rc-act--reservada { border-color: rgba(255,182,72,0.4); color: var(--amber); }
+.rc-act--reservada:hover { background: var(--amber); color: #0a0a0a; border-color: var(--amber); }
+
+.rc-act--cancelada { border-color: rgba(255,10,31,0.4); color: var(--rr); }
+.rc-act--cancelada:hover { background: var(--rr); color: #fff; border-color: var(--rr); }
+
+/* ===== EMPTY ===== */
+.rc-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed rgba(255,255,255,0.1);
+    background: var(--rs);
+    border-radius: 12px;
+}
+.rc-empty i {
+    display: block;
+    font-size: 2rem;
+    color: var(--rr);
+    margin-bottom: 0.85rem;
+}
+.rc-empty p {
+    margin: 0;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* ===== FOOTER ===== */
+.rc-footer { margin-top: 1.75rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .rc-filters { grid-template-columns: 1fr; }
+    .rc-cell-actions {
+        text-align: left;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+    .rc-cell-actions .rc-act + .rc-act { margin-left: 0; }
+}
+@media (max-width: 768px) {
+    .rc-table thead { display: none; }
+    .rc-table tbody td {
+        display: block;
+        border-bottom: none;
+        padding: 0.5rem 1rem;
+    }
+    .rc-table tbody tr {
+        display: block;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--rl);
+    }
+    .rc-act span { display: inline; }
+}

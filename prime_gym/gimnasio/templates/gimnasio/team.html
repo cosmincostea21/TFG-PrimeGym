@@ -29,93 +29,6 @@
 
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
-    <!-- Estilos para el botón de "Volver Arriba" -->
-    <style>
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background-color: #f36100;
-            color: #ffffff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 45px;
-            font-size: 20px;
-            z-index: 9999;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
-        }
-
-        .scroll-top-btn:hover {
-            background-color: #d15300;
-        }
-
-        .scroll-top-btn.show {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
-
-       <!-- Estilos para el botón de "Volver Arriba" -->
-    <style>
-        .scroll-top-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background-color: #f30000;
-            /* Color primario de tu tema */
-            color: #ffffff;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 45px;
-            /* Coincide con la altura */
-            font-size: 20px;
-            /* Tamaño del icono */
-            z-index: 9999;
-            /* Asegura que esté por encima de todo */
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
-        }
-
-        .scroll-top-btn:hover {
-            background-color: #f30000;
-            /* Un poco más oscuro al pasar el ratón */
-        }
-
-        .scroll-top-btn.show {
-            opacity: 1;
-            visibility: visible;
-        }
-    </style>
-
-    <style>
-        .class-item {
-            transform: scale(1);
-            box-shadow: none;
-            transition: all 0.3s ease-out;
-            position: relative;
-            z-index: 1;
-            /* Mantenemos el fondo blanco que tiene este componente */
-            background: #ffffff;
-        }
-
-        .class-item:hover {
-            transform: scale(1.05);
-            /* Mini zoom */
-            box-shadow: 0 0 15px 5px #f30000;
-            /* Sombra roja */
-            z-index: 10;
-            /* Se pone por encima */
-        }
-    </style>
 </head>
 
 <body>
@@ -124,7 +37,7 @@
         <div class="loader"></div>
     </div>
 
-        <!-- Offcanvas Menu Section Begin -->
+    <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
@@ -253,52 +166,67 @@
     </section>
     <!-- Fin sección del equipo -->
 
-
-    <!-- Sección inferior de contacto -->
-    <div class="gettouch-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                    <div class="gt-text">
-                        <i class="fa fa-map-marker"></i>
-                        <p>Villafranca de los Caballeros<br />45730 (Toledo)</p>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                    <div class="gt-text">
-                        <i class="fa fa-mobile"></i>
-                        <ul>
-                            <li>626 524 767</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-                    <div class="gt-text email">
-                        <i class="fa fa-envelope"></i>
-                        <p>soporte.primegym@gmail.com</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Fin sección inferior -->
-
-
-
     <!-- Footer Section Begin -->
-    <section class="footer-section">
+    <footer class="footer-section">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="copyright-text">
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script>
-                        All rights reserved
+
+            <div class="row justify-content-center">
+
+                <!-- Marca -->
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="footer-brand">
+                        <h3>PRYME</h3>
+                        <p>
+                            Centro de entrenamiento orientado al rendimiento,
+                            la salud y la superación personal.
+                        </p>
                     </div>
                 </div>
+
+                <!-- Navegación -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5 class="footer-title">Navegación</h5>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'main' %}">Inicio</a></li>
+                        <li><a href="{% url 'clases' %}">Clases</a></li>
+                        <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
+                        <li><a href="{% url 'equipo' %}">Equipo</a></li>
+                        <li><a href="{% url 'contacto' %}">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contacto -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 class="footer-title">Contacto</h5>
+                    <ul class="footer-contact">
+                        <li><i class="fa fa-map-marker"></i> Villafranca de los Caballeros</li>
+                        <li><i class="fa fa-phone"></i> 626 524 767</li>
+                        <li><i class="fa fa-envelope"></i> soporte.primegym@gmail.com</li>
+                    </ul>
+                </div>
+
+                <!-- Redes -->
+                <div class="col-xl-1 col-lg-3 col-md-4 mb-4">
+                    <h5 class="footer-title">Síguenos</h5>
+                    <div class="footer-social">
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Línea inferior -->
+            <div class="footer-bottom text-center">
+                <p>
+                    ©
+                    <script>document.write(new Date().getFullYear());</script>
+                    PRYME Training Center · Todos los derechos reservados
+                </p>
+            </div>
+
         </div>
-    </section>
+    </footer>
     <!-- Footer Section End -->
 
     <!-- Botón de Volver Arriba -->
@@ -318,39 +246,9 @@
 
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="{% static 'js/boton-volver.js' %}"></script>
 
-    <script>
-        AOS.init();
-    </script>
 
-    <!-- Lógica del botón "Volver Arriba" -->
-    <script>
-        // Obtener el botón
-        const scrollTopBtn = document.getElementById('scrollTopButton');
-
-        // Mostrar/ocultar el botón al hacer scroll
-        window.onscroll = function () {
-            scrollFunction();
-        };
-
-        function scrollFunction() {
-            // Muestra el botón después de 300px de scroll
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
-        }
-
-        // Acción al hacer clic: volver arriba suavemente
-        scrollTopBtn.onclick = function (e) {
-            e.preventDefault(); // Prevenir comportamiento por defecto
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Desplazamiento suave
-            });
-        }
-    </script>
 </body>
 
 </html>

@@ -1,0 +1,158 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+{% block title %}Reservas{% endblock %}
+{% block titulo %}Reservas{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:mis_clases' %}">Mis clases</a>
+{% endblock %}
+
+{% block subtitulo %}{{ clase.nombre }}{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_reservas_entrenador.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<!-- HEADER DE LA CLASE -->
+<div class="rc-header">
+    <div class="rc-header-left">
+        <span class="rc-kicker">Listado de reservas</span>
+        <h2 class="rc-title">
+            <i class="fa fa-users"></i>
+            {{ clase.nombre }}
+        </h2>
+    </div>
+    <div class="rc-header-stats">
+        <div class="rc-stat">
+            <span class="rc-stat-num">{{ reservas|length }}</span>
+            <span class="rc-stat-label">Resultados</span>
+        </div>
+    </div>
+</div>
+
+<!-- FILTROS -->
+<form method="GET" class="rc-filters">
+    {% csrf_token %}
+
+    <div class="rc-filter-group">
+        <label class="rc-label">
+            <i class="fa fa-calendar"></i> Fecha
+        </label>
+        <div class="rc-select-wrap">
+            <select name="tipo" class="rc-select">
+                <option value="hoy"        {% if request.GET.tipo == 'hoy' %}selected{% endif %}>Hoy</option>
+                <option value="anteriores" {% if request.GET.tipo == 'anteriores' %}selected{% endif %}>2 anteriores</option>
+                <option value="siguientes" {% if request.GET.tipo == 'siguientes' %}selected{% endif %}>2 siguientes</option>
+            </select>
+            <i class="fa fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <div class="rc-filter-group">
+        <label class="rc-label">
+            <i class="fa fa-filter"></i> Asistencia
+        </label>
+        <div class="rc-select-wrap">
+            <select name="estado" class="rc-select">
+                <option value="todos"     {% if request.GET.estado == 'todos' or not request.GET.estado %}selected{% endif %}>Todos</option>
+                <option value="reservada" {% if request.GET.estado == 'reservada' %}selected{% endif %}>Reservadas</option>
+                <option value="asistio"   {% if request.GET.estado == 'asistio' %}selected{% endif %}>Asistieron</option>
+                <option value="cancelada" {% if request.GET.estado == 'cancelada' %}selected{% endif %}>Canceladas</option>
+            </select>
+            <i class="fa fa-chevron-down"></i>
+        </div>
+    </div>
+
+    <div class="rc-filter-group rc-filter-group--btn">
+        <button type="submit" class="rc-btn rc-btn--primary">
+            <i class="fa fa-magnifying-glass"></i>
+            <span>Aplicar filtros</span>
+        </button>
+    </div>
+</form>
+
+<!-- TABLA -->
+{% if reservas %}
+    <div class="rc-table-wrap">
+        <table class="rc-table">
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th class="rc-th-actions">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reserva in reservas %}
+                    <tr class="rc-row rc-row--{{ reserva.estado }}">
+                        <td class="rc-cell-cliente">
+                            <span class="rc-avatar">
+                                {{ reserva.cliente.nombre|slice:":1"|upper }}
+                            </span>
+                            <strong>{{ reserva.cliente.nombre }}</strong>
+                        </td>
+
+                        <td class="rc-cell-fecha">
+                            <i class="fa fa-calendar-day"></i>
+                            {{ reserva.fecha_reserva|date:"d/m/Y" }}
+                        </td>
+
+                        <td>
+                            <span class="rc-badge rc-badge--{{ reserva.estado }}">
+                                {% if reserva.estado == 'reservada' %}
+                                    <i class="fa fa-clock"></i> Reservada
+                                {% elif reserva.estado == 'asistio' %}
+                                    <i class="fa fa-check"></i> Asistió
+                                {% elif reserva.estado == 'cancelada' %}
+                                    <i class="fa fa-xmark"></i> Cancelada
+                                {% else %}
+                                    {{ reserva.estado }}
+                                {% endif %}
+                            </span>
+                        </td>
+
+                        <td class="rc-cell-actions">
+                            <a href="{% url 'entrenador:cambiar_estado' reserva.id 'asistio' %}"
+                               class="rc-act rc-act--asistio"
+                               title="Marcar como asistió">
+                                <i class="fa fa-check"></i>
+                                <span>Asistió</span>
+                            </a>
+                            <a href="{% url 'entrenador:cambiar_estado' reserva.id 'reservada' %}"
+                               class="rc-act rc-act--reservada"
+                               title="Marcar como reservada">
+                                <i class="fa fa-clock"></i>
+                                <span>Reservar</span>
+                            </a>
+                            <a href="{% url 'entrenador:cambiar_estado' reserva.id 'cancelada' %}"
+                               class="rc-act rc-act--cancelada"
+                               title="Cancelar">
+                                <i class="fa fa-xmark"></i>
+                                <span>Cancelar</span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="rc-empty">
+        <i class="fa fa-calendar-xmark"></i>
+        <p>No hay reservas para los filtros seleccionados</p>
+    </div>
+{% endif %}
+
+<!-- VOLVER -->
+<div class="rc-footer">
+    <a href="{% url 'entrenador:mis_clases' %}" class="rc-btn rc-btn--ghost">
+        <i class="fa fa-arrow-left"></i>
+        <span>Volver a mis clases</span>
+    </a>
+</div>
+
+{% endblock %}

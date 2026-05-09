@@ -1,0 +1,51 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+{% block title %}Mis Clases{% endblock %}
+{% block titulo %}Mis Clases{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:mis_clases'%}">Mis clases</a>
+{% endblock%}
+
+{% block subtitulo %}Info{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_mis_clases.css' %}">
+{% endblock  %}
+
+{% block contenido %}
+
+<div class="row">
+
+{% for clase in clases %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="clase-card">
+
+            <div class="clase-card-body">
+                <span class="clase-tag">CLASE</span>
+
+                <h5 class="clase-nombre">{{ clase.nombre }}</h5>
+
+                <div class="clase-info">
+                    <div class="clase-info-item">
+                        <i class="fa fa-clock"></i>
+                        <span>{{ clase.horario }}</span>
+                    </div>
+                </div>
+
+                <a href="{% url 'entrenador:reservas_clase' clase.id %}"
+                   class="primary-btn mt-3">
+                    Ver reservas
+                </a>
+
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p>No tienes clases asignadas</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}

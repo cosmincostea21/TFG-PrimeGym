@@ -1,0 +1,45 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+
+
+{% block title %}Clases de Hoy{% endblock %}
+{% block titulo %}Clases de Hoy{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_clases_hoy.css' %}">
+{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:clases_hoy'%}">Clases hoy</a>
+{% endblock%}
+
+{% block subtitulo %}Info{% endblock %}
+
+
+
+{% block contenido %}
+<div class="row">
+{% for reserva in reservas %}
+    <div class="col-lg-6 mb-3">
+
+        <div class="class-item p-3">
+
+            <strong>{{ reserva.clase.nombre }}</strong><br>
+            {{ reserva.cliente.nombre }}<br>
+            Estado: {{ reserva.estado }}
+
+        </div>
+
+    </div>
+{% empty %}
+    <p>No hay clases hoy</p>
+{% endfor %}
+
+</div>
+
+<a href="{% url 'entrenador:panel' %}" class="primary-btn mt-3">
+    Volver
+</a>
+
+{% endblock %}

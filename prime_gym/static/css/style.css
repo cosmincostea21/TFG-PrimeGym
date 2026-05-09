@@ -23,13 +23,11 @@
 
 /* Template default CSS
 /*----------------------------------------*/
-
 html,
 body {
 	height: 100%;
 	font-family: "Muli", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
 }
 
 h1,
@@ -1073,7 +1071,6 @@ ol {
 	border-radius: 50%;
 	line-height: 65px;
 	text-align: center;
-	float: left;
 	margin-right: 20px;
 }
 
@@ -2582,7 +2579,6 @@ ol {
 	border-radius: 50%;
 	line-height: 65px;
 	text-align: center;
-	float: left;
 	margin-right: 20px;
 }
 
@@ -2981,8 +2977,147 @@ ol {
 	}
 }
 
-/* Wide Mobile = 480px */
+/*Style añadido para boton superior*/
+.scroll-top-btn {
+	position: fixed;
+	bottom: 30px;
+	right: 30px;
+	width: 45px;
+	height: 45px;
+	background-color: #f30000;
+	/* Color primario de tu tema */
+	color: #ffffff;
+	border-radius: 50%;
+	text-align: center;
+	line-height: 45px;
+	/* Coincide con la altura */
+	font-size: 20px;
+	/* Tamaño del icono */
+	z-index: 9999;
+	/* Asegura que esté por encima de todo */
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+}
 
+.scroll-top-btn:hover {
+	background-color: #f30000;
+	/* Un poco más oscuro al pasar el ratón */
+}
+
+.scroll-top-btn.show {
+	opacity: 1;
+	visibility: visible;
+}
+
+.class-item {
+	transform: scale(1);
+	box-shadow: none;
+	transition: all 0.3s ease-out;
+	position: relative;
+	z-index: 1;
+	/* Mantenemos el fondo blanco que tiene este componente */
+	background: #ffffff;
+}
+
+.class-item:hover {
+	transform: scale(1.05);
+	/* Mini zoom */
+	box-shadow: 0 0 15px 5px #f30000;
+	/* Sombra roja */
+	z-index: 10;
+	/* Se pone por encima */
+}
+
+
+/* ===========================
+   FOOTER
+   =========================== */
+
+.footer-section {
+    background: #0b0b0b;
+    padding: 70px 0 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-brand h3 {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.footer-brand p {
+    color: #b5b5b5;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.footer-title {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-size: 14px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.footer-links,
+.footer-contact {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li,
+.footer-contact li {
+    margin-bottom: 10px;
+    color: #b5b5b5;
+    font-size: 14px;
+}
+
+.footer-links a {
+    color: #b5b5b5;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #f30000;
+}
+
+.footer-contact i {
+    color: #f30000;
+    margin-right: 8px;
+}
+
+.footer-social a {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 18px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #f30000;
+    text-shadow: 0 0 10px rgba(243, 0, 0, 0.6);
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footer-bottom p {
+    color: #777777;
+    font-size: 13px;
+    margin: 0;
+}
+
+
+
+
+
+/* Wide Mobile = 480px */
 @media only screen and (max-width: 767px) {
 	.offcanvas-menu-overlay {
 		position: fixed;

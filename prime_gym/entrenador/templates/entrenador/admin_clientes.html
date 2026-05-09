@@ -1,0 +1,146 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+{% block title %}Admin Clientes{% endblock %}
+{% block titulo %}Panel Admin{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:admin_clientes' %}">Clientes</a>
+{% endblock %}
+
+{% block subtitulo %}Gestión{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_admin_clientes.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<!-- HEADER -->
+<div class="ac-header">
+    <div>
+        <span class="ac-kicker">Administración</span>
+        <h2 class="ac-title">
+            <i class="fa fa-user-gear"></i>
+            Gestión de clientes
+        </h2>
+    </div>
+
+    <div class="ac-header-stats">
+        <div class="ac-stat">
+            <span class="ac-stat-num">{{ clientes|length }}</span>
+            <span class="ac-stat-label">Clientes</span>
+        </div>
+    </div>
+</div>
+
+<!-- BUSCADOR -->
+<div class="ac-search">
+    <i class="fa fa-magnifying-glass"></i>
+    <input type="text"
+           id="searchInput"
+           placeholder="Buscar cliente por nombre…"
+           autocomplete="off">
+</div>
+
+<!-- TABLA -->
+<div class="ac-table-wrap">
+    <table class="ac-table">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Email</th>
+                <th>Estado</th>
+                <th class="ac-th-actions">Tarifa / Acción</th>
+            </tr>
+        </thead>
+        <tbody id="clientesTable">
+            {% for cliente in clientes %}
+                <tr class="ac-row {% if cliente.tarifa %}ac-row--activo{% else %}ac-row--inactivo{% endif %}">
+
+                    <!-- NOMBRE (mantiene .nombre para tu JS) -->
+                    <td class="nombre ac-cell-name">
+                        <span class="ac-avatar">
+                            {{ cliente.nombre|slice:":1"|upper }}
+                        </span>
+                        <strong>{{ cliente.nombre }}</strong>
+                    </td>
+
+                    <!-- EMAIL -->
+                    <td class="ac-cell-email">
+                        <i class="fa fa-envelope"></i>
+                        <span>{{ cliente.email }}</span>
+                    </td>
+
+                    <!-- ESTADO -->
+                    <td>
+                        {% if cliente.tarifa %}
+                            <span class="ac-badge ac-badge--activo">
+                                <i class="fa fa-circle-check"></i>
+                                Activo
+                            </span>
+                        {% else %}
+                            <span class="ac-badge ac-badge--inactivo">
+                                <i class="fa fa-circle-xmark"></i>
+                                Inactivo
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- ACCIÓN -->
+                    <td class="ac-cell-action">
+                        {% if cliente.tarifa %}
+                            <form method="POST"
+                                  action="{% url 'entrenador:cambiar_tarifa_cliente' cliente.id %}"
+                                  class="ac-form ac-form--inline">
+                                {% csrf_token %}
+                                <input type="hidden" name="tarifa" value="">
+                                <span class="ac-tarifa-actual">{{ cliente.tarifa.nombre }}</span>
+                                <button type="submit" class="ac-btn ac-btn--danger">
+                                    <i class="fa fa-power-off"></i>
+                                    <span>Desactivar</span>
+                                </button>
+                            </form>
+                        {% else %}
+                            <form method="POST"
+                                  action="{% url 'entrenador:cambiar_tarifa_cliente' cliente.id %}"
+                                  class="ac-form ac-form--inline">
+                                {% csrf_token %}
+                                <div class="ac-select-wrap">
+                                    <select name="tarifa" class="ac-select">
+                                        {% for tarifa in tarifas %}
+                                            <option value="{{ tarifa.id }}">{{ tarifa.nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <i class="fa fa-chevron-down"></i>
+                                </div>
+                                <button type="submit" class="ac-btn ac-btn--primary">
+                                    <i class="fa fa-bolt"></i>
+                                    <span>Activar</span>
+                                </button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="ac-empty">
+                            <i class="fa fa-user-slash"></i>
+                            <p>No hay clientes registrados</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Estado vacío del buscador (lo gestionas opcionalmente desde JS) -->
+<div id="searchEmpty" class="ac-empty ac-empty--filter" hidden>
+    <i class="fa fa-filter-circle-xmark"></i>
+    <p>No se encuentra ningún cliente con ese nombre</p>
+</div>
+
+<script src="{% static 'js/admin_clientes.js' %}"></script>
+{% endblock %}
