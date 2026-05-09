@@ -7,6 +7,8 @@ urlpatterns = [
     path('', views.panel_entrenador, name='panel'),
     path('mis-clases/', views.mis_clases,name='mis_clases'),
     path('clase/<int:clase_id>/reservas/', views.reservas_clase, name='reservas_clase'),
-    path('asistencia/<int:reserva_id>/<int:clase_id>/', views.marcar_asistencia, name='marcar_asistencia'),
+    path('reserva/<int:reserva_id>/estado/<str:estado>/', views.cambiar_estado, name = 'cambiar_estado'),
     path('clases-hoy/', views.clases_hoy, name='clases_hoy'),
+    path('admin/clientes/', views.admin_clientes, name = 'admin_clientes'),
+    path('admin/cliente/<int:cliente_id>/tarifa/', views.cambiar_tarifa_cliente,name = 'cambiar_tarifa_cliente'),
 ]
