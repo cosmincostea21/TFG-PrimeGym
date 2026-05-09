@@ -39,13 +39,16 @@
 
     <div class="rc-filter-group">
         <label class="rc-label">
-            <i class="fa fa-calendar"></i> Fecha
+            <i class="fa fa-calendar"></i> Sesión
         </label>
         <div class="rc-select-wrap">
-            <select name="tipo" class="rc-select">
-                <option value="hoy"        {% if request.GET.tipo == 'hoy' %}selected{% endif %}>Hoy</option>
-                <option value="anteriores" {% if request.GET.tipo == 'anteriores' %}selected{% endif %}>2 anteriores</option>
-                <option value="siguientes" {% if request.GET.tipo == 'siguientes' %}selected{% endif %}>2 siguientes</option>
+            <select name="fecha" class="rc-select">
+                {% for op in opciones %}
+                    <option value="{{ op.value }}"
+                            {% if fecha_sel == op.value %}selected{% endif %}>
+                        {{ op.label }}
+                    </option>
+                {% endfor %}
             </select>
             <i class="fa fa-chevron-down"></i>
         </div>
