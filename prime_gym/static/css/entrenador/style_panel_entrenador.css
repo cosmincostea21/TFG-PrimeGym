@@ -27,7 +27,6 @@
     height: 100%;
 }
 
-
 /* ===== TARJETAS RESUMEN (TOP) ===== */
 .class-item.text-center {
     position: relative;
@@ -122,10 +121,6 @@
     transition: transform .2s ease, box-shadow .25s ease;
 }
 
-.primary-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 26px var(--rr-soft);
-}
 
 /* ===== ESPACIADO GENERAL ===== */
 .row.mb-4 > div,

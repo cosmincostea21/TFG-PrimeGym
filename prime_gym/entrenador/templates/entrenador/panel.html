@@ -31,27 +31,42 @@
 
 </div>
 
-<!-- CLASES DE HOY -->
+<!-- CLASES PRÓXIMAS -->
 <div class="row">
     <div class="col-lg-12">
         <div class="class-item p-4">
 
             <h4 class="mb-3">
-                <i class="fa fa-clock"></i> Clases de hoy
+                <i class="fa fa-clock"></i> Clases Próximas
             </h4>
 
-            {% if clases_hoy %}
+            {% if proximas %}
                 <ul class="list-unstyled">
-                    {% for reserva in clases_hoy %}
-                        <li class="mb-2">
-                            <strong>{{ reserva.clase.nombre }}</strong> |
-                            {{ reserva.cliente.nombre }} |
-                            {{ reserva.fecha_reserva }}
+                    {% for p in proximas %}
+                        <li class="mb-3">
+                            <div>
+                                <strong>{{ p.clase.nombre }}</strong>
+                                · {{ p.dia }} {{ p.fecha|date:"d/m/Y" }} · {{ p.hora }}
+                                {% if p.es_hoy %}<span class="badge bg-danger ms-2">HOY</span>{% endif %}
+                                <span class="text-muted">
+                                    — {{ p.inscritos }} {{ p.inscritos|pluralize:"cliente,clientes" }}
+                                </span>
+                            </div>
+
+                            {% if p.reservas %}
+                                <ul class="ms-3 mt-1 mb-0 small">
+                                    {% for r in p.reservas %}
+                                        <li>{{ r.cliente.nombre }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <em class="ms-3 small text-muted">Sin inscritos todavía</em>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>No hay clases hoy</p>
+                <p>No hay clases programadas próximamente</p>
             {% endif %}
 
         </div>
@@ -62,7 +77,7 @@
 <div class="row mt-5">
     <div class="col-md-6 text-center">
         <a href="{% url 'entrenador:mis_clases' %}" class="primary-btn">
-            Mis clases
+            Gestionar Clases
         </a>
     </div>
 
