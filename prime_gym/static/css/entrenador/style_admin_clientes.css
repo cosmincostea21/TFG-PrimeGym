@@ -1,0 +1,331 @@
+/* =========================================================
+   ADMIN CLIENTES · entrenador
+========================================================= */
+:root {
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+    --green:      #2ee07a;
+    --green-soft: rgba(46,224,122,0.12);
+}
+
+.spad { background-color: #151515; }
+
+/* ===== HEADER ===== */
+.ac-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--rl);
+}
+.ac-kicker {
+    display: block;
+    color: var(--rr);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.ac-title {
+    color: var(--rt);
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+.ac-title i { color: var(--rr); margin-right: 0.5rem; }
+
+.ac-stat {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-left: 3px solid var(--rr);
+    padding: 0.85rem 1.25rem;
+    min-width: 110px;
+    text-align: right;
+}
+.ac-stat-num {
+    display: block;
+    color: var(--rt);
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
+}
+.ac-stat-label {
+    display: block;
+    margin-top: 0.25rem;
+    color: var(--rm);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ===== BUSCADOR ===== */
+.ac-search {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+.ac-search i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rr);
+    font-size: 0.95rem;
+}
+.ac-search input {
+    width: 100%;
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    color: var(--rt);
+    padding: 0.95rem 1.1rem 0.95rem 3rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    transition: border-color 0.25s ease, background 0.25s ease,
+                box-shadow 0.25s ease;
+}
+.ac-search input::placeholder { color: var(--rm); }
+.ac-search input:focus {
+    outline: none;
+    border-color: var(--rr);
+    background: var(--rs2);
+    box-shadow: 0 0 0 3px var(--rr-soft);
+}
+
+/* ===== TABLA ===== */
+.ac-table-wrap {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.ac-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--rt2);
+}
+.ac-table thead th {
+    background: #0e0e0e;
+    color: var(--rm);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+}
+.ac-th-actions { text-align: right; }
+
+.ac-table tbody td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+.ac-table tbody tr:last-child td { border-bottom: none; }
+
+.ac-row { transition: background 0.2s ease; }
+.ac-row:hover { background: var(--rs2); }
+.ac-row--inactivo { opacity: 0.85; }
+
+/* ===== CELDAS ===== */
+.ac-cell-name {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+.ac-cell-name strong { color: var(--rt); font-weight: 700; }
+
+.ac-avatar {
+    width: 36px;
+    height: 36px;
+    background: var(--rr-soft);
+    color: var(--rr);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255,10,31,0.3);
+    flex-shrink: 0;
+}
+
+.ac-cell-email {
+    color: var(--rt2);
+    font-size: 0.88rem;
+}
+.ac-cell-email i {
+    color: var(--rr);
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* ===== BADGES ===== */
+.ac-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid;
+    white-space: nowrap;
+}
+.ac-badge--activo {
+    color: var(--green);
+    background: var(--green-soft);
+    border-color: rgba(46,224,122,0.4);
+}
+.ac-badge--inactivo {
+    color: var(--rr);
+    background: var(--rr-soft);
+    border-color: rgba(255,10,31,0.4);
+    opacity: 0.95;
+}
+
+/* ===== FORM INLINE ===== */
+.ac-cell-action { text-align: right; }
+.ac-form--inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.ac-tarifa-actual {
+    color: var(--rt2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 0.35rem 0.75rem;
+    background: var(--rs2);
+    border: 1px dashed var(--rl);
+}
+
+/* ===== SELECT ===== */
+.ac-select-wrap { position: relative; min-width: 150px; }
+.ac-select-wrap i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rr);
+    font-size: 0.7rem;
+    pointer-events: none;
+}
+.ac-select {
+    width: 100%;
+    background: var(--rs2);
+    color: var(--rt);
+    border: 1px solid var(--rl);
+    padding: 0.55rem 2rem 0.55rem 0.85rem;
+    font-size: 0.82rem;
+    appearance: none;
+    cursor: pointer;
+    transition: border-color 0.25s ease;
+}
+.ac-select:focus {
+    outline: none;
+    border-color: var(--rr);
+}
+
+/* ===== BOTONES ===== */
+.ac-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease,
+                background 0.25s ease, color 0.25s ease;
+}
+.ac-btn--primary {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+}
+.ac-btn--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px var(--rr-soft);
+}
+.ac-btn--danger {
+    background: transparent;
+    color: var(--rr);
+    border-color: rgba(255,10,31,0.4);
+}
+.ac-btn--danger:hover {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+    transform: translateY(-1px);
+}
+
+/* ===== EMPTY ===== */
+.ac-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+.ac-empty--filter {
+    margin-top: 1rem;
+    background: var(--rs);
+    border-radius: 12px;
+}
+.ac-empty i {
+    display: block;
+    font-size: 2rem;
+    color: var(--rr);
+    margin-bottom: 0.85rem;
+}
+.ac-empty p {
+    margin: 0;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .ac-cell-action { text-align: left; }
+    .ac-form--inline {
+        justify-content: flex-start;
+        width: 100%;
+    }
+}
+@media (max-width: 768px) {
+    .ac-table thead { display: none; }
+    .ac-table tbody tr {
+        display: block;
+        padding: 1rem 0.5rem;
+        border-bottom: 1px solid var(--rl);
+    }
+    .ac-table tbody td {
+        display: block;
+        border-bottom: none;
+        padding: 0.5rem 1rem;
+    }
+}
