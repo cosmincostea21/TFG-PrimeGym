@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Acceso{% endblock %} | PRYME</title>
+    
+    <!-- Cargamos SOLO el CSS exclusivo de autenticación -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+<body class="auth-bg">
+
+    <!-- Aquí se inyectarán los formularios -->
+    {% block content %}
+    {% endblock %}
+
+</body>
+</html>

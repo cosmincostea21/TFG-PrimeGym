@@ -1,0 +1,19 @@
+{% extends 'registration/base_auth.html' %}
+
+{% block title %}Únete Ahora{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>TU PRYME ESTÁ <span>MUY CERCA</span></h2>
+
+    <form method="post" class="auth-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-pryme">ÚNETE AHORA</button>
+    </form>
+
+    <div class="auth-links">
+        <a href="{% url 'login' %}">¿YA TIENES CUENTA? INICIA SESIÓN</a>
+    </div>
+</div>
+{% endblock %}

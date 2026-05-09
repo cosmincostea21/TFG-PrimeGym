@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
+
+/* Reset básico para el body si no lo tienes */
+body.auth-bg {
+    background-color: #0c0c0c; /* Negro casi puro */
+    color: #ffffff;
+    font-family: 'Oswald', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Contenedor principal de los formularios */
+.auth-container {
+    background-color: rgba(20, 20, 20, 0.95);
+    padding: 40px 50px;
+    border-radius: 4px;
+    border-top: 4px solid #ff0000; /* Detalle rojo arriba */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+/* Títulos */
+.auth-container h2 {
+    font-size: 2.8rem;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.auth-container h2 span {
+    color: #ff0000; /* El rojo característico */
+}
+
+/* Estilos genéricos para los campos del formulario de Django */
+.auth-form p {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #cccccc;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="password"],
+.auth-form input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: #ff0000;
+}
+
+/* El botón de acción */
+.btn-pryme {
+    background-color: #ff0000;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 15px;
+    letter-spacing: 1px;
+}
+
+.btn-pryme:hover {
+    background-color: #cc0000;
+}
+
+.btn-pryme:active {
+    transform: scale(0.98);
+}
+
+/* Enlaces inferiores */
+.auth-links {
+    margin-top: 25px;
+    font-size: 0.95rem;
+    font-family: sans-serif; /* Fuente más legible para los links pequeños */
+}
+
+.auth-links a {
+    color: #aaaaaa;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+    color: #ff0000;
+}
+
+/* Errores del formulario */
+.errorlist {
+    color: #ff0000;
+    list-style-type: none;
+    padding: 0;
+    font-size: 0.85rem;
+    text-align: left;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    font-family: sans-serif;
+}
