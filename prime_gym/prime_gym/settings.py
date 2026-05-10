@@ -128,5 +128,5 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Configuración necesaria para redirecciones
-LOGIN_REDIRECT_URL = 'home'  # A donde va el usuario tras loguearse
-LOGOUT_REDIRECT_URL = 'login' # A donde va tras salir
+LOGIN_REDIRECT_URL = 'main'  # A donde va el usuario tras loguearse
+LOGOUT_REDIRECT_URL = 'main' # A donde va tras salir

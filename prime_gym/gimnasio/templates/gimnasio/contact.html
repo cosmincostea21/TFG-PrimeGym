@@ -36,7 +36,6 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
     <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
@@ -50,6 +49,25 @@
                 <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                 <li><a href="{% url 'equipo' %}">Equipo</a></li>
                 <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                        <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
+                    {% else %}
+                        <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
+                    {% endif %}
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">
+                                    Salir
+                                </button>
+                            </form>
+                        </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -79,6 +97,25 @@
                             <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                             <li><a href="{% url 'equipo' %}">Equipo</a></li>
                             <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_staff %}
+                                    <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
+                                {% endif %}
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="logout-btn">
+                                                Salir
+                                            </button>
+                                        </form>
+                                    </li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
+                                <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>
@@ -97,6 +134,8 @@
         </div>
     </header>
     <!-- Header End -->
+     
+     
 
     <!-- Sección de encabezado -->
     <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
