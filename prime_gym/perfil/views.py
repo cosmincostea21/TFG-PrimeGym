@@ -58,14 +58,16 @@ def proxima_sesion_clase(nombre_clase):
         posibles.append(fecha_hora)
     return min(posibles)
 
-def get_cliente_actual():
+
+def get_cliente_actual(request):
     """
-    Devuelve un cliente temporal para desarrollo.
-    En el futuro se sustituirá por el cliente
-    asociado a la sesión.
+    Devuelve el cliente asociado al usuario autenticado.
     """
-    #return request.user.cliente ESTO ES PARA EL LOGIN LAS LLAMADAS A LA FUNCION HAZLO CON (REQUEST EN LA FUNCION)
-    return Cliente.objects.first()
+    if not request.user.is_authenticated:
+        return None
+
+    return get_object_or_404(Cliente, user=request.user)
+
 
 
 # =====================================================
@@ -73,7 +75,7 @@ def get_cliente_actual():
 # =====================================================
 
 def dashboard(request):
-    cliente = get_cliente_actual()
+    cliente = get_cliente_actual(request)
 
     clases = Clase.objects.all().prefetch_related('tarifas')
 
@@ -109,7 +111,7 @@ def dashboard(request):
 # DATOS PERSONALES
 # =====================================================
 def datos_personales(request):
-    cliente = get_cliente_actual()
+    cliente = get_cliente_actual(request)
 
     context = {
         'cliente': cliente,
@@ -121,7 +123,7 @@ def datos_personales(request):
 # MIS RESERVAS
 # =====================================================
 def mis_reservas(request):
-    cliente = get_cliente_actual()
+    cliente = get_cliente_actual(request)
     hoy = date.today()
 
     # ===========================
@@ -294,7 +296,7 @@ def mis_reservas(request):
 
 
 def editar_perfil(request):
-    cliente = get_cliente_actual()
+    cliente = get_cliente_actual(request)
 
     if request.method == "POST":
         accion = request.POST.get("accion")

@@ -35,7 +35,8 @@
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
-    </div>    <!-- Offcanvas Menu Section Begin -->
+    </div> 
+    <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
@@ -51,11 +52,18 @@
 
                 {% if request.user.is_authenticated %}
                     {% if request.user.is_staff %}
-                        <li><a href="{% url 'panel_entrenador' %}">Panel entrenador</a></li>
+                        <li><a href="{% url 'entrenador:panel_entrenador' %}">Panel entrenador</a></li>
                     {% else %}
-                        <li><a href="{% url 'perfil' %}">Perfil</a></li>
+                        <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
                     {% endif %}
-                    <li><a href="{% url 'logout' %}">Salir</a></li>
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">
+                                    Salir
+                                </button>
+                            </form>
+                        </li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
                     <li><a href="{% url 'register' %}">Registrarse</a></li>
@@ -92,11 +100,18 @@
 
                             {% if request.user.is_authenticated %}
                                 {% if request.user.is_staff %}
-                                    <li><a href="{% url 'panel_entrenador' %}">Panel entrenador</a></li>
+                                    <li><a href="{% url 'entrenador:panel_entrenador' %}">Panel entrenador</a></li>
                                 {% else %}
-                                    <li><a href="{% url 'perfil' %}">Perfil</a></li>
+                                    <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'logout' %}">Salir</a></li>
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="logout-btn">
+                                                Salir
+                                            </button>
+                                        </form>
+                                    </li>
                             {% else %}
                                 <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
                                 <li><a href="{% url 'register' %}">Registrarse</a></li>
