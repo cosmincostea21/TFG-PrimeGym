@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from datetime import date, datetime, timedelta, time
 from django.contrib import messages
 from django.db.models import Count, Q
@@ -73,7 +74,7 @@ def get_cliente_actual(request):
 # =====================================================
 # DASHBOARD DEL CLIENTE
 # =====================================================
-
+@login_required
 def dashboard(request):
     cliente = get_cliente_actual(request)
 
@@ -110,6 +111,7 @@ def dashboard(request):
 # =====================================================
 # DATOS PERSONALES
 # =====================================================
+@login_required
 def datos_personales(request):
     cliente = get_cliente_actual(request)
 
@@ -122,6 +124,7 @@ def datos_personales(request):
 # =====================================================
 # MIS RESERVAS
 # =====================================================
+@login_required
 def mis_reservas(request):
     cliente = get_cliente_actual(request)
     hoy = date.today()

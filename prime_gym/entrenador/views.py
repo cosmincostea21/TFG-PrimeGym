@@ -11,7 +11,7 @@ from django.contrib import messages
 
 DIAS_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
-
+@login_required
 def proxima_sesion_clase(nombre_clase):
     """Devuelve un datetime con la próxima sesión de la clase (o None)."""
     ahora = datetime.now()
@@ -52,7 +52,7 @@ def proxima_sesion_clase(nombre_clase):
         posibles.append(fecha_hora)
     return min(posibles)
 
-
+@login_required
 def sesiones_anteriores_clase(nombre_clase, n=2):
     """Devuelve las fechas de las N sesiones pasadas más recientes de la clase."""
     ahora = datetime.now()
@@ -85,6 +85,7 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
     return fechas
 
 # VER CLASES ENTRENADOR
+@login_required
 def mis_clases(request):
     #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
@@ -179,6 +180,7 @@ def reservas_clase(request, clase_id):
 
 
 # EDITAR ASISTENCIA
+@login_required
 def cambiar_estado(request, reserva_id, estado):
 
     reserva = get_object_or_404(Reserva, id=reserva_id)
@@ -191,6 +193,7 @@ def cambiar_estado(request, reserva_id, estado):
     return redirect('entrenador:reservas_clase', clase_id=reserva.clase.id)
 
 # PANEL DEL ENTRENADOR
+@login_required
 def panel_entrenador(request):
     entrenador = get_object_or_404(Entrenador, user=request.user)
     clases = Clase.objects.filter(entrenador=entrenador)
@@ -243,7 +246,7 @@ def clases_hoy(request):
     return render(request, 'entrenador/clases_hoy.html', {'reservas': reservas_hoy})
 
 # CAMBIAR CONTRASEÑA
-#@login_required
+@login_required
 def cambiar_password_entrenador(request):
     entrenador = Entrenador.objects.first()
     if request.method == "POST":
