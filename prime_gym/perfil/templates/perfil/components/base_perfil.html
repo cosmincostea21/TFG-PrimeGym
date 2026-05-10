@@ -57,7 +57,7 @@
 
             {% if request.user.is_authenticated %}
                 {% if request.user.is_staff %}
-                    <li><a href="{% url 'entrenador:panel_entrenador' %}">Panel entrenador</a></li>
+                    <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
                 {% else %}
                     <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
                 {% endif %}
@@ -105,7 +105,7 @@
 
                         {% if request.user.is_authenticated %}
                             {% if request.user.is_staff %}
-                                <li><a href="{% url 'entrenador:panel_entrenador' %}">Panel entrenador</a></li>
+                                <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
                             {% else %}
                                 <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
                             {% endif %}
