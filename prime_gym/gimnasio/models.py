@@ -1,5 +1,3 @@
-
-from django.contrib.auth.models import User
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -18,9 +16,10 @@ class Tarifa(models.Model):
 # ===========================
 # ENTRENADORES
 # ===========================
+from django.contrib.auth.models import User
+
 
 class Entrenador(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     ROLES = (
         ('admin', 'Administrador'),
@@ -32,9 +31,16 @@ class Entrenador(models.Model):
     especialidad = models.CharField(max_length=100)
     rol = models.CharField(max_length=20, choices=ROLES, default='empleado')
 
-    def __str__(self):
+    @property
+    def nombre(self):
         return self.user.username
 
+    @property
+    def email(self):
+        return self.user.email
+
+    def __str__(self):
+        return self.user.username
 
 # ===========================
 # CLASES
@@ -58,6 +64,14 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=20, blank=True)
     tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, blank=True)
     fecha_registro = models.DateField(auto_now_add=True)
+
+    @property
+    def nombre(self):
+        return self.user.username
+
+    @property
+    def email(self):
+        return self.user.email
 
     def __str__(self):
         return self.user.username
