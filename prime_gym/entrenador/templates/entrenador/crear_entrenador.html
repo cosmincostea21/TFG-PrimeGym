@@ -1,0 +1,125 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+{% block title %}Crear entrenador{% endblock %}
+{% block titulo %}Crear entrenador{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:crear_entrenador' %}">Crear entrenador</a>
+{% endblock %}
+
+{% block subtitulo %}Administración{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_admin.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<!-- HERO -->
+<header class="adm-hero">
+    <span class="adm-eyebrow">Panel administrador</span>
+    <h1 class="adm-title">Registrar entrenador</h1>
+    <p class="adm-subtitle">
+        Da de alta un nuevo miembro del equipo y asígnale su rol y especialidad
+    </p>
+</header>
+
+<!-- MENSAJES -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="adm-alert">
+            <span class="adm-alert-bar"></span>
+            <i class="fa fa-circle-info"></i>
+            <span>{{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- FORM -->
+<form method="POST">
+    {% csrf_token %}
+
+    <div class="adm-grid adm-grid--double">
+
+        <!-- BLOQUE 1 · ACCESO -->
+        <section class="adm-section">
+            <header class="adm-section-head">
+                <div class="adm-section-icon">
+                    <i class="fa fa-id-badge"></i>
+                </div>
+                <div>
+                    <h2>Datos de acceso</h2>
+                    <p>Credenciales para iniciar sesión</p>
+                </div>
+            </header>
+
+            <div class="adm-card">
+                <div class="adm-form-group">
+                    <label>Usuario</label>
+                    {{ form.username }}
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Contraseña</label>
+                    {{ form.password }}
+                    <small>Será cifrada automáticamente</small>
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Rol</label>
+                    <div class="adm-select-wrap">
+                        {{ form.rol }}
+                        <i class="fa fa-chevron-down"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOQUE 2 · PERFIL PROFESIONAL -->
+        <section class="adm-section">
+            <header class="adm-section-head adm-section-head--accent">
+                <div class="adm-section-icon">
+                    <i class="fa fa-user-tie"></i>
+                </div>
+                <div>
+                    <h2>Perfil profesional</h2>
+                    <p>Información de contacto y especialidad</p>
+                </div>
+            </header>
+
+            <div class="adm-card">
+                <div class="adm-form-group">
+                    <label>Teléfono</label>
+                    {{ form.telefono }}
+                </div>
+
+                <div class="adm-form-group">
+                    <label>Especialidad</label>
+                    {{ form.especialidad }}
+                    <small>Ej. Cross Training, Fuerza, Movilidad…</small>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ACCIONES GLOBALES -->
+    <div class="adm-form-actions adm-form-actions--global">
+        <a href="{% url 'entrenador:panel' %}" class="adm-btn adm-btn--ghost">
+            <i class="fa fa-arrow-left"></i>
+            <span>Volver al panel</span>
+        </a>
+        <button type="submit" class="adm-btn adm-btn--primary">
+            <span>Crear entrenador</span>
+            <i class="fa fa-user-plus"></i>
+        </button>
+    </div>
+</form>
+
+{% endblock %}
