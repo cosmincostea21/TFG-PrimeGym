@@ -158,7 +158,7 @@ def mis_reservas(request):
             
             hoy = date.today()
 
-            # ❌ No se puede asistir antes de la fecha
+            # No se puede asistir antes de la fecha
             if reserva.fecha_reserva > hoy:
                 messages.error(
                     request,
