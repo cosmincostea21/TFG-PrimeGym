@@ -17,8 +17,20 @@ class TarifaAdmin(admin.ModelAdmin):
 @admin.register(Entrenador)
 class EntrenadorAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'email', 'telefono', 'especialidad', 'rol')
-    search_fields = ('nombre', 'email', 'especialidad')
+    search_fields = ('user__username', 'user__email', 'especialidad')
     list_filter = ('rol',)
+
+    def nombre(self, obj):
+        return obj.user.username
+
+    nombre.admin_order_field = 'user__username'
+    nombre.short_description = 'Nombre'
+
+    def email(self, obj):
+        return obj.user.email
+
+    email.admin_order_field = 'user__email'
+    email.short_description = 'Email'
 
 
 # ===========================
@@ -38,8 +50,20 @@ class ClaseAdmin(admin.ModelAdmin):
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'email', 'telefono', 'tarifa', 'fecha_registro')
-    search_fields = ('nombre', 'email')
+    search_fields = ('user__username', 'user__email')
     list_filter = ('tarifa', 'fecha_registro')
+
+    def nombre(self, obj):
+        return obj.user.username
+
+    nombre.admin_order_field = 'user__username'
+    nombre.short_description = 'Nombre'
+
+    def email(self, obj):
+        return obj.user.email
+
+    email.admin_order_field = 'user__email'
+    email.short_description = 'Email'
 
 
 # ===========================

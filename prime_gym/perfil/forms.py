@@ -4,7 +4,7 @@ from gimnasio.models import Cliente
 class EditarPerfilForm(forms.ModelForm):
     class Meta:
         model = Cliente
-        fields = ['nombre', 'email', 'telefono']
+        fields = ['telefono']
 
 class CambiarPasswordForm(forms.Form):
     password_actual = forms.CharField(
