@@ -1,3 +1,5 @@
+
+from django.contrib.auth.models import User
 from django.db import models
 
 # ===========================
@@ -15,20 +17,24 @@ class Tarifa(models.Model):
 # ===========================
 # ENTRENADORES
 # ===========================
+
 class Entrenador(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     ROLES = [
         ('admin', 'Administrador'),
         ('empleado', 'Empleado'),
     ]
+
     nombre = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     telefono = models.CharField(max_length=20, blank=True)
     especialidad = models.CharField(max_length=100)
     rol = models.CharField(max_length=10, choices=ROLES, default='empleado')
-    password = models.CharField(max_length=255)
+
     def __str__(self):
         return self.nombre
+
 
 # ===========================
 # CLASES
@@ -48,13 +54,19 @@ class Clase(models.Model):
 # USUARIOS CLIENTES
 # ===========================
 class Cliente(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     nombre = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     telefono = models.CharField(max_length=20, blank=True)
-    password = models.CharField(max_length=255)
-    tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, related_name="usuarios")
+    tarifa = models.ForeignKey(
+        Tarifa,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name="usuarios"
+    )
     fecha_registro = models.DateField(auto_now_add=True)
+
     def __str__(self):
         return self.nombre
 

@@ -3021,15 +3021,6 @@ ol {
 	background: #ffffff;
 }
 
-.class-item:hover {
-	transform: scale(1.05);
-	/* Mini zoom */
-	box-shadow: 0 0 15px 5px #f30000;
-	/* Sombra roja */
-	z-index: 10;
-	/* Se pone por encima */
-}
-
 
 /* ===========================
    FOOTER
