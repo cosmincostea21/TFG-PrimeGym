@@ -64,6 +64,7 @@ def get_cliente_actual():
     En el futuro se sustituirá por el cliente
     asociado a la sesión.
     """
+    #return request.user.cliente ESTO ES PARA EL LOGIN LAS LLAMADAS A LA FUNCION HAZLO CON (REQUEST EN LA FUNCION)
     return Cliente.objects.first()
 
 
@@ -257,8 +258,6 @@ def mis_reservas(request):
         prox_dt = proxima_sesion_clase(clase.nombre)
         if prox_dt:
             fecha = prox_dt.date()
-
-
             clase.ocupadas = Reserva.objects.filter(
                 clase=clase,
                 fecha_reserva=fecha,
@@ -271,9 +270,6 @@ def mis_reservas(request):
                 'dia':    DIAS_ES[prox_dt.weekday()],
                 'es_hoy': prox_dt.date() == hoy,
             }
-
-            
-
         else:
             clase.ocupadas=0
             clase.proxima = None
@@ -297,11 +293,6 @@ def mis_reservas(request):
     return render(request, 'perfil/reservas.html', context)
 
 
-
-
-
-
-
 def editar_perfil(request):
     cliente = get_cliente_actual()
 
@@ -315,18 +306,14 @@ def editar_perfil(request):
         if accion == "perfil":
             if form.is_valid():
                 form.save()
-                messages.success(
-                    request, "Datos personales actualizados correctamente."
-                )
+                messages.success(request, "Datos personales actualizados correctamente.")
             else:
                 messages.error(request, "Revisa los datos del formulario.")
 
         # ✅ CAMBIAR CONTRASEÑA
         elif accion == "password":
             if not pass_form.is_valid():
-                messages.error(
-                    request, "Error en el formulario de contraseña."
-                )
+                messages.error(request, "Error en el formulario de contraseña.")
             else:
                 pwd_actual = pass_form.cleaned_data.get("password_actual")
                 pwd_nueva  = pass_form.cleaned_data.get("password_nueva")
@@ -334,24 +321,15 @@ def editar_perfil(request):
 
                 # ⛔ Aquí SÍ exigimos contraseña
                 if not pwd_actual or not pwd_nueva or not pwd_conf:
-                    messages.error(
-                        request,
-                        "Debes completar todos los campos para cambiar la contraseña."
-                    )
-                elif not check_password(pwd_actual, cliente.password):
-                    messages.error(
-                        request, "La contraseña actual no es correcta."
-                    )
+                    messages.error(request, "Debes completar todos los campos para cambiar la contraseña.")
+                elif not check_password(pwd_actual, request.user.password):
+                    messages.error(request, "La contraseña actual no es correcta.")
                 elif pwd_nueva != pwd_conf:
-                    messages.error(
-                        request, "Las contraseñas nuevas no coinciden."
-                    )
+                    messages.error(request, "Las contraseñas nuevas no coinciden.")
                 else:
-                    cliente.password = make_password(pwd_nueva)
-                    cliente.save()
-                    messages.success(
-                        request, "Contraseña actualizada correctamente."
-                    )
+                    request.user.set_password(pwd_nueva)
+                    request.user.save()
+                    messages.success(request, "Contraseña actualizada correctamente.")
 
         return redirect("perfil:editar_perfil")
 
@@ -364,8 +342,3 @@ def editar_perfil(request):
         "form": form,
         "pass_form": pass_form,
     })
-
-
-
-
-

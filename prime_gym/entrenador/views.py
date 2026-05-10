@@ -1,7 +1,11 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta, time
 from django.shortcuts import render, redirect, get_object_or_404
 from gimnasio.models import Clase, Reserva, Entrenador, Cliente, Tarifa
 from .decorators import admin_required
+from .forms import CrearEntrenadorForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -80,10 +84,9 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
 
     return fechas
 
-
 # VER CLASES ENTRENADOR
 def mis_clases(request):
-    #entrenador = Entrenador.objects.get(email=request.user.email)
+    #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     clases = Clase.objects.filter(entrenador=entrenador)
 
@@ -225,12 +228,42 @@ def panel_entrenador(request):
 
 # CLASES DEL DIA
 def clases_hoy(request):
-    #entrenador = Entrenador.objects.get(email=request.user.email)
+    #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     hoy = date.today()
     reservas_hoy = Reserva.objects.filter(clase__entrenador=entrenador, fecha_reserva=hoy, estado="reservada")
 
     return render(request, 'entrenador/clases_hoy.html', {'reservas': reservas_hoy})
+
+# CAMBIAR CONTRASEÑA
+#@login_required
+def cambiar_password_entrenador(request):
+    entrenador = Entrenador.objects.first()
+    if request.method == "POST":
+        password_actual = request.POST.get("password_actual")
+        password_nueva = request.POST.get("password_nueva")
+        password_conf = request.POST.get("password_confirmacion")
+
+        user = request.user
+
+        # comprobar contraseña actual
+        if not user.check_password(password_actual):
+            messages.error(request, "La contraseña actual no es correcta.")
+            return redirect("entrenador:cambiar_password")
+
+        # comprobar coincidencia
+        if password_nueva != password_conf:
+            messages.error(request, "Las nuevas contraseñas no coinciden.")
+            return redirect("entrenador:cambiar_password")
+
+        # guardar nueva contraseña
+        user.set_password(password_nueva)
+        user.save()
+
+        messages.success(request, "Contraseña actualizada correctamente.")
+        return redirect("login")  # o panel
+
+    return render(request, "entrenador/cambiar_password.html")
 
 # PANEL ADMIN
 @admin_required
@@ -241,7 +274,7 @@ def admin_clientes(request):
     query = request.GET.get("q")
 
     if query:
-        clientes = clientes.filter(nombre__icontains=query)
+        clientes = clientes.filter(user__username__icontains=query)
 
     return render(request, "entrenador/admin_clientes.html", {"clientes": clientes, "tarifas": tarifas})
 
@@ -255,10 +288,36 @@ def cambiar_tarifa_cliente(request, cliente_id):
         tarifa_id = request.POST.get("tarifa")
 
         if not tarifa_id:
-            cliente.tarifa = None
+            cliente.tarifa_id = None
         else:
             cliente.tarifa_id = tarifa_id
 
         cliente.save()
 
     return redirect('entrenador:admin_clientes')
+
+# CREAR ENTRENADOR
+@admin_required
+def crear_entrenador(request):
+    form = CrearEntrenadorForm()
+
+    if request.method == "POST":
+        form = CrearEntrenadorForm(request.POST)
+
+        if form.is_valid():
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password']
+            )
+
+            Entrenador.objects.create(
+                user=user,
+                telefono=form.cleaned_data['telefono'],
+                especialidad=form.cleaned_data['especialidad'],
+                rol=form.cleaned_data['rol']
+            )
+
+            return redirect('entrenador:admin_clientes')
+
+    return render(request, 'entrenador/crear_entrenador.html', {'form': form})
