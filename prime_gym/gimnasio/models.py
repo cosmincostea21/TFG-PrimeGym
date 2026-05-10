@@ -1,6 +1,7 @@
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.contrib.auth.models import User
 
 # ===========================
 # TARIFAS
@@ -21,19 +22,18 @@ class Tarifa(models.Model):
 class Entrenador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    ROLES = [
+    ROLES = (
         ('admin', 'Administrador'),
         ('empleado', 'Empleado'),
-    ]
+    )
 
-    nombre = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     telefono = models.CharField(max_length=20, blank=True)
     especialidad = models.CharField(max_length=100)
-    rol = models.CharField(max_length=10, choices=ROLES, default='empleado')
+    rol = models.CharField(max_length=20, choices=ROLES, default='empleado')
 
     def __str__(self):
-        return self.nombre
+        return self.user.username
 
 
 # ===========================
@@ -55,20 +55,12 @@ class Clase(models.Model):
 # ===========================
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    nombre = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
     telefono = models.CharField(max_length=20, blank=True)
-    tarifa = models.ForeignKey(
-        Tarifa,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="usuarios"
-    )
+    tarifa = models.ForeignKey(Tarifa, on_delete=models.SET_NULL, null=True, blank=True)
     fecha_registro = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.nombre
+        return self.user.username
 
 # ===========================
 # RESERVAS
