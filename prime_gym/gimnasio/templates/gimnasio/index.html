@@ -77,96 +77,166 @@
     </div>
     <!-- Offcanvas Menu Section End -->
 
-    <!-- Header Section Begin -->
-    <header class="header-section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3" data-aos="fade-down">
-                    <div class="logo">
-                        <a href="{% url 'main' %}">
-                            <img src="{% static 'img/logo.webp' %}" alt="Prime Gym Logo">
-                        </a>
-                    </div>
+<!-- Header Section Begin -->
+<header class="header-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3" data-aos="fade-down">
+                <div class="logo">
+                    <a href="{% url 'main' %}">
+                        <img src="{% static 'img/logo.webp' %}" alt="Prime Gym Logo">
+                    </a>
                 </div>
-                <div class="col-lg-6" data-aos="fade-down" data-aos-delay="100">
-                    <nav class="nav-menu">
-                        <ul>
-                            <li class="active"><a href="{% url 'main' %}">Inicio</a></li>
-                            <li><a href="{% url 'clases' %}">Clases</a></li>
-                            <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
-                            <li><a href="{% url 'equipo' %}">Equipo</a></li>
-                            <li><a href="{% url 'contacto' %}">Contacto</a></li>
+            </div>
 
-                            {% if request.user.is_authenticated %}
-                                {% if request.user.is_staff %}
-                                    <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
-                                {% else %}
-                                    <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
-                                {% endif %}
-                                    <li>
-                                        <form method="post" action="{% url 'logout' %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="logout-btn">
-                                                Salir
-                                            </button>
-                                        </form>
-                                    </li>
+            <div class="col-lg-6" data-aos="fade-down" data-aos-delay="100">
+                <nav class="nav-menu">
+                    <ul>
+                        <li class="active"><a href="{% url 'main' %}">Inicio</a></li>
+                        <li><a href="{% url 'clases' %}">Clases</a></li>
+                        <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
+                        <li><a href="{% url 'equipo' %}">Equipo</a></li>
+                        <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                        {% if user.is_authenticated %}
+
+                            {% if user.is_staff %}
+                                <li>
+                                    <a href="{% url 'entrenador:panel' %}" class="nav-profile">
+                                        Panel entrenador
+                                    </a>
+                                </li>
                             {% else %}
-                                <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
-                                <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
+                                <li>
+                                    <a href="{% url 'perfil:dashboard' %}" class="nav-profile">
+                                        Perfil de Usuario
+                                    </a>
+                                </li>
                             {% endif %}
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3" data-aos="fade-down" data-aos-delay="200">
-                    <div class="top-option">
-                        <div class="to-social">
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas-open">
-                <i class="fa fa-bars"></i>
-            </div>
-        </div>
-    </header>
-    <!-- Header End -->
-     
-    <!-- Hero Section Begin -->
-    <section class="hero-section">
-        <div class="hs-slider owl-carousel">
-            <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-1.jpg' %}">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-6">
-                            <div class="hi-text">
-                                <span>¿A qué esperas?</span>
-                                <h1>Tu <strong>PRYME</strong> está muy cerca</h1>
-                                <a href={% url 'login' %} class="primary-btn">Únete ahora</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+                            <li>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">
+                                        Salir
+                                    </button>
+                                </form>
+                            </li>
+
+                        {% else %}
+
+                            <li>
+                                <a href="{% url 'login' %}" class="nav-auth">
+                                    Iniciar sesión
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{% url 'register' %}" class="nav-auth-btn">
+                                    Registrarse
+                                </a>
+                            </li>
+
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
 
-            <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-2.jpg' %}">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 offset-lg-6">
-                            <div class="hi-text">
-                                <span>No te quedes fuera.</span>
-                                <h1>Descubre tu mayor <strong>PRYME</strong></h1>
-                                <a href={% url 'login' %} class="primary-btn">Únete ahora</a>
-                            </div>
+            <div class="col-lg-3" data-aos="fade-down" data-aos-delay="200">
+                <div class="top-option">
+                    <div class="to-social">
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="canvas-open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header End -->
+
+
+<!-- Hero Section Begin -->
+<section class="hero-section">
+    <div class="hs-slider owl-carousel">
+
+        <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-1.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="hi-text">
+
+                            <span>¿A qué esperas?</span>
+                            <h1>Tu <strong>PRYME</strong> está muy cerca</h1>
+
+                            {% if user.is_authenticated %}
+
+                                {% if user.is_staff %}
+                                    <a href="{% url 'entrenador:panel' %}" class="primary-btn">
+                                        Panel entrenador
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'perfil:mis_reservas' %}" class="primary-btn">
+                                        Reservar Clase
+                                    </a>
+                                {% endif %}
+
+                            {% else %}
+
+                                <a href="{% url 'login' %}" class="primary-btn">
+                                    Únete ahora
+                                </a>
+
+                            {% endif %}
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Hero Section End -->
+
+        <div class="hs-item set-bg" data-setbg="{% static 'img/hero/hero-2.jpg' %}">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-6">
+                        <div class="hi-text">
+
+                            <span>No te quedes fuera.</span>
+                            <h1>Descubre tu mayor <strong>PRYME</strong></h1>
+
+                            {% if user.is_authenticated %}
+
+                                {% if user.is_staff %}
+                                    <a href="{% url 'entrenador:panel' %}" class="primary-btn">
+                                        Panel entrenador
+                                    </a>
+                                {% else %}
+                                    <a href="{% url 'perfil:mis_reservas' %}" class="primary-btn">
+                                        Reservar Clase
+                                    </a>
+                                {% endif %}
+
+                            {% else %}
+
+                                <a href="{% url 'login' %}" class="primary-btn">
+                                    Únete ahora
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Hero Section End -->
 
 
     <!-- ChoseUs Section Begin -->
