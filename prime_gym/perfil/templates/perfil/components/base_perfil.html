@@ -146,7 +146,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb-text">
-                    <h2 data-aos="fade-right" data-aos-delay="300"> {{cliente.nombre}}</h2>
+                    <h2 data-aos="fade-right" data-aos-delay="300"> {{ request.user.username }}</h2>
                     <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
                         <a href="{% url 'main' %}">Inicio</a>
                         <a href="{% url 'perfil:dashboard'%}">Perfil</a>
