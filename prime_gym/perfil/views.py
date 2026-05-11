@@ -1,11 +1,13 @@
 from django.shortcuts import redirect, render, get_object_or_404
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from datetime import date, datetime, timedelta, time
 from django.contrib import messages
 from django.db.models import Count, Q
-from gimnasio.models import Cliente, Reserva, Clase, Tarifa
-from django.contrib.auth.hashers import check_password, make_password
+from gimnasio.models import Cliente, Reserva, Clase
+from django.contrib.auth.hashers import check_password
 from .forms import EditarPerfilForm, CambiarPasswordForm
+
 
 # =====================================================
 # NOTA IMPORTANTE (TFG)
@@ -76,6 +78,10 @@ def get_cliente_actual(request):
 # =====================================================
 @login_required
 def dashboard(request):
+    
+    if request.user.is_staff:
+        raise PermissionDenied  
+
     cliente = get_cliente_actual(request)
 
     clases = Clase.objects.all().prefetch_related('tarifas')
@@ -297,7 +303,7 @@ def mis_reservas(request):
 
     return render(request, 'perfil/reservas.html', context)
 
-
+@login_required
 def editar_perfil(request):
     cliente = get_cliente_actual(request)
 

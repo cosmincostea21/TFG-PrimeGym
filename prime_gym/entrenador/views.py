@@ -1,3 +1,5 @@
+
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta, time
@@ -7,11 +9,12 @@ from .decorators import admin_required
 from .forms import CrearEntrenadorForm
 from django.contrib import messages
 
+
 # Create your views here.
 
 DIAS_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
-@login_required
+
 def proxima_sesion_clase(nombre_clase):
     """Devuelve un datetime con la próxima sesión de la clase (o None)."""
     ahora = datetime.now()
@@ -52,7 +55,6 @@ def proxima_sesion_clase(nombre_clase):
         posibles.append(fecha_hora)
     return min(posibles)
 
-@login_required
 def sesiones_anteriores_clase(nombre_clase, n=2):
     """Devuelve las fechas de las N sesiones pasadas más recientes de la clase."""
     ahora = datetime.now()
@@ -87,6 +89,8 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
 # VER CLASES ENTRENADOR
 @login_required
 def mis_clases(request):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     clases = Clase.objects.filter(entrenador=entrenador)
@@ -96,6 +100,8 @@ def mis_clases(request):
 
 @login_required
 def reservas_clase(request, clase_id):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     clase = get_object_or_404(Clase, id=clase_id)
 
     # Próxima sesión
@@ -182,6 +188,8 @@ def reservas_clase(request, clase_id):
 # EDITAR ASISTENCIA
 @login_required
 def cambiar_estado(request, reserva_id, estado):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
 
     reserva = get_object_or_404(Reserva, id=reserva_id)
     estados_validos = ['reservada', 'asistio', 'cancelada']
@@ -195,6 +203,8 @@ def cambiar_estado(request, reserva_id, estado):
 # PANEL DEL ENTRENADOR
 @login_required
 def panel_entrenador(request):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     entrenador = get_object_or_404(Entrenador, user=request.user)
     clases = Clase.objects.filter(entrenador=entrenador)
 
@@ -237,7 +247,10 @@ def panel_entrenador(request):
     return render(request, 'entrenador/panel.html', context)
 
 # CLASES DEL DIA
+@login_required
 def clases_hoy(request):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     hoy = date.today()
@@ -276,6 +289,7 @@ def cambiar_password_entrenador(request):
     return render(request, "entrenador/cambiar_password.html")
 
 # PANEL ADMIN
+@login_required
 @admin_required
 def admin_clientes(request):
     clientes = Cliente.objects.all()
@@ -289,6 +303,7 @@ def admin_clientes(request):
     return render(request, "entrenador/admin_clientes.html", {"clientes": clientes, "tarifas": tarifas})
 
 # ACTIVAR/DESACTIVAR CLIENTE
+@login_required
 @admin_required
 def cambiar_tarifa_cliente(request, cliente_id):
 
@@ -307,6 +322,7 @@ def cambiar_tarifa_cliente(request, cliente_id):
     return redirect('entrenador:admin_clientes')
 
 # CREAR ENTRENADOR
+@login_required
 @admin_required
 def crear_entrenador(request):
     form = CrearEntrenadorForm()
