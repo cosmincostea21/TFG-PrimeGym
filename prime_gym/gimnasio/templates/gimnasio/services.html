@@ -35,7 +35,7 @@
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
-    </div> 
+    </div>
     <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
@@ -51,22 +51,22 @@
                 <li><a href="{% url 'contacto' %}">Contacto</a></li>
 
                 {% if request.user.is_authenticated %}
-                    {% if request.user.is_staff %}
-                        <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
-                    {% else %}
-                        <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
-                    {% endif %}
-                        <li>
-                            <form method="post" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                                <button type="submit" class="logout-btn">
-                                    Salir
-                                </button>
-                            </form>
-                        </li>
+                {% if request.user.is_staff %}
+                <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
-                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
+                {% endif %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">
+                            Salir
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
                 {% endif %}
             </ul>
         </nav>
@@ -99,22 +99,22 @@
                             <li><a href="{% url 'contacto' %}">Contacto</a></li>
 
                             {% if request.user.is_authenticated %}
-                                {% if request.user.is_staff %}
-                                    <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
-                                {% else %}
-                                    <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
-                                {% endif %}
-                                    <li>
-                                        <form method="post" action="{% url 'logout' %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="logout-btn">
-                                                Salir
-                                            </button>
-                                        </form>
-                                    </li>
+                            {% if request.user.is_staff %}
+                            <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
                             {% else %}
-                                <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
-                                <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
+                            <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
+                            {% endif %}
+                            <li>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">
+                                        Salir
+                                    </button>
+                                </form>
+                            </li>
+                            {% else %}
+                            <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
+                            <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
                             {% endif %}
                         </ul>
                     </nav>
@@ -134,7 +134,7 @@
         </div>
     </header>
     <!-- Header End -->
-     
+
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
         <div class="container">
@@ -168,107 +168,75 @@
             </div>
             <div class="row justify-content-center">
 
-                <!-- 1. Sala 1 mes -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="100">
-                    <div class="ps-item">
-                        <h3>Sala <br /> (1 mes)</h3>
-                        <div class="pi-price">
-                            <h2>40 €</h2>
-                            <span>ACCESO MENSUAL</span>
-                        </div>
-                        <ul>
-                            <li>Acceso completo a sala de musculación</li>
-                            <li>Uso libre del material</li>
-                            <li>Sin permanencia</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
+<div class="row">
+    <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="ps-item pricing-large">
+            <h3>Tarifa <br /> Básica</h3>
+            <div class="pi-price">
+                <h2>30 €</h2>
+                <span>ACCESO MENSUAL</span>
+            </div>
+            <ul>
+                <li>Acceso ilimitado a la sala libre</li>
+                <li>Uso de maquinaria de musculación</li>
+                <li>Asesoramiento inicial</li>
+                <li>Sin permanencia</li>
+            </ul>
+            <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
+        </div>
+    </div>
 
-                <!-- 2. Sala + CrossFit o Movilidad 1 mes -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="200">
-                    <div class="ps-item">
-                        <h3>Sala + CrossFit o Movilidad <br /> (1 mes)</h3>
-                        <div class="pi-price">
-                            <h2>70 €</h2>
-                            <span>ACCESO MENSUAL</span>
-                        </div>
-                        <ul>
-                            <li>Acceso completo a sala</li>
-                            <li>Incluye clases de CrossFit o Movilidad</li>
-                            <li>Sin permanencia</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
+    <div class="col-lg-6 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="ps-item pricing-large">
+            <h3>Tarifa <br /> Crossfit</h3>
+            <div class="pi-price">
+                <h2>45 €</h2>
+                <span>ACCESO MENSUAL</span>
+            </div>
+            <ul>
+                <li>Acceso a sala libre</li>
+                <li>Clases dirigidas de Crossfit</li>
+                <li>Entrenamiento de alta intensidad</li>
+                <li>Sin permanencia</li>
+            </ul>
+            <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
+        </div>
+    </div>
 
-                <!-- 3. Sala + CrossFit + Movilidad 1 mes -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="300">
-                    <div class="ps-item">
-                        <h3>Todo incluido <br /> (1 mes)</h3>
-                        <div class="pi-price">
-                            <h2>100 €</h2>
-                            <span>ACCESO MENSUAL</span>
-                        </div>
-                        <ul>
-                            <li>Sala + CrossFit + Movilidad</li>
-                            <li>Acceso ilimitado a todas las zonas</li>
-                            <li>Sin permanencia</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
+    <div class="col-lg-6 col-md-6 mt-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="ps-item pricing-large">
+            <h3>Tarifa <br /> Movilidad</h3>
+            <div class="pi-price">
+                <h2>40 €</h2>
+                <span>ACCESO MENSUAL</span>
+            </div>
+            <ul>
+                <li>Acceso a sala libre</li>
+                <li>Clases de movilidad y flexibilidad</li>
+                <li>Mejora de rango articular</li>
+                <li>Sin permanencia</li>
+            </ul>
+            <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
+        </div>
+    </div>
 
-                <!-- 4. Sala 3 meses -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="100">
-                    <div class="ps-item">
-                        <h3>Sala <br /> (3 meses)</h3>
-                        <div class="pi-price">
-                            <h2>100 €</h2>
-                            <span>15% DESCUENTO</span>
-                        </div>
-                        <ul>
-                            <li>Acceso completo a sala de musculación</li>
-                            <li>Descuento por contratar 3 meses</li>
-                            <li>Sin permanencia adicional</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
-
-                <!-- 5. Sala + CrossFit o Movilidad 3 meses -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="200">
-                    <div class="ps-item">
-                        <h3>Sala + CrossFit o Movilidad <br /> (3 meses)</h3>
-                        <div class="pi-price">
-                            <h2>180 €</h2>
-                            <span>15% DESCUENTO</span>
-                        </div>
-                        <ul>
-                            <li>Sala + CrossFit o Movilidad</li>
-                            <li>Descuento por contratar 3 meses</li>
-                            <li>Sin permanencia adicional</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
-
-                <!-- 6. Todo incluido 3 meses -->
-                <div class="col-lg-4 col-md-8" data-aos="fade-up" data-aos-delay="300">
-                    <div class="ps-item">
-                        <h3>Todo incluido <br /> (3 meses)</h3>
-                        <div class="pi-price">
-                            <h2>250 €</h2>
-                            <span>15% DESCUENTO</span>
-                        </div>
-                        <ul>
-                            <li>Sala + CrossFit + Movilidad</li>
-                            <li>Acceso ilimitado a todas las zonas</li>
-                            <li>Descuento por contratar 3 meses</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
-                    </div>
-                </div>
+    <div class="col-lg-6 col-md-6 mt-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="ps-item pricing-large">
+            <h3>Tarifa <br /> Premium</h3>
+            <div class="pi-price">
+                <h2>55 €</h2>
+                <span>ACCESO MENSUAL</span>
+            </div>
+            <ul>
+                <li>Acceso completo a sala libre</li>
+                <li>Clases de Crossfit incluidas</li>
+                <li>Clases de Movilidad incluidas</li>
+                <li>Acceso total a todas las zonas</li>
+            </ul>
+            <a href="#" class="primary-btn pricing-btn">Apúntate ahora</a>
+        </div>
+    </div>
+</div>
 
             </div>
         </div>
