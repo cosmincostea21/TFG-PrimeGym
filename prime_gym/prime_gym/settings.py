@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gthox*p53idi5yya%!#=6xk!)nt!ymuhmtidqq=@21i!r8k!#3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'prime_gym.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,3 +130,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Configuración necesaria para redirecciones
 LOGIN_REDIRECT_URL = 'main'  # A donde va el usuario tras loguearse
 LOGOUT_REDIRECT_URL = 'main' # A donde va tras salir
+LOGIN_URL = 'login'  # nombre de la url
