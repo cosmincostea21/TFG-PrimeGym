@@ -1,10 +1,13 @@
 from django.shortcuts import redirect, render, get_object_or_404
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from datetime import date, datetime, timedelta, time
 from django.contrib import messages
 from django.db.models import Count, Q
-from gimnasio.models import Cliente, Reserva, Clase, Tarifa
-from django.contrib.auth.hashers import check_password, make_password
-from .forms import EditarPerfilForm, CambiarPasswordForm
+from gimnasio.models import Cliente, Reserva, Clase
+from django.contrib.auth.hashers import check_password
+from .forms import UserUpdateForm, ClienteUpdateForm
+
 
 # =====================================================
 # NOTA IMPORTANTE (TFG)
@@ -58,22 +61,28 @@ def proxima_sesion_clase(nombre_clase):
         posibles.append(fecha_hora)
     return min(posibles)
 
-def get_cliente_actual():
+
+def get_cliente_actual(request):
     """
-    Devuelve un cliente temporal para desarrollo.
-    En el futuro se sustituirá por el cliente
-    asociado a la sesión.
+    Devuelve el cliente asociado al usuario autenticado.
     """
-    #return request.user.cliente ESTO ES PARA EL LOGIN LAS LLAMADAS A LA FUNCION HAZLO CON (REQUEST EN LA FUNCION)
-    return Cliente.objects.first()
+    if not request.user.is_authenticated:
+        return None
+
+    return get_object_or_404(Cliente, user=request.user)
+
 
 
 # =====================================================
 # DASHBOARD DEL CLIENTE
 # =====================================================
-
+@login_required
 def dashboard(request):
-    cliente = get_cliente_actual()
+    
+    if request.user.is_staff:
+        raise PermissionDenied  
+
+    cliente = get_cliente_actual(request)
 
     clases = Clase.objects.all().prefetch_related('tarifas')
 
@@ -108,8 +117,9 @@ def dashboard(request):
 # =====================================================
 # DATOS PERSONALES
 # =====================================================
+@login_required
 def datos_personales(request):
-    cliente = get_cliente_actual()
+    cliente = get_cliente_actual(request)
 
     context = {
         'cliente': cliente,
@@ -120,8 +130,11 @@ def datos_personales(request):
 # =====================================================
 # MIS RESERVAS
 # =====================================================
+@login_required
 def mis_reservas(request):
-    cliente = get_cliente_actual()
+    if request.user.is_staff:
+        raise PermissionDenied  
+    cliente = get_cliente_actual(request)
     hoy = date.today()
 
     # ===========================
@@ -292,53 +305,26 @@ def mis_reservas(request):
 
     return render(request, 'perfil/reservas.html', context)
 
-
+@login_required
 def editar_perfil(request):
-    cliente = get_cliente_actual()
+    # Obtenemos el perfil del cliente asociado al usuario actual
+    cliente = get_object_or_404(Cliente, user=request.user)
 
-    if request.method == "POST":
-        accion = request.POST.get("accion")
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        c_form = ClienteUpdateForm(request.POST, instance=cliente)
 
-        form = EditarPerfilForm(request.POST, instance=cliente)
-        pass_form = CambiarPasswordForm(request.POST)
+        if u_form.is_valid() and c_form.is_valid():
+            u_form.save()
+            c_form.save()
+            messages.success(request, "¡Tu perfil ha sido actualizado!")
+            return redirect('perfil:editar_perfil') 
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        c_form = ClienteUpdateForm(instance=cliente)
 
-        # ✅ GUARDAR DATOS PERSONALES
-        if accion == "perfil":
-            if form.is_valid():
-                form.save()
-                messages.success(request, "Datos personales actualizados correctamente.")
-            else:
-                messages.error(request, "Revisa los datos del formulario.")
-
-        # ✅ CAMBIAR CONTRASEÑA
-        elif accion == "password":
-            if not pass_form.is_valid():
-                messages.error(request, "Error en el formulario de contraseña.")
-            else:
-                pwd_actual = pass_form.cleaned_data.get("password_actual")
-                pwd_nueva  = pass_form.cleaned_data.get("password_nueva")
-                pwd_conf   = pass_form.cleaned_data.get("password_nueva_confirmacion")
-
-                # ⛔ Aquí SÍ exigimos contraseña
-                if not pwd_actual or not pwd_nueva or not pwd_conf:
-                    messages.error(request, "Debes completar todos los campos para cambiar la contraseña.")
-                elif not check_password(pwd_actual, request.user.password):
-                    messages.error(request, "La contraseña actual no es correcta.")
-                elif pwd_nueva != pwd_conf:
-                    messages.error(request, "Las contraseñas nuevas no coinciden.")
-                else:
-                    request.user.set_password(pwd_nueva)
-                    request.user.save()
-                    messages.success(request, "Contraseña actualizada correctamente.")
-
-        return redirect("perfil:editar_perfil")
-
-    # GET
-    form = EditarPerfilForm(instance=cliente)
-    pass_form = CambiarPasswordForm()
-
-    return render(request, "perfil/editar_perfil.html", {
-        "cliente": cliente,
-        "form": form,
-        "pass_form": pass_form,
-    })
+    context = {
+        'u_form': u_form,
+        'c_form': c_form
+    }
+    return render(request, 'perfil/editar_perfil.html', context)

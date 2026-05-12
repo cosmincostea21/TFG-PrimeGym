@@ -1,3 +1,5 @@
+
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta, time
@@ -6,6 +8,7 @@ from gimnasio.models import Clase, Reserva, Entrenador, Cliente, Tarifa
 from .decorators import admin_required
 from .forms import CrearEntrenadorForm
 from django.contrib import messages
+
 
 # Create your views here.
 
@@ -52,7 +55,6 @@ def proxima_sesion_clase(nombre_clase):
         posibles.append(fecha_hora)
     return min(posibles)
 
-
 def sesiones_anteriores_clase(nombre_clase, n=2):
     """Devuelve las fechas de las N sesiones pasadas más recientes de la clase."""
     ahora = datetime.now()
@@ -85,63 +87,73 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
     return fechas
 
 # VER CLASES ENTRENADOR
+@login_required
 def mis_clases(request):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     clases = Clase.objects.filter(entrenador=entrenador)
 
     return render(request, 'entrenador/mis_clases.html', {'clases': clases})
 
-# VER RESERVAS EN CLASES ENTRENADOR
+
+@login_required
 def reservas_clase(request, clase_id):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     clase = get_object_or_404(Clase, id=clase_id)
 
     # Próxima sesión
-    proxima_dt    = proxima_sesion_clase(clase.nombre)
+    proxima_dt = proxima_sesion_clase(clase.nombre)
     fecha_proxima = proxima_dt.date() if proxima_dt else None
 
-    # 2 sesiones anteriores (la más reciente primero)
+    # 2 sesiones anteriores
     fechas_anteriores = sesiones_anteriores_clase(clase.nombre, n=2)
     fecha_ant_1 = fechas_anteriores[0] if len(fechas_anteriores) > 0 else None
     fecha_ant_2 = fechas_anteriores[1] if len(fechas_anteriores) > 1 else None
 
-    # Construimos las opciones del filtro (clave = ISO date, valor = etiqueta)
+    # Opciones del selector
     opciones = []
     if fecha_proxima:
         opciones.append({
             'value': fecha_proxima.isoformat(),
             'label': f"Próxima · {DIAS_ES[fecha_proxima.weekday()]} {fecha_proxima:%d/%m}",
             'fecha': fecha_proxima,
-            'tipo':  'proxima',
+            'tipo': 'proxima',
         })
     if fecha_ant_1:
         opciones.append({
             'value': fecha_ant_1.isoformat(),
             'label': f"Anterior · {DIAS_ES[fecha_ant_1.weekday()]} {fecha_ant_1:%d/%m}",
             'fecha': fecha_ant_1,
-            'tipo':  'anterior_1',
+            'tipo': 'anterior_1',
         })
     if fecha_ant_2:
         opciones.append({
             'value': fecha_ant_2.isoformat(),
             'label': f"Anterior · {DIAS_ES[fecha_ant_2.weekday()]} {fecha_ant_2:%d/%m}",
             'fecha': fecha_ant_2,
-            'tipo':  'anterior_2',
+            'tipo': 'anterior_2',
         })
 
-    # Fecha seleccionada (default = próxima)
+    # Fecha seleccionada
     fecha_sel_iso = request.GET.get('fecha') or (opciones[0]['value'] if opciones else None)
-    fecha_sel = None
-    if fecha_sel_iso:
-        try:
-            fecha_sel = date.fromisoformat(fecha_sel_iso)
-        except ValueError:
-            fecha_sel = fecha_proxima
+    fecha_sel = date.fromisoformat(fecha_sel_iso) if fecha_sel_iso else None
 
-    # Filtrado de reservas
-    reservas = Reserva.objects.filter(clase=clase).select_related('cliente')
+    # Reservas
+    reservas = (
+        Reserva.objects
+        .filter(clase=clase)
+        .select_related('cliente', 'cliente__user')
+    )
+
     if fecha_sel:
-        reservas = reservas.filter(fecha_reserva=fecha_sel).order_by('cliente__nombre')
+        reservas = reservas.filter(
+            fecha_reserva=fecha_sel
+        ).order_by(
+            'cliente__user__username'  # ✅ CORREGIDO
+        )
     else:
         reservas = reservas.none()
 
@@ -150,29 +162,34 @@ def reservas_clase(request, clase_id):
     if estado and estado != 'todos':
         reservas = reservas.filter(estado=estado)
 
-    # Info para cabecera
+    # Info cabecera
     info = None
     if fecha_sel:
         es_proxima = (fecha_sel == fecha_proxima)
         info = {
             'titulo': 'Próxima sesión' if es_proxima else 'Sesión anterior',
-            'dia':    DIAS_ES[fecha_sel.weekday()],
-            'fecha':  fecha_sel,
-            'hora':   proxima_dt.strftime("%H:%M") if (es_proxima and proxima_dt) else None,
+            'dia': DIAS_ES[fecha_sel.weekday()],
+            'fecha': fecha_sel,
+            'hora': proxima_dt.strftime("%H:%M") if es_proxima and proxima_dt else None,
         }
 
     context = {
-        'clase':       clase,
-        'reservas':    reservas,
-        'opciones':    opciones,
-        'fecha_sel':   fecha_sel_iso,
-        'info':        info,
+        'clase': clase,
+        'reservas': reservas,
+        'opciones': opciones,
+        'fecha_sel': fecha_sel_iso,
+        'info': info,
     }
+
     return render(request, 'entrenador/reservas_clase.html', context)
 
 
+
 # EDITAR ASISTENCIA
+@login_required
 def cambiar_estado(request, reserva_id, estado):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
 
     reserva = get_object_or_404(Reserva, id=reserva_id)
     estados_validos = ['reservada', 'asistio', 'cancelada']
@@ -184,8 +201,11 @@ def cambiar_estado(request, reserva_id, estado):
     return redirect('entrenador:reservas_clase', clase_id=reserva.clase.id)
 
 # PANEL DEL ENTRENADOR
+@login_required
 def panel_entrenador(request):
-    entrenador = Entrenador.objects.first()
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
+    entrenador = get_object_or_404(Entrenador, user=request.user)
     clases = Clase.objects.filter(entrenador=entrenador)
 
     total_clases   = clases.count()
@@ -203,7 +223,7 @@ def panel_entrenador(request):
             Reserva.objects
             .filter(clase=clase, fecha_reserva=fecha, estado='reservada')
             .select_related('cliente')
-            .order_by('cliente__nombre')
+            .order_by('cliente__user__username')
         )
 
         proximas.append({
@@ -227,7 +247,10 @@ def panel_entrenador(request):
     return render(request, 'entrenador/panel.html', context)
 
 # CLASES DEL DIA
+@login_required
 def clases_hoy(request):
+    if not request.user.is_staff:
+        raise PermissionDenied  # 403
     #entrenador = request.user.entrenador
     entrenador = Entrenador.objects.first()
     hoy = date.today()
@@ -236,7 +259,7 @@ def clases_hoy(request):
     return render(request, 'entrenador/clases_hoy.html', {'reservas': reservas_hoy})
 
 # CAMBIAR CONTRASEÑA
-#@login_required
+@login_required
 def cambiar_password_entrenador(request):
     entrenador = Entrenador.objects.first()
     if request.method == "POST":
@@ -266,6 +289,7 @@ def cambiar_password_entrenador(request):
     return render(request, "entrenador/cambiar_password.html")
 
 # PANEL ADMIN
+@login_required
 @admin_required
 def admin_clientes(request):
     clientes = Cliente.objects.all()
@@ -279,6 +303,7 @@ def admin_clientes(request):
     return render(request, "entrenador/admin_clientes.html", {"clientes": clientes, "tarifas": tarifas})
 
 # ACTIVAR/DESACTIVAR CLIENTE
+@login_required
 @admin_required
 def cambiar_tarifa_cliente(request, cliente_id):
 
@@ -297,6 +322,7 @@ def cambiar_tarifa_cliente(request, cliente_id):
     return redirect('entrenador:admin_clientes')
 
 # CREAR ENTRENADOR
+@login_required
 @admin_required
 def crear_entrenador(request):
     form = CrearEntrenadorForm()

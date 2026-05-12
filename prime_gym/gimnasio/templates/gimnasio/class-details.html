@@ -49,6 +49,25 @@
                 <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                 <li><a href="{% url 'equipo' %}">Equipo</a></li>
                 <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                {% if request.user.is_authenticated %}
+                {% if request.user.is_staff %}
+                <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
+                {% else %}
+                <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
+                {% endif %}
+                <li>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">
+                            Salir
+                        </button>
+                    </form>
+                </li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -78,6 +97,25 @@
                             <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                             <li><a href="{% url 'equipo' %}">Equipo</a></li>
                             <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                            {% if request.user.is_authenticated %}
+                            {% if request.user.is_staff %}
+                            <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
+                            {% else %}
+                            <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
+                            {% endif %}
+                            <li>
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-btn">
+                                        Salir
+                                    </button>
+                                </form>
+                            </li>
+                            {% else %}
+                            <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
+                            <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>
@@ -96,6 +134,7 @@
         </div>
     </header>
     <!-- Header End -->
+
 
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
@@ -167,119 +206,81 @@
     <!-- ChoseUs Section End -->
 
     <!-- Class Timetable Section Begin -->
-    <section class="class-timetable-section class-details-timetable spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="class-details-timetable_title" data-aos="fade-up">
-                        <h5>Horarios de clases</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="class-timetable details-timetable" data-aos="fade-up" data-aos-delay="100">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Lunes</th>
-                                    <th>Martes</th>
-                                    <th>Miércoles</th>
-                                    <th>Jueves</th>
-                                    <th>Viernes</th>
-                                    <th>Sábado</th>
-                                    <th>Domingo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tbody>
-                                <tr>
-                                    <td class="class-time">07:00 - 08:00</td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g1">
-                                        <h5>CROSSFIT G1</h5>
-                                        <span>Monitor Caye</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g1">
-                                        <h5>CROSSFIT G1</h5>
-                                        <span>Monitor Caye</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g1">
-                                        <h5>CROSSFIT G1</h5>
-                                        <span>Monitor Caye</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg blank-td"></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="class-time">08:00 - 09:00</td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g1">
-                                        <h5>MOVILIDAD G1</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g1">
-                                        <h5>MOVILIDAD G1</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g1">
-                                        <h5>MOVILIDAD G1</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="class-time">09:00 - 10:00</td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g2">
-                                        <h5>MOVILIDAD G2</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g2">
-                                        <h5>MOVILIDAD G2</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad-g2">
-                                        <h5>MOVILIDAD G2</h5>
-                                        <span>Monitor Juve</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg blank-td"></td>
-                                </tr>
-
-                                <tr>
-                                    <td class="class-time">20:00 - 21:00</td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g2">
-                                        <h5>CROSSFIT G2</h5>
-                                        <span>Monitor Pedro</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g2">
-                                        <h5>CROSSFIT G2</h5>
-                                        <span>Monitor Pedro</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                    <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit-g2">
-                                        <h5>CROSSFIT G2</h5>
-                                        <span>Monitor Pedro</span>
-                                    </td>
-                                    <td class="blank-td"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+<section class="class-timetable-section class-details-timetable spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="class-details-timetable_title" data-aos="fade-up">
+                    <h5>Horarios de Actividades Dirigidas</h5>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="sala-libre-info" data-aos="fade-up" data-aos-delay="50">
+                    <p><strong>SALA LIBRE:</strong> Entrenamiento libre con supervisión disponible <span>todos los días</span> durante el horario de apertura del centro.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="class-timetable details-timetable" data-aos="fade-up" data-aos-delay="100">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Lunes</th>
+                                <th>Martes</th>
+                                <th>Miércoles</th>
+                                <th>Jueves</th>
+                                <th>Viernes</th>
+                                <th>Sábado</th>
+                                <th>Domingo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="class-time">09:00 - 10:00</td>
+                                <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad">
+                                    <h5>MOVILIDAD</h5>
+                                    <span>Yoga - Todos los niveles</span>
+                                </td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg hover-dp ts-meta" data-tsmeta="movilidad">
+                                    <h5>MOVILIDAD</h5>
+                                    <span>Yoga - Todos los niveles</span>
+                                </td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg"></td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="class-time">19:00 - 20:00</td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit">
+                                    <h5>CROSSFIT</h5>
+                                    <span>Alta Intensidad</span>
+                                </td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg hover-dp ts-meta" data-tsmeta="crossfit">
+                                    <h5>CROSSFIT</h5>
+                                    <span>Alta Intensidad</span>
+                                </td>
+                                <td class="grey-bg"></td>
+                                <td class="dark-bg"></td>
+                                <td class="grey-bg"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
     <!-- Class Timetable Section End -->
 
     <!-- Footer Section Begin -->

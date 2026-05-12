@@ -25,19 +25,19 @@ SECRET_KEY = 'django-insecure-gthox*p53idi5yya%!#=6xk!)nt!ymuhmtidqq=@21i!r8k!#3
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
     'gimnasio',
     'entrenador',
     'perfil',
@@ -58,10 +58,11 @@ ROOT_URLCONF = 'prime_gym.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -128,5 +129,6 @@ STATICFILES_DIRS = [
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Configuración necesaria para redirecciones
-LOGIN_REDIRECT_URL = 'home'  # A donde va el usuario tras loguearse
-LOGOUT_REDIRECT_URL = 'login' # A donde va tras salir
+LOGIN_REDIRECT_URL = 'main'  # A donde va el usuario tras loguearse
+LOGOUT_REDIRECT_URL = 'main' # A donde va tras salir
+LOGIN_URL = 'login'  # nombre de la url

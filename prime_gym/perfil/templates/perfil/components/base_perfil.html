@@ -36,12 +36,12 @@
 
 <body>
 
-    <!-- Preloader -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
+<!-- Preloader -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
 
-    <!-- Offcanvas Menu -->
+    <!-- Offcanvas Menu Section Begin -->
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="canvas-close">
@@ -54,32 +54,83 @@
                 <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                 <li><a href="{% url 'equipo' %}">Equipo</a></li>
                 <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                {% if request.user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                        <li><a href="{% url 'entrenador:panel' %}">Panel entrenador</a></li>
+                    {% else %}
+                        <li><a href="{% url 'perfil:dashboard' %}">Perfil</a></li>
+                    {% endif %}
+                        <li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-btn">
+                                    Salir
+                                </button>
+                            </form>
+                        </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                {% endif %}
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
+        <div class="canvas-social">
+            <a href="#"><i class="fa fa-youtube-play"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+        </div>
     </div>
+    <!-- Offcanvas Menu Section End -->
 
-    <!-- Header -->
+    <!-- Header Section Begin -->
     <header class="header-section">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-3" data-aos="fade-down">
                     <div class="logo">
                         <a href="{% url 'main' %}">
                             <img src="{% static 'img/logo.webp' %}" alt="Prime Gym Logo">
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-aos="fade-down" data-aos-delay="100">
                     <nav class="nav-menu">
                         <ul>
-                            <li><a href="{% url 'main' %}">Inicio</a></li>
+                            <li class="active"><a href="{% url 'main' %}">Inicio</a></li>
                             <li><a href="{% url 'clases' %}">Clases</a></li>
                             <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
                             <li><a href="{% url 'equipo' %}">Equipo</a></li>
                             <li><a href="{% url 'contacto' %}">Contacto</a></li>
+
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_staff %}
+                                    <li><a href="{% url 'entrenador:panel' %}" class="nav-profile">Panel entrenador</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'perfil:dashboard' %}" class="nav-profile">Perfil de Usuario</a></li>
+                                {% endif %}
+                                    <li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="logout-btn">
+                                                Salir
+                                            </button>
+                                        </form>
+                                    </li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}" class="nav-auth">Iniciar sesión</a></li>
+                                <li><a href="{% url 'register'%} " class="nav-auth-btn">Registrarse</a></li>
+                            {% endif %}
                         </ul>
                     </nav>
+                </div>
+                <div class="col-lg-3" data-aos="fade-down" data-aos-delay="200">
+                    <div class="top-option">
+                        <div class="to-social">
+                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="canvas-open">
@@ -87,119 +138,120 @@
             </div>
         </div>
     </header>
-
-    <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb-text">
-                        <h2 data-aos="fade-right" data-aos-delay="300"> {{cliente.nombre}}</h2>
-                        <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
-                            <a href="{% url 'main' %}">Inicio</a>
-                            <a href="{% url 'perfil:dashboard'%}">Perfil</a>
-                            <span>{% block pagina %}{% endblock %}</span>
-                        </div>
+    <!-- Header End -->
+     
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="{% static 'img/breadcrumb-bg.webp' %}">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2 data-aos="fade-right" data-aos-delay="300"> {{ request.user.username }}</h2>
+                    <div class="bt-option" data-aos="fade-left" data-aos-delay="400">
+                        <a href="{% url 'main' %}">Inicio</a>
+                        <a href="{% url 'perfil:dashboard'%}">Perfil</a>
+                        <span>{% block pagina %}{% endblock %}</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Breadcrumb Section End -->
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
 
-    <!-- =========================
-     CONTENIDO DEL PERFIL
-     ========================= -->
-    <section class="spad">
-        <div class="container">
-            {% block contenido %}
-            {% endblock %}
-        </div>
-    </section>
+<!-- =========================
+    CONTENIDO DEL PERFIL
+    ========================= -->
+<section class="spad">
+    <div class="container">
+        {% block contenido %}
+        {% endblock %}
+    </div>
+</section>
 
 
-    <!-- Footer Section Begin -->
-    <footer class="footer-section">
-        <div class="container">
+<!-- Footer Section Begin -->
+<footer class="footer-section">
+    <div class="container">
 
-            <div class="row justify-content-center">
+        <div class="row justify-content-center">
 
-                <!-- Marca -->
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="footer-brand">
-                        <h3>PRYME</h3>
-                        <p>
-                            Centro de entrenamiento orientado al rendimiento,
-                            la salud y la superación personal.
-                        </p>
-                    </div>
+            <!-- Marca -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="footer-brand">
+                    <h3>PRYME</h3>
+                    <p>
+                        Centro de entrenamiento orientado al rendimiento,
+                        la salud y la superación personal.
+                    </p>
                 </div>
-
-                <!-- Navegación -->
-                <div class="col-lg-2 col-md-6 mb-4">
-                    <h5 class="footer-title">Navegación</h5>
-                    <ul class="footer-links">
-                        <li><a href="{% url 'main' %}">Inicio</a></li>
-                        <li><a href="{% url 'clases' %}">Clases</a></li>
-                        <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
-                        <li><a href="{% url 'equipo' %}">Equipo</a></li>
-                        <li><a href="{% url 'contacto' %}">Contacto</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contacto -->
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5 class="footer-title">Contacto</h5>
-                    <ul class="footer-contact">
-                        <li><i class="fa fa-map-marker"></i> Villafranca de los Caballeros</li>
-                        <li><i class="fa fa-phone"></i> 626 524 767</li>
-                        <li><i class="fa fa-envelope"></i> soporte.primegym@gmail.com</li>
-                    </ul>
-                </div>
-
-                <!-- Redes -->
-                <div class="col-xl-1 col-lg-3 col-md-4 mb-4">
-                    <h5 class="footer-title">Síguenos</h5>
-                    <div class="footer-social">
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- Línea inferior -->
-            <div class="footer-bottom text-center">
-                <p>
-                    ©
-                    <script>document.write(new Date().getFullYear());</script>
-                    PRYME Training Center · Todos los derechos reservados
-                </p>
+            <!-- Navegación -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5 class="footer-title">Navegación</h5>
+                <ul class="footer-links">
+                    <li><a href="{% url 'main' %}">Inicio</a></li>
+                    <li><a href="{% url 'clases' %}">Clases</a></li>
+                    <li><a href="{% url 'tarifas' %}">Tarifas</a></li>
+                    <li><a href="{% url 'equipo' %}">Equipo</a></li>
+                    <li><a href="{% url 'contacto' %}">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5 class="footer-title">Contacto</h5>
+                <ul class="footer-contact">
+                    <li><i class="fa fa-map-marker"></i> Villafranca de los Caballeros</li>
+                    <li><i class="fa fa-phone"></i> 626 524 767</li>
+                    <li><i class="fa fa-envelope"></i> soporte.primegym@gmail.com</li>
+                </ul>
+            </div>
+
+            <!-- Redes -->
+            <div class="col-xl-1 col-lg-3 col-md-4 mb-4">
+                <h5 class="footer-title">Síguenos</h5>
+                <div class="footer-social">
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-youtube-play"></i></a>
+                </div>
             </div>
 
         </div>
-    </footer>
-    <!-- Footer Section End -->
+
+        <!-- Línea inferior -->
+        <div class="footer-bottom text-center">
+            <p>
+                ©
+                <script>document.write(new Date().getFullYear());</script>
+                PRYME Training Center · Todos los derechos reservados
+            </p>
+        </div>
+
+    </div>
+</footer>
+<!-- Footer Section End -->
 
 
-    <!-- Scroll Top -->
-    <a id="scrollTopButton" class="scroll-top-btn">
-        <i class="fa fa-angle-up"></i>
-    </a>
+<!-- Scroll Top -->
+<a id="scrollTopButton" class="scroll-top-btn">
+    <i class="fa fa-angle-up"></i>
+</a>
 
-    <!-- Js Plugins -->
-    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
-    <script src="{% static 'js/jquery.barfiller.js' %}"></script>
-    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script src="{% static 'js/boton-volver.js' %}"></script>
+<!-- Js Plugins -->
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+<script src="{% static 'js/jquery.barfiller.js' %}"></script>
+<script src="{% static 'js/jquery.slicknav.js' %}"></script>
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script src="{% static 'js/boton-volver.js' %}"></script>
 
-    {% block scripts %}{% endblock %}
+{% block scripts %}{% endblock %}
 
 </body>
 
