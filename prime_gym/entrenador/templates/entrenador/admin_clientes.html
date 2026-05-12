@@ -26,21 +26,24 @@
         </h2>
     </div>
 
-    <div class="ac-header-stats">
+    <div class="ac-header-right">
         <div class="ac-stat">
             <span class="ac-stat-num">{{ clientes|length }}</span>
             <span class="ac-stat-label">Clientes</span>
         </div>
+
+        <!-- NAV CRUZADO -->
+        <a href="{% url 'entrenador:admin_entrenadores' %}" class="ac-btn ac-btn--ghost">
+            <i class="fa fa-users-gear"></i>
+            <span>Ver entrenadores</span>
+        </a>
     </div>
 </div>
 
 <!-- BUSCADOR -->
 <div class="ac-search">
     <i class="fa fa-magnifying-glass"></i>
-    <input type="text"
-           id="searchInput"
-           placeholder="Buscar cliente por nombre…"
-           autocomplete="off">
+    <input type="text" id="searchInput" placeholder="Buscar cliente por nombre…" autocomplete="off" data-admin-search="clientesTable" data-admin-empty="searchEmpty">
 </div>
 
 <!-- TABLA -->
@@ -57,37 +60,25 @@
         <tbody id="clientesTable">
             {% for cliente in clientes %}
                 <tr class="ac-row {% if cliente.tarifa %}ac-row--activo{% else %}ac-row--inactivo{% endif %}">
-
-                    <!-- NOMBRE (mantiene .nombre para tu JS) -->
                     <td class="nombre ac-cell-name">
-                        <span class="ac-avatar">
-                            {{ cliente.nombre|slice:":1"|upper }}
-                        </span>
+                        <span class="ac-avatar">{{ cliente.nombre|slice:":1"|upper }}</span>
                         <strong>{{ cliente.nombre }}</strong>
                     </td>
-
-                    <!-- EMAIL -->
                     <td class="ac-cell-email">
                         <i class="fa fa-envelope"></i>
                         <span>{{ cliente.email }}</span>
                     </td>
-
-                    <!-- ESTADO -->
                     <td>
                         {% if cliente.tarifa %}
                             <span class="ac-badge ac-badge--activo">
-                                <i class="fa fa-circle-check"></i>
-                                Activo
+                                <i class="fa fa-circle-check"></i> Activo
                             </span>
                         {% else %}
                             <span class="ac-badge ac-badge--inactivo">
-                                <i class="fa fa-circle-xmark"></i>
-                                Inactivo
+                                <i class="fa fa-circle-xmark"></i> Inactivo
                             </span>
                         {% endif %}
                     </td>
-
-                    <!-- ACCIÓN -->
                     <td class="ac-cell-action">
                         {% if cliente.tarifa %}
                             <form method="POST"
@@ -136,11 +127,10 @@
     </table>
 </div>
 
-<!-- Estado vacío del buscador (lo gestionas opcionalmente desde JS) -->
 <div id="searchEmpty" class="ac-empty ac-empty--filter" hidden>
     <i class="fa fa-filter-circle-xmark"></i>
     <p>No se encuentra ningún cliente con ese nombre</p>
 </div>
 
-<script src="{% static 'js/admin_clientes.js' %}"></script>
+<script src="{% static 'js/admin_search.js' %}"></script>
 {% endblock %}

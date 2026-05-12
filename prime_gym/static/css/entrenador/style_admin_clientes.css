@@ -18,6 +18,12 @@
 .spad { background-color: #151515; }
 
 /* ===== HEADER ===== */
+.ae-header-right {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
 .ac-header {
     display: flex;
     justify-content: space-between;
@@ -54,6 +60,9 @@
     padding: 0.85rem 1.25rem;
     min-width: 110px;
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .ac-stat-num {
     display: block;
@@ -247,39 +256,77 @@
     border-color: var(--rr);
 }
 
-/* ===== BOTONES ===== */
-.ac-btn {
-    display: inline-flex;
+/* ===== BOTONES (bulletproof contra style.css global) ===== */
+.ac-btn,
+a.ac-btn,
+button.ac-btn {
+    display: inline-flex !important;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.55rem 1rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
+    text-decoration: none !important;
     border: 1px solid transparent;
+    border-radius: 12px;
     cursor: pointer;
+    line-height: 1;
     transition: transform 0.2s ease, box-shadow 0.25s ease,
-                background 0.25s ease, color 0.25s ease;
+                background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
-.ac-btn--primary {
-    background: var(--rr);
-    color: #fff;
+.ac-btn:hover,
+.ac-btn:focus,
+a.ac-btn:hover,
+a.ac-btn:focus {
+    text-decoration: none !important;
+    outline: none;
+}
+
+/* PRIMARY */
+.ac-btn--primary,
+a.ac-btn--primary {
+    background: var(--rr) !important;
+    color: #fff !important;
     border-color: var(--rr);
 }
-.ac-btn--primary:hover {
+.ac-btn--primary:hover,
+a.ac-btn--primary:hover {
+    color: #fff !important;
     transform: translateY(-1px);
     box-shadow: 0 8px 20px var(--rr-soft);
 }
-.ac-btn--danger {
-    background: transparent;
-    color: var(--rr);
+
+/* DANGER */
+.ac-btn--danger,
+a.ac-btn--danger {
+    background: transparent !important;
+    color: var(--rr) !important;
     border-color: rgba(255,10,31,0.4);
 }
-.ac-btn--danger:hover {
-    background: var(--rr);
-    color: #fff;
+.ac-btn--danger:hover,
+a.ac-btn--danger:hover {
+    background: var(--rr) !important;
+    color: #fff !important;
     border-color: var(--rr);
+    transform: translateY(-1px);
+}
+
+/* GHOST */
+.ac-btn--ghost,
+a.ac-btn--ghost {
+    background: transparent !important;
+    color: var(--rt2) !important;
+    border-color: var(--rl);
+}
+.ac-btn--ghost:hover,
+.ac-btn--ghost:focus,
+a.ac-btn--ghost:hover,
+a.ac-btn--ghost:focus {
+    color: #fff !important;
+    border-color: var(--rr);
+    background: var(--rr-soft) !important;
     transform: translateY(-1px);
 }
 
@@ -308,7 +355,15 @@
     font-size: 0.85rem;
 }
 
+/* ===== HEADER-RIGHT mejorado con botones ===== */
+.ac-header-right .ac-btn { align-self: center; }
+
+
 /* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .ac-header { align-items: flex-start; }
+    .ae-header-right { width: 100%; justify-content: space-between; }
+}
 @media (max-width: 900px) {
     .ac-cell-action { text-align: left; }
     .ac-form--inline {

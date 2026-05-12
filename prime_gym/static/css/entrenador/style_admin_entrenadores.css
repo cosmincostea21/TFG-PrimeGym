@@ -1,0 +1,381 @@
+/* =========================================================
+   ADMIN ENTRENADORES · panel admin
+========================================================= */
+:root {
+    --rb:      #0a0a0a;
+    --rs:      #111111;
+    --rs2:     #161616;
+    --rl:      rgba(255,255,255,0.06);
+    --rr:      #ff0a1f;
+    --rr-soft: rgba(255,10,31,0.12);
+    --rt:      #ffffff;
+    --rt2:     #d8d8d8;
+    --rm:      #888;
+    --gold:      #ffb648;
+    --gold-soft: rgba(255,182,72,0.12);
+    --blue:      #4ea8ff;
+    --blue-soft: rgba(78,168,255,0.12);
+}
+
+.spad { background-color: #151515; }
+
+/* ===== HEADER ===== */
+.ae-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid var(--rl);
+}
+.ae-kicker {
+    display: block;
+    color: var(--rr);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+}
+.ae-title {
+    color: var(--rt);
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0;
+}
+.ae-title i { color: var(--rr); margin-right: 0.5rem; }
+
+.ae-header-right {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.ae-stat {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-left: 3px solid var(--rr);
+    padding: 0.85rem 1.25rem;
+    min-width: 110px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.ae-stat-num {
+    color: var(--rt);
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
+}
+.ae-stat-label {
+    margin-top: 0.25rem;
+    color: var(--rm);
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ===== ALERTAS ===== */
+.ae-alert {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    background: var(--rs);
+    color: var(--rt2);
+    padding: 1rem 1.25rem 1rem 1.6rem;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+    border-radius: 8px;
+}
+.ae-alert-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rr);
+}
+.ae-alert i { color: var(--rr); }
+
+/* ===== TABLA ===== */
+.ae-table-wrap {
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    border-radius: 12px;
+    overflow: hidden;
+}
+.ae-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--rt2);
+}
+.ae-table thead th {
+    background: #0e0e0e;
+    color: var(--rm);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+}
+.ae-th-actions { text-align: right; }
+
+.ae-table tbody td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--rl);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+.ae-table tbody tr:last-child td { border-bottom: none; }
+
+.ae-row { transition: background 0.2s ease; }
+.ae-row:hover { background: var(--rs2); }
+.ae-row--admin .ae-avatar {
+    background: var(--gold-soft);
+    color: var(--gold);
+    border-color: rgba(255,182,72,0.4);
+}
+
+/* ===== CELDAS ===== */
+.ae-cell-name {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+.ae-cell-name strong {
+    display: block;
+    color: var(--rt);
+    font-weight: 700;
+}
+.ae-self {
+    display: inline-block;
+    margin-top: 0.25rem;
+    background: var(--rr-soft);
+    color: var(--rr);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid rgba(255,10,31,0.4);
+}
+
+.ae-avatar {
+    width: 38px;
+    height: 38px;
+    background: var(--rr-soft);
+    color: var(--rr);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.95rem;
+    border: 1px solid rgba(255,10,31,0.3);
+    flex-shrink: 0;
+}
+
+.ae-cell-email {
+    color: var(--rt2);
+    font-size: 0.88rem;
+}
+.ae-cell-email i {
+    color: var(--rr);
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.ae-cell-spec i {
+    color: var(--rr);
+    margin-right: 0.4rem;
+    font-size: 0.8rem;
+}
+.ae-muted { color: var(--rm); }
+
+/* ===== BADGES DE ROL ===== */
+.ae-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid;
+    white-space: nowrap;
+}
+.ae-badge--admin {
+    color: var(--gold);
+    background: var(--gold-soft);
+    border-color: rgba(255,182,72,0.45);
+}
+.ae-badge--entrenador {
+    color: var(--blue);
+    background: var(--blue-soft);
+    border-color: rgba(78,168,255,0.4);
+}
+/* Fallback para otros roles */
+.ae-badge:not(.ae-badge--admin):not(.ae-badge--entrenador) {
+    color: var(--rt2);
+    background: rgba(255,255,255,0.04);
+    border-color: var(--rl);
+}
+
+/* ===== ACCIÓN ===== */
+.ae-cell-action { text-align: right; }
+
+.ae-locked {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--rm);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    border: 1px dashed var(--rl);
+}
+.ae-locked i { font-size: 0.7rem; }
+
+/* ===== BOTONES ===== */
+.ae-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease,
+                background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.ae-btn--primary {
+    background: linear-gradient(135deg, var(--rr), #ff5151);
+    color: #fff;
+    border-color: var(--rr);
+    border-radius: 12px;
+}
+.ae-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255,80,80,.35);
+    color: #fff;
+}
+.ae-btn--danger {
+    background: transparent;
+    color: var(--rr);
+    border-color: rgba(255,10,31,0.4);
+}
+.ae-btn--danger:hover {
+    background: var(--rr);
+    color: #fff;
+    border-color: var(--rr);
+    transform: translateY(-1px);
+}
+
+/* ===== EMPTY ===== */
+.ae-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+.ae-empty i {
+    display: block;
+    font-size: 2rem;
+    color: var(--rr);
+    margin-bottom: 0.85rem;
+}
+.ae-empty p {
+    margin: 0;
+    color: #aaa;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* ===== BUSCADOR (mismo patrón que admin_clientes) ===== */
+.ae-search {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+.ae-search i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rr);
+    font-size: 0.95rem;
+}
+.ae-search input {
+    width: 100%;
+    background: var(--rs);
+    border: 1px solid var(--rl);
+    color: var(--rt);
+    padding: 0.95rem 1.1rem 0.95rem 3rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    transition: border-color 0.25s ease, background 0.25s ease,
+                box-shadow 0.25s ease;
+}
+.ae-search input::placeholder { color: var(--rm); }
+.ae-search input:focus {
+    outline: none;
+    border-color: var(--rr);
+    background: var(--rs2);
+    box-shadow: 0 0 0 3px var(--rr-soft);
+}
+
+/* ===== EMPTY DE FILTRO ===== */
+.ae-empty--filter {
+    margin-top: 1rem;
+    background: var(--rs);
+    border-radius: 12px;
+}
+
+/* ===== BOTÓN GHOST ===== */
+.ae-btn--ghost {
+    background: transparent;
+    color: var(--rt2);
+    border-color: var(--rl);
+    border-radius: 12px;
+}
+.ae-btn--ghost:hover {
+    color: #fff;
+    border-color: var(--rr);
+    background: var(--rr-soft);
+    transform: translateY(-1px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+    .ae-header { align-items: flex-start; }
+    .ae-header-right { width: 100%; justify-content: space-between; }
+}
+@media (max-width: 768px) {
+    .ae-table thead { display: none; }
+    .ae-table tbody tr {
+        display: block;
+        padding: 1rem 0.5rem;
+        border-bottom: 1px solid var(--rl);
+    }
+    .ae-table tbody td {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        border-bottom: none;
+        padding: 0.5rem 1rem;
+    }
+    .ae-cell-action { justify-content: flex-start; }
+}
