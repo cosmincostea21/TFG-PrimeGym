@@ -87,5 +87,14 @@
         </a>
     </div>
 </div>
+{% if request.user.entrenador.rol == "admin" %}
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a href="{% url 'entrenador:admin_clientes' %}" class="primary-btn">
+                Panel Admin
+            </a>
+        </div>
+    </div>
+{% endif %}
 
 {% endblock %}

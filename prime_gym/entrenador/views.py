@@ -1,4 +1,3 @@
-
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -334,7 +333,8 @@ def crear_entrenador(request):
             user = User.objects.create_user(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
-                password=form.cleaned_data['password']
+                password=form.cleaned_data['password'],
+                is_staff=True
             )
 
             Entrenador.objects.create(
@@ -347,3 +347,33 @@ def crear_entrenador(request):
             return redirect('entrenador:admin_clientes')
 
     return render(request, 'entrenador/crear_entrenador.html', {'form': form})
+
+# LISTAR ENTRENADORES
+@login_required
+@admin_required
+def admin_entrenadores(request):
+
+    entrenadores = Entrenador.objects.select_related('user').all()
+
+    return render(request, 'entrenador/admin_entrenadores.html', { 'entrenadores': entrenadores })
+
+# DAR DE BAJA ENTRENADORES
+@login_required
+@admin_required
+def eliminar_entrenador(request, entrenador_id):
+
+    entrenador = get_object_or_404(Entrenador, id=entrenador_id)
+
+    if entrenador.user == request.user:
+        messages.error(request, "No puedes eliminar tu propia cuenta.")
+        return redirect('entrenador:admin_entrenadores')
+
+    if entrenador.rol == "admin":
+        messages.error(request, "No puedes eliminar otro administrador.")
+        return redirect('entrenador:admin_entrenadores')
+
+    entrenador.user.delete()
+
+    messages.success(request, "Entrenador eliminado correctamente.")
+
+    return redirect('entrenador:admin_entrenadores')
