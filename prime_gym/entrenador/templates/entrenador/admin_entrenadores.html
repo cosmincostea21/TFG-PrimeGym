@@ -116,8 +116,7 @@
                     <td class="ae-cell-action">
                         {% if entrenador.user != request.user and entrenador.rol|lower != "admin" %}
                             <a href="{% url 'entrenador:eliminar_entrenador' entrenador.id %}"
-                               class="ae-btn ae-btn--danger"
-                               onclick="return confirm('¿Eliminar a {{ entrenador.user.username }}? Esta acción no se puede deshacer.');">
+                               class="ae-btn ae-btn--danger js-confirm-eliminar">
                                 <i class="fa fa-trash"></i>
                                 <span>Eliminar</span>
                             </a>
@@ -148,5 +147,16 @@
     <p>No se encuentra ningún entrenador con ese nombre</p>
 </div>
 
+<!-- VOLVER -->
+<div class="rc-footer">
+    <a href="{% url 'entrenador:panel' %}" class="rc-btn rc-btn--ghost">
+        <i class="fa fa-arrow-left"></i>
+        <span>Volver al Panel Entrenador</span>
+    </a>
+</div>
+
+<script src="{% static 'js/avisos_admin.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{% static 'js/admin_search.js' %}"></script>
+
 {% endblock %}
