@@ -111,10 +111,17 @@
 
     <!-- ACCIONES GLOBALES -->
     <div class="adm-form-actions adm-form-actions--global">
-        <a href="{% url 'entrenador:panel' %}" class="adm-btn adm-btn--ghost">
-            <i class="fa fa-arrow-left"></i>
-            <span>Volver al panel</span>
-        </a>
+        <div class="adm-actions-left">
+            <a href="{% url 'entrenador:admin_entrenadores' %}" class="adm-btn adm-btn--ghost">
+                <i class="fa fa-arrow-left"></i>
+                <span>Ver entrenadores</span>
+            </a>
+            <a href="{% url 'entrenador:admin_clientes' %}" class="adm-btn adm-btn--ghost">
+                <i class="fa fa-user-gear"></i>
+                <span>Ver clientes</span>
+            </a>
+        </div>
+
         <button type="submit" class="adm-btn adm-btn--primary">
             <span>Crear entrenador</span>
             <i class="fa fa-user-plus"></i>

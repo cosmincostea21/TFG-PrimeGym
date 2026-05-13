@@ -13,4 +13,6 @@ urlpatterns = [
     path('admin/clientes/', views.admin_clientes, name = 'admin_clientes'),
     path('admin/cliente/<int:cliente_id>/tarifa/', views.cambiar_tarifa_cliente,name = 'cambiar_tarifa_cliente'),
     path('admin/crear-entrenador/', views.crear_entrenador, name='crear_entrenador'),
+    path('admin/entrenadores/', views.admin_entrenadores, name='admin_entrenadores' ),
+    path('admin/entrenadores/eliminar/<int:entrenador_id>/', views.eliminar_entrenador, name='eliminar_entrenador'),
 ]

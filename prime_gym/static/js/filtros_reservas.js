@@ -27,13 +27,13 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  document.querySelectorAll('.js-confirm-cancel').forEach(form => {
+  document.querySelectorAll('.js-confirm-eliminar').forEach(form => {
 
     form.addEventListener('submit', function (e) {
       e.preventDefault(); // ⛔ detenemos el submit NORMAL
 
       Swal.fire({
-        title: '¿Anular reserva?',
+        title: '¿Eliminar entrenador empleado?',
         text: 'Esta acción no se puede deshacer',
         icon: 'warning',
         showCancelButton: true,

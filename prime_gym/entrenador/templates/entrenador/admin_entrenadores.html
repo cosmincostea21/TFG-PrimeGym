@@ -1,0 +1,162 @@
+{% extends "entrenador/components/base.html" %}
+{% load static %}
+
+{% block title %}Entrenadores{% endblock %}
+{% block titulo %}Gestión de entrenadores{% endblock %}
+
+{% block enlace_nav %}
+    <a href="{% url 'entrenador:admin_entrenadores' %}">Entrenadores</a>
+{% endblock %}
+
+{% block subtitulo %}Administración{% endblock %}
+
+{% block css_entrenador %}
+    <link rel="stylesheet" href="{% static 'css/entrenador/style_admin_entrenadores.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<!-- HEADER -->
+<div class="ae-header">
+    <div>
+        <span class="ae-kicker">Panel administrador</span>
+        <h2 class="ae-title">
+            <i class="fa fa-users-gear"></i>
+            Equipo de entrenadores
+        </h2>
+    </div>
+
+    <div class="ae-header-right">
+        <div class="ae-stat">
+            <span class="ae-stat-num">{{ entrenadores|length }}</span>
+            <span class="ae-stat-label">Total</span>
+        </div>
+
+        <!-- NAV CRUZADO -->
+        <a href="{% url 'entrenador:admin_clientes' %}" class="ae-btn ae-btn--ghost">
+            <i class="fa fa-user-gear"></i>
+            <span>Ver clientes</span>
+        </a>
+
+        <a href="{% url 'entrenador:crear_entrenador' %}" class="ae-btn ae-btn--primary">
+            <i class="fa fa-user-plus"></i>
+            <span>Crear entrenador</span>
+        </a>
+    </div>
+</div>
+
+<!-- MENSAJES -->
+{% if messages %}
+    {% for message in messages %}
+        <div class="ae-alert">
+            <span class="ae-alert-bar"></span>
+            <i class="fa fa-circle-info"></i>
+            <span>{{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<!-- BUSCADOR -->
+<div class="ae-search">
+    <i class="fa fa-magnifying-glass"></i>
+    <input type="text"
+           id="searchInput"
+           placeholder="Buscar entrenador por nombre…"
+           autocomplete="off"
+           data-admin-search="entrenadoresTable"
+           data-admin-empty="searchEmptyEntr">
+</div>
+
+<!-- TABLA -->
+<div class="ae-table-wrap">
+    <table class="ae-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Especialidad</th>
+                <th class="ae-th-actions">Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="entrenadoresTable">
+            {% for entrenador in entrenadores %}
+                <tr class="ae-row ae-row--{{ entrenador.rol|lower }}">
+                    <td class="nombre ae-cell-name">
+                        <span class="ae-avatar">{{ entrenador.user.username|slice:":1"|upper }}</span>
+                        <div>
+                            <strong>{{ entrenador.user.username }}</strong>
+                            {% if entrenador.user == request.user %}
+                                <span class="ae-self">Tú</span>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td class="ae-cell-email">
+                        <i class="fa fa-envelope"></i>
+                        <span>{{ entrenador.user.email }}</span>
+                    </td>
+                    <td>
+                        <span class="ae-badge ae-badge--{{ entrenador.rol|lower }}">
+                            {% if entrenador.rol|lower == 'admin' %}
+                                <i class="fa fa-crown"></i>
+                            {% else %}
+                                <i class="fa fa-dumbbell"></i>
+                            {% endif %}
+                            {{ entrenador.rol }}
+                        </span>
+                    </td>
+                    <td class="ae-cell-spec">
+                        {% if entrenador.especialidad %}
+                            <i class="fa fa-bolt"></i>
+                            {{ entrenador.especialidad }}
+                        {% else %}
+                            <span class="ae-muted">—</span>
+                        {% endif %}
+                    </td>
+                    <td class="ae-cell-action">
+                        {% if entrenador.user != request.user and entrenador.rol|lower != "admin" %}
+                            <a href="{% url 'entrenador:eliminar_entrenador' entrenador.id %}"
+                               class="ae-btn ae-btn--danger js-confirm-eliminar">
+                                <i class="fa fa-trash"></i>
+                                <span>Eliminar</span>
+                            </a>
+                        {% else %}
+                            <span class="ae-locked">
+                                <i class="fa fa-lock"></i>
+                                No permitido
+                            </span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">
+                        <div class="ae-empty">
+                            <i class="fa fa-user-slash"></i>
+                            <p>No hay entrenadores registrados</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div id="searchEmptyEntr" class="ae-empty ae-empty--filter" hidden>
+    <i class="fa fa-filter-circle-xmark"></i>
+    <p>No se encuentra ningún entrenador con ese nombre</p>
+</div>
+
+<!-- VOLVER -->
+<div class="rc-footer">
+    <a href="{% url 'entrenador:panel' %}" class="rc-btn rc-btn--ghost">
+        <i class="fa fa-arrow-left"></i>
+        <span>Volver al Panel Entrenador</span>
+    </a>
+</div>
+
+<script src="{% static 'js/avisos_admin.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/admin_search.js' %}"></script>
+
+{% endblock %}

@@ -121,6 +121,25 @@
     transition: transform .2s ease, box-shadow .25s ease;
 }
 
+.admin-btn {
+    display: inline-block;
+    width: 80%;
+    background: linear-gradient(
+        135deg,
+        var(--rr),
+        #dfd119
+    );
+    color: var(--rt);
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: transform .2s ease, box-shadow .25s ease;
+}
+
+
 
 /* ===== ESPACIADO GENERAL ===== */
 .row.mb-4 > div,

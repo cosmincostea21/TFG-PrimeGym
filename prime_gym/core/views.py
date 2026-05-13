@@ -1,21 +1,23 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.contrib.auth.models import User
-from gimnasio.models import Cliente, Tarifa
-
+from .forms import RegistroForm
+from gimnasio.models import Cliente
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroForm(request.POST)
 
         if form.is_valid():
-            # 1️⃣ Crear usuario correctamente
-            user = form.save()
+            user = form.save(commit=False)
 
-            # 3️⃣ Crear Cliente asociado sin tarifa 
+            # ✅ Guardar email
+            user.email = form.cleaned_data['email']
+            user.save()
+
+            # ✅ Crear Cliente EXACTAMENTE como tú quieres
             Cliente.objects.create(
                 user=user,
+                telefono=form.cleaned_data['telefono'],
                 tarifa=None
             )
 
@@ -26,8 +28,7 @@ def register(request):
             return redirect('login')
         else:
             messages.error(request, "Revisa los datos del formulario.")
-
     else:
-        form = UserCreationForm()
+        form = RegistroForm()
 
     return render(request, 'registration/register.html', {'form': form})

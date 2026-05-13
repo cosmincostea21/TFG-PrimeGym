@@ -45,7 +45,6 @@
     background-color: var(--rb); /* #0a0a0a */
     color: var(--rt);           /* #ffffff - Blanco puro para texto base */
     padding: 2rem;
-    min-height: 100vh;
 }
 
 /* --- Hero Section --- */
