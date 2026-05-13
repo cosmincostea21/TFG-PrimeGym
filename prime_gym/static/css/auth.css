@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap');
 
 
+
 .auth-container.register {
-    transform: scale(0.90);   /* prueba 0.8 - 0.9 */
+    width: 80% !important;
     transform-origin: top center;
 }
 
@@ -52,7 +53,6 @@
     font-size: 1.1rem !important;
 }
 
-
 /* Reset básico para el body si no lo tienes */
 body.auth-bg {
     background-color: #0c0c0c; /* Negro casi puro */
@@ -73,7 +73,6 @@ body.auth-bg {
     border-top: 4px solid #ff0000; /* Detalle rojo arriba */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     width: 100%;
-    max-width: 450px;
     text-align: center;
 }
 

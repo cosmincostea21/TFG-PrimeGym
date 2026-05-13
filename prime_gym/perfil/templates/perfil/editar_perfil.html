@@ -33,11 +33,17 @@
         
         <h3 class="form-section-title">Datos de Usuario</h3>
         {{ u_form.as_p }}
-        
-        <h3 class="form-section-title">Datos de Cliente</h3>
         {{ c_form.as_p }}
         
         <button type="submit" class="btn-save-gym">Guardar Cambios</button>
     </form>
+</div>
+
+<!-- VOLVER -->
+<div class="rc-footer">
+    <a href="{% url 'perfil:dashboard' %}" class="rc-btn rc-btn--ghost">
+        <i class="fa fa-arrow-left"></i>
+        <span>Volver al Perfil</span>
+    </a>
 </div>
 {% endblock %}
