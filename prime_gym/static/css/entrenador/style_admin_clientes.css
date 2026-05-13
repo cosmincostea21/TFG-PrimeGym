@@ -316,7 +316,12 @@ a.ac-btn--danger:hover {
 /* GHOST */
 .ac-btn--ghost,
 a.ac-btn--ghost {
-    background: transparent !important;
+    margin-top: 10px;
+    background: linear-gradient(
+        135deg,
+        var(--rr),
+        #d8081a
+    ) !important;
     color: var(--rt2) !important;
     border-color: var(--rl);
 }
