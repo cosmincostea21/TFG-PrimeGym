@@ -3065,7 +3065,7 @@ ol {
 
 .nav-profile {
     color: #ffffff;
-    padding: 7px 16px;
+    padding: 4px 10px !important;
     border-radius: 4px;
     background: linear-gradient(
         145deg,
@@ -3104,7 +3104,7 @@ ol {
     background: transparent;
     border: 1px solid rgba(243, 0, 0, 0.7);
     color: #f30000;
-    padding: 6px 14px;
+    padding: 4px 10px !important;
     border-radius: 3px;
     font-family: "Oswald", sans-serif;
     font-size: 14px;
