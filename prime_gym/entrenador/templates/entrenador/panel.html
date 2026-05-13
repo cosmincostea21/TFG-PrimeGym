@@ -11,6 +11,16 @@
 
 {% block contenido %}
 
+{% if request.user.entrenador.rol == "admin" %}
+<div class="col-md-12 d-flex justify-content-end">
+    <div class="col-md-4 text-center mb-5">
+        <a href="{% url 'entrenador:admin_clientes' %}" class="admin-btn">
+            Panel Admin
+        </a>
+    </div>
+</div>
+{% endif %}
+
 <div class="row mb-4">
 
     <!-- TOTAL CLASES -->
@@ -75,26 +85,18 @@
 
 <!-- ACCIONES -->
 <div class="row mt-5">
-    <div class="col-md-6 text-center">
+    <div class="col-md-6 text-center mt-2">
         <a href="{% url 'entrenador:mis_clases' %}" class="primary-btn">
             Gestionar Clases
         </a>
     </div>
 
-    <div class="col-md-6 text-center">
+    <div class="col-md-6 text-center mt-2">
         <a href="{% url 'entrenador:clases_hoy' %}" class="primary-btn">
             Clases de hoy
         </a>
     </div>
 </div>
-{% if request.user.entrenador.rol == "admin" %}
-    <div class="row mt-4">
-        <div class="col-md-12 text-center">
-            <a href="{% url 'entrenador:admin_clientes' %}" class="primary-btn">
-                Panel Admin
-            </a>
-        </div>
-    </div>
-{% endif %}
+
 
 {% endblock %}
