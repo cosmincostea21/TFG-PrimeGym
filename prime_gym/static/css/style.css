@@ -3028,7 +3028,7 @@ ol {
 .nav-auth {
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.4);
-    padding: 6px 14px;
+    padding: 4px 10px !important;
     border-radius: 3px;
     transition: all 0.3s ease;
 }
@@ -3042,7 +3042,7 @@ ol {
 .nav-auth-btn {
     background-color: #f30000;
     color: #ffffff !important;
-    padding: 7px 16px;
+    padding: 4px 10px !important;
     border-radius: 3px;
     font-weight: 600;
     transition: all 0.3s ease;
