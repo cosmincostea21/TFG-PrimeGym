@@ -21,8 +21,14 @@
                 {% endif %}
 
                 <li>
-                    <strong>Tarifa actual:</strong> {{ cliente.tarifa.nombre }}
+                    <strong>Tarifa actual:</strong>
+                    {% if cliente.tarifa %}
+                        {{ cliente.tarifa.nombre }}
+                    {% else %}
+                        Sin tarifa
+                    {% endif %}
                 </li>
+
 
                 <li>
                     <strong>Fecha de alta:</strong> {{ cliente.fecha_registro|date:"d/m/Y" }}
