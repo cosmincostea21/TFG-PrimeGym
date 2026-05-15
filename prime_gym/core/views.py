@@ -1,23 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.contrib.auth.models import User
-from gimnasio.models import Cliente, Tarifa
+from gimnasio.models import Cliente
 
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import RegistroForm
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegistroForm(request.POST)
 
         if form.is_valid():
-            # 1️⃣ Crear usuario correctamente
-            user = form.save()
-
-            # 3️⃣ Crear Cliente asociado sin tarifa 
-            Cliente.objects.create(
-                user=user,
-                tarifa=None
-            )
+            form.save()  # ✅ usa tu lógica del form
 
             messages.success(
                 request,
@@ -28,6 +23,6 @@ def register(request):
             messages.error(request, "Revisa los datos del formulario.")
 
     else:
-        form = UserCreationForm()
+        form = RegistroForm()
 
     return render(request, 'registration/register.html', {'form': form})

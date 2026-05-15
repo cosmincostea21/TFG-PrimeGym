@@ -24,13 +24,13 @@
 })();
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
 
+  // --- ALERTA PARA ANULAR (CANCELAR) ---
+  // Cambiado de .js-confirm-eliminar a .js-confirm-cancel
   document.querySelectorAll('.js-confirm-cancel').forEach(form => {
-
     form.addEventListener('submit', function (e) {
-      e.preventDefault(); // ⛔ detenemos el submit NORMAL
+      e.preventDefault(); 
 
       Swal.fire({
         title: '¿Anular reserva?',
@@ -43,33 +43,30 @@ document.addEventListener('DOMContentLoaded', function () {
         cancelButtonColor: '#6c757d',
       }).then((result) => {
         if (result.isConfirmed) {
-          form.submit(); // ✅ enviamos el FORM original
+          form.submit();
         }
       });
-
     });
-
   });
 
-});
-
-
-document.addEventListener('DOMContentLoaded', function () {
-
+  // --- ALERTA PARA ASISTENCIA ---
   document.querySelectorAll('.js-confirm-asistir').forEach(form => {
-
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const fechaReserva = new Date(form.querySelector('input[name="fecha"]').value);
-      const hoy = new Date();
-      hoy.setHours(0,0,0,0);
+      const fechaInput = form.querySelector('input[name="fecha"]');
+      if (!fechaInput) return; // Seguridad por si no encuentra el input
 
+      const fechaReserva = new Date(fechaInput.value);
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+
+      // Si la reserva es en el futuro, no dejar marcar asistencia
       if (fechaReserva > hoy) {
         Swal.fire({
           icon: 'info',
           title: 'Aún no disponible',
-          text: 'Solo puedes marcar asistencia después de la fecha de la clase.',
+          text: 'Solo puedes marcar asistencia el día de la clase o después.',
           confirmButtonText: 'Entendido',
         });
         return;
@@ -87,10 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
           form.submit();
         }
       });
-
     });
-
   });
-
 });
-

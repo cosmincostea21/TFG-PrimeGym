@@ -46,6 +46,12 @@
     <p>No tienes clases asignadas</p>
 {% endfor %}
 
+<!-- VOLVER -->
+<div class="rc-footer">
+    <a href="{% url 'entrenador:panel' %}" class="rc-btn rc-btn--ghost">
+        <i class="fa fa-arrow-left"></i>
+        <span>Volver al Panel</span>
+    </a>
 </div>
 
 {% endblock %}
