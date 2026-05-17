@@ -10,7 +10,6 @@ from django.contrib import messages
 
 
 # Create your views here.
-
 DIAS_ES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
 
 
@@ -71,13 +70,11 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
     hora_ref = datos.get("hora") or datos.get("hora_inicio")
     fechas = []
 
-    # Recorremos hacia atrás día por día hasta tener N sesiones pasadas
     dia_cursor = hoy
     limite = 0
-    while len(fechas) < n and limite < 60:        # tope de 60 días por seguridad
+    while len(fechas) < n and limite < 60:
         if dia_cursor.weekday() in datos["dias"]:
             fecha_hora = datetime.combine(dia_cursor, hora_ref)
-            # Solo cuenta si ya ha ocurrido (fecha pasada o misma fecha con hora pasada)
             if fecha_hora < ahora:
                 fechas.append(dia_cursor)
         dia_cursor -= timedelta(days=1)
@@ -89,9 +86,9 @@ def sesiones_anteriores_clase(nombre_clase, n=2):
 @login_required
 def mis_clases(request):
     if not request.user.is_staff:
-        raise PermissionDenied  # 403
-    #entrenador = request.user.entrenador
-    entrenador = Entrenador.objects.first()
+        raise PermissionDenied
+    entrenador = request.user.entrenador
+
     clases = Clase.objects.filter(entrenador=entrenador)
 
     return render(request, 'entrenador/mis_clases.html', {'clases': clases})
@@ -100,19 +97,16 @@ def mis_clases(request):
 @login_required
 def reservas_clase(request, clase_id):
     if not request.user.is_staff:
-        raise PermissionDenied  # 403
+        raise PermissionDenied 
     clase = get_object_or_404(Clase, id=clase_id)
 
-    # Próxima sesión
     proxima_dt = proxima_sesion_clase(clase.nombre)
     fecha_proxima = proxima_dt.date() if proxima_dt else None
 
-    # 2 sesiones anteriores
     fechas_anteriores = sesiones_anteriores_clase(clase.nombre, n=2)
     fecha_ant_1 = fechas_anteriores[0] if len(fechas_anteriores) > 0 else None
     fecha_ant_2 = fechas_anteriores[1] if len(fechas_anteriores) > 1 else None
 
-    # Opciones del selector
     opciones = []
     if fecha_proxima:
         opciones.append({
@@ -136,32 +130,20 @@ def reservas_clase(request, clase_id):
             'tipo': 'anterior_2',
         })
 
-    # Fecha seleccionada
     fecha_sel_iso = request.GET.get('fecha') or (opciones[0]['value'] if opciones else None)
     fecha_sel = date.fromisoformat(fecha_sel_iso) if fecha_sel_iso else None
 
-    # Reservas
-    reservas = (
-        Reserva.objects
-        .filter(clase=clase)
-        .select_related('cliente', 'cliente__user')
-    )
+    reservas = (Reserva.objects.filter(clase=clase).select_related('cliente', 'cliente__user'))
 
     if fecha_sel:
-        reservas = reservas.filter(
-            fecha_reserva=fecha_sel
-        ).order_by(
-            'cliente__user__username'  # ✅ CORREGIDO
-        )
+        reservas = reservas.filter(fecha_reserva=fecha_sel).order_by('cliente__user__username')
     else:
         reservas = reservas.none()
 
-    # Filtro por estado
     estado = request.GET.get('estado')
     if estado and estado != 'todos':
         reservas = reservas.filter(estado=estado)
 
-    # Info cabecera
     info = None
     if fecha_sel:
         es_proxima = (fecha_sel == fecha_proxima)
@@ -188,7 +170,7 @@ def reservas_clase(request, clase_id):
 @login_required
 def cambiar_estado(request, reserva_id, estado):
     if not request.user.is_staff:
-        raise PermissionDenied  # 403
+        raise PermissionDenied
 
     reserva = get_object_or_404(Reserva, id=reserva_id)
     estados_validos = ['reservada', 'asistio', 'cancelada']
@@ -203,14 +185,13 @@ def cambiar_estado(request, reserva_id, estado):
 @login_required
 def panel_entrenador(request):
     if not request.user.is_staff:
-        raise PermissionDenied  # 403
+        raise PermissionDenied
     entrenador = get_object_or_404(Entrenador, user=request.user)
     clases = Clase.objects.filter(entrenador=entrenador)
 
     total_clases   = clases.count()
     total_reservas = Reserva.objects.filter(clase__entrenador=entrenador).count()
 
-    # Para cada clase calculamos su PRÓXIMA sesión + reservas activas
     proximas = []
     for clase in clases:
         prox_dt = proxima_sesion_clase(clase.nombre)
@@ -235,7 +216,6 @@ def panel_entrenador(request):
             'inscritos': reservas_clase.count(),
         })
 
-    # Ordenamos por fecha+hora para que la más cercana salga primero
     proximas.sort(key=lambda p: (p['fecha'], p['hora']))
 
     context = {
@@ -249,9 +229,9 @@ def panel_entrenador(request):
 @login_required
 def clases_hoy(request):
     if not request.user.is_staff:
-        raise PermissionDenied  # 403
-    #entrenador = request.user.entrenador
-    entrenador = Entrenador.objects.first()
+        raise PermissionDenied
+    entrenador = request.user.entrenador
+
     hoy = date.today()
     reservas_hoy = Reserva.objects.filter(clase__entrenador=entrenador, fecha_reserva=hoy, estado="reservada")
 
@@ -268,22 +248,19 @@ def cambiar_password_entrenador(request):
 
         user = request.user
 
-        # comprobar contraseña actual
         if not user.check_password(password_actual):
             messages.error(request, "La contraseña actual no es correcta.")
             return redirect("entrenador:cambiar_password")
 
-        # comprobar coincidencia
         if password_nueva != password_conf:
             messages.error(request, "Las nuevas contraseñas no coinciden.")
             return redirect("entrenador:cambiar_password")
 
-        # guardar nueva contraseña
         user.set_password(password_nueva)
         user.save()
 
         messages.success(request, "Contraseña actualizada correctamente.")
-        return redirect("login")  # o panel
+        return redirect("login")
 
     return render(request, "entrenador/cambiar_password.html")
 
