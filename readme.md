@@ -1,7 +1,3 @@
-Aquí tienes un **README completo y profesional** para tu proyecto **Pryme Gym** 🚀
-
-***
-
 # Pryme Gym
 
 Aplicación web desarrollada en **Django** para la gestión de un gimnasio, permitiendo la reserva de clases, administración de usuarios y un panel específico para entrenadores.
