@@ -49,7 +49,7 @@ class ClaseAdmin(admin.ModelAdmin):
 # ===========================
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'email', 'telefono', 'tarifa', 'fecha_registro')
+    list_display = ('nombre', 'email', 'telefono', 'tarifa', 'fecha_registro', 'user')
     search_fields = ('user__username', 'user__email')
     list_filter = ('tarifa', 'fecha_registro')
 
