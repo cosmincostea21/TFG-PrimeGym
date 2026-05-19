@@ -38,16 +38,20 @@
                    class="primary-btn mt-3">
                     Ver reservas
                 </a>
-
             </div>
+
         </div>
+       
     </div>
+
 {% empty %}
     <p>No tienes clases asignadas</p>
 {% endfor %}
 
+</div>
+
 <!-- VOLVER -->
-<div class="rc-footer">
+<div class="rc-footer col-lg-4">
     <a href="{% url 'entrenador:panel' %}" class="rc-btn rc-btn--ghost">
         <i class="fa fa-arrow-left"></i>
         <span>Volver al Panel</span>

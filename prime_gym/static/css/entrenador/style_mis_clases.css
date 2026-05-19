@@ -112,10 +112,11 @@ p {
 }
 
 .rc-footer {
+    display: block;
     margin-top: 1.75rem;
 }
 .rc-btn{
-    display: inline-flex;
+    display: block;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
